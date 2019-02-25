@@ -14,7 +14,8 @@ contract UseLogic is RBLogic {
 ///        and possibly a global use blocks
 ///@dev this function is the first in a chain of function and implements the onlyReplication modifier
 ///@dev generateUseBlockWeight is fired from this function are to be used by the EPMS to trigger internal timers set to info in the original idea's IPFS info
-function generateUseBlockWeight() public onlyReplication {
+function generateUseBlockWeight() public  {
+  require(CPBG.checkIfRep(msg.sender) == true);
   address _rep = msg.sender;
   UseBlockWeight(_rep);
   }
@@ -43,8 +44,6 @@ function generateGlobalUseBlock(address _rep) internal {
 //mints the replication Owner his block reward
   DCPoA.proxyIDCMint(inventor, royalty);
 //mints royalties to the idea inventor
-DCPoA.increaseMemLev( repOwnerAddress);
-//increases Member Level
   emit GlobalUseBlock(_rep, ideaID);
 }
 
@@ -55,31 +54,28 @@ function UseBlockWeight(address _rep) internal {
 //sets ideaID as a specific ideaID from the replications struct
   uint repID = CPBG.getRepID(_rep);
 //sets repID as a specific replications id from the replications struct
-  uint _blockReward = 1;
-//sets _blockReward equal to one
-  uint _amount = calculatePromo(_blockReward, ideaID);
-//sets _amount equal to the calculated block reward dependant upon promotion level of the replicator
   uint weight = localWeightTracker[_rep][repID];
 // sets weight equal to the current weight of a specific replication
-  uint newWeight = weight + _amount;
+  uint newWeight = weight + 1;
 // increases the weight of a specific replication
   uint globalWeight = weightTracker[ideaID];
 //sets globalWeight as the current highest weight for a specific idea
-  uint repTimeLord = CPBG.getRepMiningTime(_rep);
+  uint repLastMine = localMiningtimeTracker[_rep];
 //gets a replications mining time to prevent network spam/replication abuse
+  uint miningTime = CPBG.getIdeaMiningTime(ideaID);
+  uint repTimeLord = repLastMine + miningTime;
   require(now >= repTimeLord);
 //this require fails if the rep is calling to frequently
   localWeightTracker[_rep][repID] = newWeight;
 //sets the newWeight for that specific replication
-  CPBG.setRepMiningTime(_rep);
-//sets _reps mining time back to zero(kinda)
   if(newWeight >= globalWeight) {
 //checks if the replication has the heaviest weight
-    generateGlobalUseBlock(_rep);
+  generateGlobalUseBlock(_rep);
 //if it does it generates a global use block
-    CPBG.setMiningTime(ideaID);
+    localMiningtimeTracker[_rep] = now;
 //resets the global mining time for a specific idea after a useBlock is mined
     }
+    localMiningtimeTracker[_rep] = now;
     emit LocalUseWeight(_rep, newWeight);
   }
 }

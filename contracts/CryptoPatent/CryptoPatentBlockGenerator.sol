@@ -19,11 +19,10 @@ contract CryptoPatentBlockGenerator is Ownable, ERC721Token("CryptoPatentBlock",
   uint public stakeAmountInIDC = 100;
   uint public globalRepCount = 0;
   uint public globalUseBlocknumber = 0;
+  uint public globalTokenCount = 0;
 
   mapping (uint256 => IdeaInfo) public ideaVariables;
-  mapping(address => mapping(uint => uint)) public replicationTracker;
-  //maps a replicators address to the ideas id to store a unique replication
-  //ID for that replication
+
   mapping (address => bool) replications;
   //tracks if an address is a replication
   mapping (address => ReplicationInfo) repInfo;
@@ -33,6 +32,9 @@ contract CryptoPatentBlockGenerator is Ownable, ERC721Token("CryptoPatentBlock",
   mapping (uint => uint) ideaRepCounter;
   //tracks the total number of replications for a specific idea
   mapping(address => uint) public globalUseBlockTracker;
+  //tracks specific replications block Time
+  mapping(address => uint) IdeaAddToId;
+
 
 
 ///@struct IdeaInfo is built to store only needed variables to the blockchain, IPFS handles the rest
@@ -41,6 +43,7 @@ struct IdeaInfo {
   uint royalty;
   uint miningTime;
   address inventorAddress;
+  address inventionAddress;
 }
 
 struct ReplicationInfo {
@@ -49,7 +52,6 @@ struct ReplicationInfo {
   uint IdeaID;
   uint Royalty;
   uint RepID;
-  uint MiningTime;
   address InventorsAddress;
   address ReplicationAddress;
 }
@@ -63,22 +65,25 @@ event NewRep(address _newRep);
   uint _globalUseBlockAmount,
   uint _miningTime,
   uint _royalty,
-  address _inventorsAddress
+  address _inventorsAddress,
+  address _inventionAdd
   )
    external
   onlyOwner
   {
     globalIdeaCount++;
   uint _ideaId = globalIdeaCount;
-  _mint(_inventorsAddress , _ideaId);
-
+  globalTokenCount++;
+  _mint(_inventorsAddress , globalTokenCount);
+ IdeaAddToId[_inventionAdd] = _ideaId;
   _setTokenURI(_ideaId, _ideaIPFS);
-
+  replications[_inventionAdd] = true;
   setIdeaInfo(
      _globalUseBlockAmount,
      _royalty,
      _miningTime,
-     _inventorsAddress
+     _inventorsAddress,
+     _inventionAdd
     );
 
   }
@@ -88,7 +93,8 @@ function setIdeaInfo(
   uint _globalUseBlockAmount,
   uint _royalty,
   uint _miningTime,
-  address _inventorAddress
+  address _inventorAddress,
+  address _inventionAdd
   )
   internal
   {
@@ -97,18 +103,19 @@ function setIdeaInfo(
       globalUseBlockAmount: uint(_globalUseBlockAmount),
       royalty: uint(_royalty),
       miningTime: uint(_miningTime),
-      inventorAddress: address(_inventorAddress)
+      inventorAddress: address(_inventorAddress),
+      inventionAddress: address(_inventionAdd)
       });
 
       uint _ideaId = globalIdeaCount;
       ideaVariables[_ideaId] = _info;
   }
 
-  function _generateReplicationBlock(uint _ideaId, address _replicatorAdd) internal  {
+  function _generateReplicationBlock(address _replicatorAdd) internal  {
     globalRepCount++;
-  uint _replicationId = globalRepCount;
-  _mint(_replicatorAdd, _replicationId);
-  replicationTracker[_replicatorAdd][_ideaId] =_replicationId;
+    globalTokenCount++;
+  _mint(_replicatorAdd, globalTokenCount);
+
 
   }
 
@@ -119,12 +126,10 @@ function setIdeaInfo(
     //sets royalty as the specific royalty amount for an idea
     uint blockReward = RepBlockReward - royalty;
     //subtracts the royalty amount from the block reward
-    uint _ideaMiningTime = getIdeaMiningTime(_ideaId);
-    uint _repMiningTime = now + _ideaMiningTime;
     address inventor = getInventor(_ideaId);
     //sets inventor as the specific inventor for an idea
 
-    _generateReplicationBlock(_ideaId, _replicatorAdd);
+    _generateReplicationBlock(_replicatorAdd);
     //generates an ERC721 replication block token
 
     uint _repId = globalRepCount;
@@ -136,7 +141,6 @@ function setIdeaInfo(
       IdeaID: uint(_ideaId),
       Royalty: uint(royalty),
       RepID: uint(_repId),
-      MiningTime: uint(_repMiningTime),
       InventorsAddress: address(inventor),
       ReplicationAddress: address(_repAdd)
       });
@@ -160,9 +164,8 @@ function setIdeaInfo(
   ///@dev the GUB token is minted to the replication owner
     function _generateGUSBlock(address _replicationOwner) external onlyOwner {
       globalUseBlocknumber++;
-      uint _blockId = globalUseBlocknumber;
-    _mint(_replicationOwner, _blockId);
-    globalUseBlockTracker[_replicationOwner] = _blockId;
+      globalTokenCount++;
+    _mint(_replicationOwner, globalTokenCount);
     }
 
 
@@ -193,10 +196,7 @@ function setIdeaInfo(
       uint _miningTime = info.miningTime;
       return _miningTime;
     }
-    function setMiningTime(uint _ideaId) external view {
-      IdeaInfo memory info = ideaVariables[_ideaId];
-       info.miningTime = now;
-    }
+
 
     function getBlockReward(address _repAdd) public view returns(uint) {
       ReplicationInfo memory info = repInfo[_repAdd];
@@ -221,6 +221,12 @@ function setIdeaInfo(
       ReplicationInfo memory info = repInfo[_repAdd];
       address InvtAdd = info.InventorsAddress;
       return InvtAdd;
+    }
+
+    function getInvention(uint _ideaId) public view returns(address) {
+      IdeaInfo memory info = ideaVariables[_ideaId];
+      address inventionAdd = info.inventionAddress;
+      return inventionAdd;
     }
 
     function getReplicationAddress(address _repAdd) public view returns(address) {
@@ -253,21 +259,8 @@ function setIdeaInfo(
     return ideaRepCounter[_ideaId];
     }
 
-    function getRepMiningTime(address _repAdd) external view returns(uint) {
-    ReplicationInfo memory info = repInfo[_repAdd];
-    uint miningTime = info.MiningTime;
-    return miningTime;
-    }
-
-    function setRepMiningTime(address _repAdd) external onlyOwner {
-      ReplicationInfo memory info = repInfo[_repAdd];
-      uint _ideaId = getIdeaID(_repAdd);
-      uint _ideaMiningTime = getIdeaMiningTime(_ideaId);
-      info.MiningTime = now + _ideaMiningTime;
-
-    }
 
     function getID(address _ideaAdd) public view returns(uint){
-      return getIdeaID(_ideaAdd);
+      return IdeaAddToId[_ideaAdd];
     }
 }

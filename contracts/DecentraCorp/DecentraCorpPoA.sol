@@ -31,7 +31,7 @@ contract ChaosCoin {
 //ChaosCoin interface
 /////////////////////////////////////////////////////////////////////////////////////////////
 contract CryptoPatentBlockGenerator {
-    function _generateIdeaBlock(string _ideaIPFS, uint _globalUseBlockAmount, uint miningTime, uint _royalty, address _inventorsAddress) external;
+    function _generateIdeaBlock(string _ideaIPFS, uint _globalUseBlockAmount, uint miningTime, uint _royalty, address _inventorsAddress, address _inventionAdd) external;
     function _replicationBlock(uint _ideaId, address _repAdd, address _replicatorAdd) external;
     function _generateGUSBlock(address _replicationOwner) external;
 }
@@ -60,10 +60,13 @@ contract CryptoPatentBlockGenerator {
    mapping(string => uint) getHash;
    mapping(string => uint) propCode;
    mapping(address => string) profileComments;
+   mapping(address => address) facilityOfMember;
+   mapping(address => address[]) facilityMembers;
    Proposal[] public proposals;
 
    event ProposalCreated(string VoteHash, uint PropCode);
    event Voted(address _voter, bool inSupport);
+   event FundingApproved(address addToFund, uint amount);
 
 
    struct Proposal {
@@ -88,8 +91,6 @@ contract CryptoPatentBlockGenerator {
      require(approvedContracts[msg.sender] == true);
      _;
    }
-
-
 
 
 
@@ -190,7 +191,7 @@ contract CryptoPatentBlockGenerator {
                      p.executed = true;
                      p.proposalPassed = true;
                      if(p.PropCode == 1) {
-                       p.Address.transfer(p.Amount);
+                      emit FundingApproved(p.Address, p.Amount);
                      }
                      if(p.PropCode == 2) {
                        frozenAccounts[p.Address] = true;
@@ -202,6 +203,7 @@ contract CryptoPatentBlockGenerator {
                        // Proposal failed
                      p.proposalPassed = false;
                  }
+
             }
 
 
@@ -234,9 +236,9 @@ contract CryptoPatentBlockGenerator {
         CC.burnCC(_add, _amount);
       }
 
-   function generateIdeaBlock(string _ideaIPFS, uint _globalUseBlockAmount, uint miningTime, uint _royalty, address _inventorsAddress) external onlyApprovedAdd {
+   function generateIdeaBlock(string _ideaIPFS, uint _globalUseBlockAmount, uint miningTime, uint _royalty, address _inventorsAddress, address _inventionAdd) external onlyApprovedAdd {
      require(_checkIfFrozen(_inventorsAddress) == false);
-     CPBG._generateIdeaBlock(_ideaIPFS, _globalUseBlockAmount, miningTime, _royalty, _inventorsAddress);
+     CPBG._generateIdeaBlock(_ideaIPFS, _globalUseBlockAmount, miningTime, _royalty, _inventorsAddress, _inventionAdd);
    }
    function replicationBlock(uint _ideaId, address _repAdd, address _replicatorAdd) external onlyApprovedAdd {
      require(_checkIfFrozen(_replicatorAdd) == false);
@@ -252,13 +254,24 @@ function mintItemToken( string _itemIPFSHash) external onlyApprovedAdd {
 
 ///@notice addMember function is an internal function for adding a member to decentracorp
 ///@dev addMember takes in an address _mem, sets its membership to true and increments their rank by one
-  function _addMember(address _mem) external onlyApprovedAdd {
+  function _addMember(address _mem, address _facility) external onlyApprovedAdd {
     require(_checkIfFrozen(_mem) == false);
       members[_mem] = true;
       memberLevel[_mem]++;
-      facilityRank[_mem]++;
+      facilityMembers[_facility].push(_mem);
+      facilityOfMember[_mem] = _facility;
+      facilityRank[_facility]++;
       memberCount++;
   }
+
+function getFecilityOfMember(address _mem) public view returns(address) {
+  return facilityOfMember[_mem];
+}
+
+function getFacilitiesMembers(address _facility) public view returns(address[]) {
+  return facilityMembers[_facility];
+}
+
   function _checkIfMember(address _member) public view returns(bool) {
     if(members[_member] == true){
       return true;
@@ -282,7 +295,8 @@ function mintItemToken( string _itemIPFSHash) external onlyApprovedAdd {
       memberLevel[_add]++;
     }
 
-    function increaseFacilityRank(address _facAdd, uint _amount) public onlyApprovedAdd {
+    function increaseFacilityRank(address _mem, uint _amount) public onlyApprovedAdd {
+      address _facAdd = getFecilityOfMember(_mem);
       require(_checkIfFrozen(_facAdd) == false);
       facilityRank[_facAdd] += _amount;
     }
@@ -303,9 +317,6 @@ function mintItemToken( string _itemIPFSHash) external onlyApprovedAdd {
     function getProfileHash(address _add) public view returns(string) {
       return memberProfileHash[_add];
     }
-//@notice this function is a quick freeze triggered by the founder used only in emergency situations
-// this freeze only lasts for a maximum of two days to limit the founders ability to go rogue
-
 
     function decreaseFacilityRank(address _facility, uint _amount) public onlyApprovedAdd {
       facilityRank[_facility] -= _amount;

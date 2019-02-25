@@ -11,16 +11,17 @@ contract DecentraCorpPoA {
   function proxyIDCBurn(address _add, uint _amount) external;
   function proxyCCMint(address _add, uint _amount) external;
   function proxyCCBurn(address _add, uint _amount) external;
-  function generateIdeaBlock(string _ideaIPFS, uint _globalUseBlockAmount, uint miningTime, uint _royalty, address _inventorsAddress) external;
+  function generateIdeaBlock(string _ideaIPFS, uint _globalUseBlockAmount, uint miningTime, uint _royalty, address _inventorsAddress, address _invention) external;
   function replicationBlock(uint _ideaId, address _repAdd, address _replicatorAdd) external;
   function generateGUSBlock(address _replicationOwner) external;
-  function _addMember(address _mem) external;
+  function _addMember(address _mem, address _facility) external;
   function _checkIfMember(address _member) public view returns(bool);
   function getMemberCount() public view returns(uint);
   function increaseMemLev(address _add) external;
   function increaseFacilityRank(address _facAdd, uint _amount) public;
   function setProfileHash(address _add, string _hash) public;
   function addNewInvention(address _newInvention) external ;
+  function getFecilityOfMember(address _mem) public view returns(address);
 }
 /// DecentraCorp PoA inteface
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,8 +37,6 @@ contract CryptoPatentBlockGenerator {
     function getRoyalty(uint _ideaId) public view returns(uint);
     function getInventor(uint _ideaId) public view returns(address);
     function getIdeaMiningTime(uint _ideaId) public view returns(uint);
-    function getRepMiningTime(address _repAdd) public view returns(uint);
-    function setMiningTime(uint _ideaId) external view;
     function getBlockReward(address _repAdd) public view returns(uint);
     function getOwnersAddress(address _repAdd) public view returns(address);
     function getIdeaID(address _repAdd) public view returns(uint);
@@ -50,6 +49,7 @@ contract CryptoPatentBlockGenerator {
     function getRepTotal(uint _ideaId) external view returns(uint);
     function safeTransfer(address _from, address _to, uint _tokenId) public;
     function setRepMiningTime(address _repAdd) external;
+
 }
 /// Block Generator interface
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,9 +82,11 @@ contract Interface is Ownable {
   uint public globalRepCount;
   uint public globalUseBlock;
   uint public globalBlockHalfTime;
+  uint public buyMemWindow;
   uint public ideaBlockReward = 1000000000000000000000;
   uint public repStake = 100000000000000000000;
   uint public minimumQuorum;
+  address public CrossChainInfoBridge;
 
   ///@param IdeaProposal array of idea proposals
   IdeaProposal[] public proposals;
@@ -100,6 +102,7 @@ contract Interface is Ownable {
   mapping(string => uint) getHash;
   mapping(address => uint[]) getTokens;
   mapping(address => bool) inventions;
+  mapping(address => uint) localMiningtimeTracker;
 
 
   event IdeaProposed(string IdeaHash);
@@ -127,17 +130,19 @@ struct IdeaProposal {
   }
 
 
-//@modifier requires that the address calling a function is a replication
-  modifier onlyReplication() {
-    require(CPBG.checkIfRep(msg.sender) == true);
-    _;
-  }
+
 
 //@modifier requires that the address calling a function is a member of DecentraCorp
   modifier onlyMember() {
     require(checkIfMember(msg.sender) == true);
     _;
   }
+
+  //@modifier requires that the address calling a function is a member of DecentraCorp
+    modifier onlyCIB() {
+      require(msg.sender == CrossChainInfoBridge);
+      _;
+    }
 
 ///@notice calculatePromo function calculates the promotion a miner receives for having multiples of the same type of replication
 ///@dev calculatePromo takes in a block Reward and an idea ID to retun a specific block reward
@@ -151,19 +156,17 @@ struct IdeaProposal {
 
 ///@notice addMember function is an internal function for adding a member to decentracorp
 ///@dev addMember takes in an address _mem, sets its membership to true and increments their rank by one
-  function addMember(address _mem) internal {
-    DCPoA._addMember(_mem);
+  function addMember(address _mem, address _facility) internal {
+    DCPoA._addMember(_mem, _facility);
   }
 
 ///@notice buyMembership function allows for the purchase of a membership for 6 months after official launch.
 ///@dev mints the user 10,000 IDC
-  function buyMembership(string _hash) public payable{
-    require(now <= globalBlockHalfTime + 15780000 seconds);
-    require(msg.value >= 1 ether);
-    addMember(msg.sender);
-    DCPoA.setProfileHash(msg.sender, _hash);
-    DCPoA.proxyIDCMint(msg.sender, 10000000000000000000000);
-    emit NewMember(msg.sender);
+  function buyMembership(address _newMem, address _facility, string _hash) public onlyCIB{
+    require(now <= buyMemWindow + 15780000 seconds);
+    addMember(_newMem, _facility);
+    DCPoA.setProfileHash(_newMem, _hash);
+    emit NewMember(_newMem);
   }
 
 ///@notice setGenerators function takes in addresses of various contracts the CryptoPatent Blockchain inteacts with
@@ -204,10 +207,10 @@ function updateProfile(string _newHash) public {
 ///@notice stakeReplicatorWallet function allows for the activation of a replication wallet by
 ///        burning IdeaCoin from the msg.sender
 ///@dev stakeReplicatorWallet costs 100 IDC and burns them from existence
-  function stakeReplicatorWallet(string _hash) public {
+  function stakeReplicatorWallet(string _hash, address _facility) public {
     require(IDC.balanceOf(msg.sender) >= 100000000000000000000);
     DCPoA.proxyIDCBurn(msg.sender, 100000000000000000000);
-    DCPoA._addMember(msg.sender);
+    DCPoA._addMember(msg.sender, _facility);
     DCPoA.setProfileHash(msg.sender, _hash);
     emit NewMember(msg.sender);
   }
@@ -221,4 +224,9 @@ function updateProfile(string _newHash) public {
   function setValidatorContract(address _valCon) public onlyOwner {
         Validators = RelayedOwnedSet(_valCon);
   }
+
+  function setCIB(address _CIB) public onlyOwner {
+  CrossChainInfoBridge = _CIB;
+  }
+
 }

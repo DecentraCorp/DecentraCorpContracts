@@ -18,6 +18,7 @@ contract CryptoPatentBlockchain is UseLogic {
     DCPoA = DecentraCorpPoA(_dcpoa);
     IDC = IdeaCoin(_IDC);
     CPBG = CryptoPatentBlockGenerator(_CPBG);
+    buyMemWindow = now;
   }
 
 ///@notice proposeIdea is used to allow ANYONE to petition the community for idea approval
@@ -53,7 +54,7 @@ function ideaBlockVote(uint _ideaProposalID, uint _globalUseBlockAmount,uint _mi
         uint quorum = 0;
         uint yea = 0;
         uint nay = 0;
-        
+
 
 
     for (uint i = 0; i <  p.votes.length; ++i) {

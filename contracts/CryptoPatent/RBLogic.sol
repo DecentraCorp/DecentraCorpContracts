@@ -15,7 +15,7 @@ contract RBLogic is IBLogic{
 ///@dev this requires the replicator has enough IdeaCoin to meet the stake amount and burns it from existence
 ///@dev it also adds the replicator as a member of DecentraCorp
 ///@dev finally, this contract calls the Proof of Replication Ownership contract and mints a PoRO token to the msg.sender
-function generateReplicationBlock(uint _ideaId, address _repAdd) public onlyMember {
+function generateReplicationBlock(uint _ideaId, address _repAdd) public  {
 require(checkIfMember(msg.sender) == true);
 require(IDC.balanceOf(msg.sender) >= repStake);
 DCPoA.proxyIDCBurn(msg.sender, repStake);
@@ -23,6 +23,7 @@ globalRepCount++;
 DCPoA.replicationBlock( _ideaId,  _repAdd, msg.sender);
 DCPoA.increaseMemLev(msg.sender);
 DCPoA.increaseFacilityRank(msg.sender, 1);
+localMiningtimeTracker[_repAdd] = now;
 emit NewReplication(_repAdd);
   }
 ///@notice changeStakeAmount will allow the community to change the stake amount required to stake a replication if it sees fit through a voted
