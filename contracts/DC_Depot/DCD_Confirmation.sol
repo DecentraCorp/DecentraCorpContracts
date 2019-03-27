@@ -12,37 +12,37 @@ function ConfirmItemReciept(uint _escrowId,   string _itemIPFSHash) public  {
 Escrow memory escrow = itemInEscrow[_escrowId];
 
 
-  bool _payedInIDC = escrow.PayedInIDC;
+  bool _payedInNTC = escrow.PayedInNTC;
   address _buyer = escrow.buyer;
   address _seller = escrow.seller;
   uint _price = escrow.Price;
   address _facility = escrow.facility;
-  uint _IDCSellerMultiplier = PoPT.balanceOf(_seller);
-  uint _IDCBuyerMultiplier = PoPT.balanceOf(_buyer);
+  uint _NTCSellerMultiplier = PoPT.balanceOf(_seller);
+  uint _NTCBuyerMultiplier = PoPT.balanceOf(_buyer);
 
   require(msg.sender == _facility);
-if(_IDCSellerMultiplier == 0) {
-    _IDCSellerMultiplier = 1;
+if(_NTCSellerMultiplier == 0) {
+    _NTCSellerMultiplier = 1;
 }
-if(_IDCBuyerMultiplier == 0) {
-    _IDCBuyerMultiplier = 1;
+if(_NTCBuyerMultiplier == 0) {
+    _NTCBuyerMultiplier = 1;
 }
 
-_IDCSellerMultiplier = _IDCSellerMultiplier * 5000000000000000000;
-_IDCBuyerMultiplier = _IDCBuyerMultiplier * 5000000000000000000;
+_NTCSellerMultiplier = _NTCSellerMultiplier * 5000000000000000000;
+_NTCBuyerMultiplier = _NTCBuyerMultiplier * 5000000000000000000;
 
-if(!_payedInIDC) {
+if(!_payedInNTC) {
   _seller.transfer(_price);
 } else {
-  decentraCorp.proxyIDCMint(_seller, _price);
+  decentraCorp.proxyNTCMint(_seller, _price);
 }
 
   decentraCorp.mintItemToken(_itemIPFSHash);
   uint _tokenId = PoPT.ipfsLookUp(_itemIPFSHash);
   PoPT.safeTransferFrom(this, _buyer, _tokenId);
-  decentraCorp.proxyIDCMint(_buyer, _IDCBuyerMultiplier);
-  decentraCorp.proxyIDCMint(_seller, _IDCSellerMultiplier);
-  decentraCorp.proxyIDCMint(msg.sender, 10000000000000000000);
+  decentraCorp.proxyNTCMint(_buyer, _NTCBuyerMultiplier);
+  decentraCorp.proxyNTCMint(_seller, _NTCSellerMultiplier);
+  decentraCorp.proxyNTCMint(msg.sender, 10000000000000000000);
 
 }
 
@@ -52,15 +52,15 @@ function releaseFundsBackToBuyer(uint _escrowId) public  {
   require(approvedProcessingFacility[msg.sender] == true);
 
   Escrow memory escrow = itemInEscrow[ _escrowId];
-  bool _payedInIDC = escrow.PayedInIDC;
+  bool _payedInNTC = escrow.PayedInNTC;
   address _buyer = escrow.buyer;
     uint _price = escrow.Price;
-    if(!_payedInIDC) {
+    if(!_payedInNTC) {
       _buyer.transfer(_price);
     } else {
-      decentraCorp.proxyIDCMint(_buyer, _price);
+      decentraCorp.proxyNTCMint(_buyer, _price);
     }
-    decentraCorp.proxyIDCMint(msg.sender, 10000000000000000000);
+    decentraCorp.proxyNTCMint(msg.sender, 10000000000000000000);
   }
 
 }

@@ -1,56 +1,66 @@
 pragma solidity ^0.4.21;
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
-import "zeppelin-solidity/contracts/math/SafeMath.sol";
-
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @title DecentraCorpPoA
 /// @author DecentraCorp
-/// @notice this contract will serve as an information portal between the main ethereum
-///   network and the CryptoPatent Blockchain
+/// @notice this contract will serve as a bridge between the main ethereum
+///   network and the DecntraCorp PoA allowing DecentraCorp to hold ETH
 /// @dev All function calls are currently implement without side effects
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @author Christopher Dixon
-////////////////////////////////////////////////////////////////////////////////////////////
-contract IdeaCoinETH {
-    function mint(address _to, uint256 _value) external;
-}
-//IdeaCoin interface
 /////////////////////////////////////////////////////////////////////////////////////////////
-contract DecentraCorpETH is Ownable {
-  using SafeMath for uint256;
-///@param IDC is used to make calls to the IdeaCoin Contract
-  IdeaCoinETH public IDC;
+contract DecentraCorpETH  {
+
+///@param NTC is used to make calls to the Notio Contract
 
   uint public buyMemWindow;
-  address public CrossChainInfoBridge;
+  mapping(address => bool) CIBvalLVL1E;
+  mapping(address => bool) CIBvalLVL2E;
 
-  event NewMember(address _newMem, address newMemFacility, string profHash);
 
-  //@modifier requires that the address calling a function is a member of DecentraCorp
-    modifier onlyCIB() {
-      require(msg.sender == CrossChainInfoBridge);
+  event NewMemberE(address _newMem, address newMemFacility, string profHash);
+  event AddressFundedE(address _AddFunded);
+  event CIBLVL1E(address _newVal, address _validatedBy);
+  event CIBLVL2E(address _newVal, address _validatedBy);
+    //@modifier requires that the address calling a function is a contract information bridge level 1
+    modifier onlyCIB1E() {
+      require(CIBvalLVL1E[msg.sender] == true);
       _;
     }
 
+    //@modifier requires that the address calling a function is a contract information bridge level 2
+      modifier onlyCIB2E() {
+        require(CIBvalLVL2E[msg.sender] == true);
+        _;
+      }
 
-  constructor(IdeaCoinETH _IDC) {
-    IDC=(_IDC);
+
+  constructor() public {
     buyMemWindow = now;
+    CIBvalLVL1E[msg.sender] = true;
+    CIBvalLVL2E[msg.sender] = true;
   }
 
-  function setCIB(address _CIB) public onlyOwner {
-  CrossChainInfoBridge = _CIB;
-  }
 
-  function buyMembership(string _hash, address _facility) public payable{
+
+  function buyMembershipE(string _hash, address _facility) public payable{
     require(now <= buyMemWindow + 15780000 seconds);
     require(msg.value >= 1 ether);
-    IDC.mint(msg.sender, 1000000000000000000000);
-    emit NewMember(msg.sender, _facility, _hash);
+    emit NewMemberE(msg.sender, _facility, _hash);
     }
 
-    function sendFunds(address addToFund, uint amount) public onlyCIB {
+    function sendFunds(address addToFund, uint amount) public onlyCIB2E {
       addToFund.transfer(amount);
+      emit AddressFundedE(addToFund);
     }
+
+    function addNewCIBvalE(address _newVal) public onlyCIB2E {
+      CIBvalLVL1E[_newVal] = true;
+      emit CIBLVL1E(_newVal, msg.sender);
+    }
+
+     function addNewCIBval2E(address _newVal) public onlyCIB2E {
+         CIBvalLVL2E[_newVal] = true;
+         emit CIBLVL1E(_newVal, msg.sender);
+     }
 
 }

@@ -6,19 +6,19 @@ import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 contract DecentraCorpPoA {
-  function proxyIDCMint(address _add, uint _amount) external;
-  function proxyIDCBurn(address _add, uint _amount) external;
+  function proxyNTCMint(address _add, uint _amount) external;
+  function proxyNTCBurn(address _add, uint _amount) external;
   function mintItemToken( string _itemIPFSHash) external;
   function getRank(address _add) public view returns(uint);
   function getLevel(address _add) public view returns(uint);
 }
 /// DecentraCorp PoA inteface
 ////////////////////////////////////////////////////////////////////////////////////////////
-contract IdeaCoin {
+contract Notio {
     function balanceOf(address _addr) public constant returns (uint);
 
 }
-/// IdeaCoin interface
+/// Notio interface
 /////////////////////////////////////////////////////////////////////////////////////////////
 contract ProofOfPurchaseToken{
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) public;
@@ -34,10 +34,10 @@ contract DecentraControlled is Ownable {
 
   DecentraCorpPoA public decentraCorp;
   ProofOfPurchaseToken public PoPT;
-  IdeaCoin public IDC;
+  Notio public NTC;
   uint public etherEarned = 0;
   uint public globalEscrowCount = 0;
-  uint public _IDC_PriceMod = 10;
+  uint public _NTC_PriceMod = 10;
   uint public _DecentraCorpFee = 0.001 ether;
 
   string public forSale;

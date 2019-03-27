@@ -7,13 +7,13 @@ contract DCD_Escrow is DecentraControlled {
 
 event ItemBought(
   uint pricePayedEther,
-  uint pricePayedIDC,
+  uint pricePayedNTC,
   address buyer
   );
 
 
 struct Escrow {
-  bool PayedInIDC;
+  bool PayedInNTC;
   uint Price;
   address buyer;
   address seller;
@@ -24,7 +24,7 @@ struct Escrow {
   mapping (uint => Escrow) public itemInEscrow;
 
 function createEscrow(
-  bool _payedInIDC,
+  bool _payedInNTC,
   uint _price,
   address _seller,
   address _facility,
@@ -35,7 +35,7 @@ function createEscrow(
   address _buyer = msg.sender;
 
     Escrow memory _escrow = Escrow({
-       PayedInIDC: bool(_payedInIDC),
+       PayedInNTC: bool(_payedInNTC),
        Price: uint(_price),
        buyer: address(_buyer),
        seller: address(_seller),

@@ -40,9 +40,9 @@ function generateGlobalUseBlock(address _rep) internal {
   globalUseBlock++;
 //increments global use block counter
   DCPoA.generateGUSBlock(repOwnerAddress);
-  DCPoA.proxyIDCMint(repOwnerAddress, BlockReward);
+  DCPoA.proxyNTCMint(repOwnerAddress, BlockReward);
 //mints the replication Owner his block reward
-  DCPoA.proxyIDCMint(inventor, royalty);
+  DCPoA.proxyNTCMint(inventor, royalty);
 //mints royalties to the idea inventor
   emit GlobalUseBlock(_rep, ideaID);
 }

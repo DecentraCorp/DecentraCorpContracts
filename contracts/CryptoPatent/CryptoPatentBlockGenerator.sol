@@ -13,10 +13,10 @@ import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
 /// @dev this contract contains both the Ownable and ERC721Token contracts from Open Zepplin
 contract CryptoPatentBlockGenerator is Ownable, ERC721Token("CryptoPatentBlock", "CPB") {
 ///@param globalIdeaCount tracks how many Idea Blocks exist
-///@param stakeAmountInIDC is the amount of ideacoin  that must be staked to activate a replication
+///@param stakeAmountInNTC is the amount of Notio  that must be staked to activate a replication
 ///@param ideaVariables maps a specific ideas info struct to its ideaId number
   uint public globalIdeaCount = 0;
-  uint public stakeAmountInIDC = 100;
+  uint public stakeAmountInNTC = 100;
   uint public globalRepCount = 0;
   uint public globalUseBlocknumber = 0;
   uint public globalTokenCount = 0;

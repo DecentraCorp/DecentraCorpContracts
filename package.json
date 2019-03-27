@@ -1,0 +1,22 @@
+{
+  "name": "DecentraCorp",
+  "version": "1.0.0",
+  "description": "The worlds first Decentralized Autonomous Corporation ",
+  "main": "index.js",
+  "repository": "https://github.com/stan36/DecentraCorp.git",
+  "author": "Christopher Dixon",
+  "license": "GNU",
+  "private": false,
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "openzeppelin-solidity": "^1.12.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.4.0-beta.4",
+    "serve": "^10.1.1",
+    "truffle": "^5.0.6",
+    "truffle-flattener": "^1.2.12",
+    "truffle-hdwallet-provider": "^0.0.6",
+    "zeppelin-solidity": "^1.12.0"
+  }
+}

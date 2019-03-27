@@ -33,14 +33,13 @@ function generateIdeaBlock(
 //generates IdeaBlock ERC721 Token
     globalIdeaCount++;
     if(checkIfMember(_inventor) != true){
-      address fac = DCPoA.getFecilityOfMember(_inventor);
-      DCPoA._addMember(_inventor, fac);
+      DCPoA._addMember(_inventor, _inventor);
 }
 inventions[_invention] = true;
 Validators.addValidator(_invention);
     ideaBlockTimeLord();
-    DCPoA.proxyIDCMint( _inventor, ideaBlockReward);
-//mints 1000 IDC and sends it to the inventor
+    DCPoA.proxyNTCMint( _inventor, ideaBlockReward);
+//mints 1000 NTC and sends it to the inventor
     DCPoA.increaseMemLev(_inventor);
     getTokens[_inventor].push(globalIdeaCount);
     DCPoA.increaseFacilityRank( _inventor, 20);
@@ -48,13 +47,14 @@ Validators.addValidator(_invention);
   }
 
 ///@notice ideaBlockTimeLord is called to half an ideablock reward every two years
-///@dev this time may need to be adjusted to 4 years depending on predicted inflation patterns of IDC
+///@dev this time may need to be adjusted to 4 years depending on predicted inflation patterns of NTC
   function ideaBlockTimeLord() internal returns(uint){
     if(now >= globalBlockHalfTime + 94670778) {
       ideaBlockReward = ideaBlockReward / 2;
       globalBlockHalfTime = now;
       return ideaBlockReward;
-      }
+    }else{
       return ideaBlockReward;
   }
+}
 }

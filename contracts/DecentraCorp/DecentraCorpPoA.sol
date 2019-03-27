@@ -11,12 +11,12 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @author Christopher Dixon
 ////////////////////////////////////////////////////////////////////////////////////////////
-contract IdeaCoin {
+contract Notio {
     function mint(address _to, uint256 _value) external;
-    function burnIDC(address _from, uint256 _value)  external;
+    function burnNTC(address _from, uint256 _value)  external;
     function balanceOf(address _addr) public constant returns (uint);
 }
-//IdeaCoin interface
+//Notio interface
 /////////////////////////////////////////////////////////////////////////////////////////////
 contract ProofOfPurchaseToken{
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) public;
@@ -40,14 +40,15 @@ contract CryptoPatentBlockGenerator {
 
  contract DecentraCorpPoA is Ownable {
    using SafeMath for uint256;
-///@param IDC is used to make calls to the IdeaCoin Contract
-   IdeaCoin public IDC;
+///@param NTC is used to make calls to the Notio Contract
+   Notio public NTC;
    CryptoPatentBlockGenerator public CPBG;
    ChaosCoin public CC;
    ProofOfPurchaseToken public PoPT;
 
    uint public memberCount;
    uint public minimumQuorum;
+   uint public buyMemWindow;
    bool public frozen;
    address public founder;
    mapping (address =>bool) members;
@@ -62,12 +63,17 @@ contract CryptoPatentBlockGenerator {
    mapping(address => string) profileComments;
    mapping(address => address) facilityOfMember;
    mapping(address => address[]) facilityMembers;
+   mapping(address => bool) CIBvalLVL1;
+   mapping(address => bool) CIBvalLVL2;
+
    Proposal[] public proposals;
 
    event ProposalCreated(string VoteHash, uint PropCode);
    event Voted(address _voter, bool inSupport);
    event FundingApproved(address addToFund, uint amount);
-
+   event CIBLVL1(address _newVal, address _validatedBy);
+   event CIBLVL2(address _newVal, address _validatedBy);
+   event NewMember(address _newMem, address newMemFacility, string profHash);
 
    struct Proposal {
         address Address;
@@ -92,11 +98,21 @@ contract CryptoPatentBlockGenerator {
      _;
    }
 
+   //@modifier requires that the address calling a function is a contract information bridge level 1
+   modifier onlyCIB1() {
+     require(CIBvalLVL1[msg.sender] == true);
+     _;
+   }
 
+   //@modifier requires that the address calling a function is a contract information bridge level 2
+     modifier onlyCIB2() {
+       require(CIBvalLVL2[msg.sender] == true);
+       _;
+     }
 
-///@notice constructor sets up IdeaCoin address through truffle wizardry
-   constructor(IdeaCoin _IDC, CryptoPatentBlockGenerator _CPBG, ChaosCoin _CC, ProofOfPurchaseToken _PoPT) public {
-     IDC=(_IDC);
+///@notice constructor sets up Notio address through truffle wizardry
+   constructor(Notio _NTC, CryptoPatentBlockGenerator _CPBG, ChaosCoin _CC, ProofOfPurchaseToken _PoPT) public {
+     NTC=(_NTC);
      CPBG =(_CPBG);
      CC=(_CC);
      PoPT = (_PoPT);
@@ -105,7 +121,11 @@ contract CryptoPatentBlockGenerator {
      memberLevel[msg.sender] += 100;
      memberProfileHash[msg.sender] = "QmSu93p6XRanSNmov4e5c8VQPBxKo2zWf1jZpvVTfwi2L9";
      facilityRank[msg.sender] += 100;
+     facilityOfMember[msg.sender] = msg.sender;
      founder = msg.sender;
+     buyMemWindow = now;
+     CIBvalLVL1[msg.sender] = true;
+     CIBvalLVL2[msg.sender] = true;
    }
 /**
 **@notice Proposal Codes are used to fire specific code. each number represents a different action
@@ -213,25 +233,25 @@ contract CryptoPatentBlockGenerator {
         approvedContracts[_newContract] = true;
       }
 
-///@notice setIDCadd allows the address of the IdeaCoin contract to be updated
-   function setIDCadd(address _IDC) public onlyOwner {
-     IDC = IdeaCoin(_IDC);
+///@notice setNTCadd allows the address of the Notio contract to be updated
+   function setNTCadd(address _NTC) public onlyOwner {
+     NTC = Notio(_NTC);
    }
 
-///@notice proxyMint allows an approved address to mint IdeaCoin
-   function proxyIDCMint(address _add, uint _amount) external onlyApprovedAdd {
+///@notice proxyMint allows an approved address to mint Notio
+   function proxyNTCMint(address _add, uint _amount) external onlyApprovedAdd {
      require(_checkIfFrozen(_add) == false);
-     IDC.mint(_add, _amount);
+     NTC.mint(_add, _amount);
    }
-///@notice proxyBurn allows an approved address to burn IdeaCoin
-   function proxyIDCBurn(address _add,  uint _amount) external onlyApprovedAdd {
-     IDC.burnIDC(_add, _amount);
+///@notice proxyBurn allows an approved address to burn Notio
+   function proxyNTCBurn(address _add,  uint _amount) external onlyApprovedAdd {
+     NTC.burnNTC(_add, _amount);
    }
-///@notice proxyMint allows an approved address to mint IdeaCoin
+///@notice proxyMint allows an approved address to mint Notio
       function proxyCCMint(address _add, uint _amount) external onlyApprovedAdd {
         CC.mint(_add, _amount);
       }
-///@notice proxyBurn allows an approved address to burn IdeaCoin
+///@notice proxyBurn allows an approved address to burn Notio
       function proxyCCBurn(address _add,  uint _amount) external onlyApprovedAdd {
         CC.burnCC(_add, _amount);
       }
@@ -323,12 +343,13 @@ function getFacilitiesMembers(address _facility) public view returns(address[]) 
     }
 
     function terminateMember(address _member) internal {
-      uint balance = IDC.balanceOf(_member);
-       IDC.burnIDC(_member, balance);
+      uint balance = NTC.balanceOf(_member);
+       NTC.burnNTC(_member, balance);
        members[_member] = false;
        memberLevel[_member] = 0;
        facilityRank[_member] = 0;
        frozenAccounts[_member] = true;
+       memberCount--;
     }
 
     function getPropID(string hash) public view returns(uint){
@@ -345,11 +366,42 @@ function getFacilitiesMembers(address _facility) public view returns(address[]) 
     }
 
     function postComment(address _member, string _commentsHash) public {
-       IDC.burnIDC(msg.sender, 10);
+       NTC.burnNTC(msg.sender, 10);
       profileComments[_member] = _commentsHash;
     }
     function getComment(address _member) public view returns(string){
       return profileComments[_member];
     }
+    ///@notice buyMembership function allows for the purchase of a membership for 6 months after official launch.
+    ///@dev mints the user 10,000 NTC
+      function buyMembership(address _newMem, address _facility, string _hash) public {
+        require(now <= buyMemWindow + 15780000 seconds);
+          members[_newMem] = true;
+          memberLevel[_newMem]++;
+          facilityMembers[_facility].push(_newMem);
+          facilityOfMember[_newMem] = _facility;
+          facilityRank[_facility]++;
+          memberCount++;
+          memberProfileHash[_newMem] = _hash;
+          NTC.mint(msg.sender, 1000000000000000000000);
+        emit NewMember(_newMem, _facility, _hash);
+      }
 
+      function addNewCIBval(address _newVal) public onlyCIB2 {
+        require(facilityRank[_newVal] >= 50);
+        require(NTC.balanceOf(_newVal) >= 1000);
+        NTC.burnNTC(_newVal, 1000);
+        CIBvalLVL1[_newVal] = true;
+        NTC.mint(msg.sender, 100000000000000000000);
+        emit CIBLVL1(_newVal, msg.sender);
+      }
+
+       function addNewCIBval2(address _newVal) public onlyCIB2{
+           require(facilityRank[_newVal] >= 100);
+           require(NTC.balanceOf(_newVal) >= 10000);
+           NTC.burnNTC(_newVal, 10000);
+           CIBvalLVL2[_newVal] = true;
+           NTC.mint(msg.sender, 100000000000000000000);
+           emit CIBLVL1(_newVal, msg.sender);
+       }
  }

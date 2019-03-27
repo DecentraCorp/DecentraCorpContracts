@@ -7,8 +7,8 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 /// @dev All function calls are currently implement without side effects
 ////////////////////////////////////////////////////////////////////////////////////////////
 contract DecentraCorpPoA {
-  function proxyIDCMint(address _add, uint _amount) external;
-  function proxyIDCBurn(address _add, uint _amount) external;
+  function proxyNTCMint(address _add, uint _amount) external;
+  function proxyNTCBurn(address _add, uint _amount) external;
   function proxyCCMint(address _add, uint _amount) external;
   function proxyCCBurn(address _add, uint _amount) external;
   function generateIdeaBlock(string _ideaIPFS, uint _globalUseBlockAmount, uint miningTime, uint _royalty, address _inventorsAddress, address _invention) external;
@@ -25,11 +25,11 @@ contract DecentraCorpPoA {
 }
 /// DecentraCorp PoA inteface
 ////////////////////////////////////////////////////////////////////////////////////////////
-contract IdeaCoin {
+contract Notio {
     function balanceOf(address _addr) public constant returns (uint);
     function totalSupply() public constant returns (uint);
 }
-/// IdeaCoin interface
+/// Notio interface
 /////////////////////////////////////////////////////////////////////////////////////////////
 contract CryptoPatentBlockGenerator {
     function balanceOf(address _owner) public view returns (uint256);
@@ -64,7 +64,7 @@ contract CryptoPatentBlockGenerator {
 /// @dev this contract is ment to set up the needed global variables as well as house various membership related functions
 /// @dev for whatever reason, having the membership logic in the DCPoA contract causes truffle not to deploy properly(gas) remix works fine
 contract Interface is Ownable {
-  IdeaCoin public IDC;
+  Notio public NTC;
   DecentraCorpPoA public DCPoA;
   CryptoPatentBlockGenerator public CPBG;
   RelayedOwnedSet public Validators;
@@ -75,8 +75,8 @@ contract Interface is Ownable {
   ///@param memberCount tracks the total number of CryptoGrow members
   ///@param globalUseBlock tracks global use blocks
   ///@param globalBlockHalfTime used to track when the ideaBlockReward should be halved
-  ///@param ideaBlockReward set to 1000 IDC
-  ///@param repStake set to 100 IDC
+  ///@param ideaBlockReward set to 1000 NTC
+  ///@param repStake set to 100 NTC
   ///@param minimumQuorum used to  track quorum info
   uint public globalIdeaCount;
   uint public globalRepCount;
@@ -86,7 +86,6 @@ contract Interface is Ownable {
   uint public ideaBlockReward = 1000000000000000000000;
   uint public repStake = 100000000000000000000;
   uint public minimumQuorum;
-  address public CrossChainInfoBridge;
 
   ///@param IdeaProposal array of idea proposals
   IdeaProposal[] public proposals;
@@ -138,11 +137,7 @@ struct IdeaProposal {
     _;
   }
 
-  //@modifier requires that the address calling a function is a member of DecentraCorp
-    modifier onlyCIB() {
-      require(msg.sender == CrossChainInfoBridge);
-      _;
-    }
+
 
 ///@notice calculatePromo function calculates the promotion a miner receives for having multiples of the same type of replication
 ///@dev calculatePromo takes in a block Reward and an idea ID to retun a specific block reward
@@ -160,27 +155,19 @@ struct IdeaProposal {
     DCPoA._addMember(_mem, _facility);
   }
 
-///@notice buyMembership function allows for the purchase of a membership for 6 months after official launch.
-///@dev mints the user 10,000 IDC
-  function buyMembership(address _newMem, address _facility, string _hash) public onlyCIB{
-    require(now <= buyMemWindow + 15780000 seconds);
-    addMember(_newMem, _facility);
-    DCPoA.setProfileHash(_newMem, _hash);
-    emit NewMember(_newMem);
-  }
 
 ///@notice setGenerators function takes in addresses of various contracts the CryptoPatent Blockchain inteacts with
 ///@dev setGenerators takes in these addresses automagically through truffle migrations
   function setGenerators(
     DecentraCorpPoA _dcpoa,
-    IdeaCoin _IDC,
+    Notio _NTC,
     CryptoPatentBlockGenerator  _CPBG
     )
     public
     onlyOwner
     {
       DCPoA = DecentraCorpPoA(_dcpoa);
-      IDC = IdeaCoin(_IDC);
+      NTC = Notio(_NTC);
       CPBG =(_CPBG);
     }
 
@@ -205,11 +192,11 @@ function updateProfile(string _newHash) public {
   }
 
 ///@notice stakeReplicatorWallet function allows for the activation of a replication wallet by
-///        burning IdeaCoin from the msg.sender
-///@dev stakeReplicatorWallet costs 100 IDC and burns them from existence
+///        burning Notio from the msg.sender
+///@dev stakeReplicatorWallet costs 100 NTC and burns them from existence
   function stakeReplicatorWallet(string _hash, address _facility) public {
-    require(IDC.balanceOf(msg.sender) >= 100000000000000000000);
-    DCPoA.proxyIDCBurn(msg.sender, 100000000000000000000);
+    require(NTC.balanceOf(msg.sender) >= 100000000000000000000);
+    DCPoA.proxyNTCBurn(msg.sender, 100000000000000000000);
     DCPoA._addMember(msg.sender, _facility);
     DCPoA.setProfileHash(msg.sender, _hash);
     emit NewMember(msg.sender);
@@ -223,10 +210,6 @@ function updateProfile(string _newHash) public {
 
   function setValidatorContract(address _valCon) public onlyOwner {
         Validators = RelayedOwnedSet(_valCon);
-  }
-
-  function setCIB(address _CIB) public onlyOwner {
-  CrossChainInfoBridge = _CIB;
   }
 
 }
