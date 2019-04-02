@@ -8,7 +8,7 @@ var ChaosCoin = artifacts.require("./ChaosCasino/ChaosCoin.sol");
 var ChaosCasino = artifacts.require("./ChaosCasino/ChaosCasino.sol");
 var PoPT = artifacts.require("./DC_Depot/ProofOfPurchaseToken.sol");
 var Depot = artifacts.require("./DC_Depot/DC_Depot.sol");
-var BlockGen = artifacts.require("./CryptoPatent/CryptoPatentBlockGenerator.sol");
+var BlockGen = artifacts.require("./CryptoPatent/CryptoPatentBlockchain.sol");
 
 
 

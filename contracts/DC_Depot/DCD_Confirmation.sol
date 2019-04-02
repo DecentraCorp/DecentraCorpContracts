@@ -1,24 +1,23 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.0;
 
 import './DCD_Escrow.sol';
 
 contract DCD_Confirmation is DCD_Escrow  {
 
-function ConfirmItemReciept(uint _escrowId,   string _itemIPFSHash) public  {
-  require(decentraCorp.getRank(msg.sender) >= 100);
-  require(decentraCorp.getLevel(msg.sender) >= 100);
+function ConfirmItemReciept(uint _escrowId,   string memory _itemIPFSHash) public  {
+  require(DCPoA.getLevel(msg.sender) >= 100);
   require(approvedProcessingFacility[msg.sender] == true);
 
 Escrow memory escrow = itemInEscrow[_escrowId];
 
 
   bool _payedInNTC = escrow.PayedInNTC;
-  address _buyer = escrow.buyer;
-  address _seller = escrow.seller;
+  address payable _buyer = escrow.buyer;
+  address payable _seller = escrow.seller;
   uint _price = escrow.Price;
   address _facility = escrow.facility;
-  uint _NTCSellerMultiplier = PoPT.balanceOf(_seller);
-  uint _NTCBuyerMultiplier = PoPT.balanceOf(_buyer);
+  uint _NTCSellerMultiplier = PoPTokens[_seller];
+  uint _NTCBuyerMultiplier = PoPTokens[_buyer];
 
   require(msg.sender == _facility);
 if(_NTCSellerMultiplier == 0) {
@@ -34,33 +33,32 @@ _NTCBuyerMultiplier = _NTCBuyerMultiplier * 5000000000000000000;
 if(!_payedInNTC) {
   _seller.transfer(_price);
 } else {
-  decentraCorp.proxyNTCMint(_seller, _price);
+  DCPoA.proxyNTCMint(_seller, _price);
 }
 
-  decentraCorp.mintItemToken(_itemIPFSHash);
-  uint _tokenId = PoPT.ipfsLookUp(_itemIPFSHash);
-  PoPT.safeTransferFrom(this, _buyer, _tokenId);
-  decentraCorp.proxyNTCMint(_buyer, _NTCBuyerMultiplier);
-  decentraCorp.proxyNTCMint(_seller, _NTCSellerMultiplier);
-  decentraCorp.proxyNTCMint(msg.sender, 10000000000000000000);
+  _mintItemToken(_itemIPFSHash);
+  PoPTokens[_seller]++;
+  PoPTokens[_buyer]++;
+  DCPoA.proxyNTCMint(_buyer, _NTCBuyerMultiplier);
+  DCPoA.proxyNTCMint(_seller, _NTCSellerMultiplier);
+  DCPoA.proxyNTCMint(msg.sender, 10000000000000000000);
 
 }
 
 function releaseFundsBackToBuyer(uint _escrowId) public  {
-  require(decentraCorp.getRank(msg.sender) >= 100);
-  require(decentraCorp.getLevel(msg.sender) >= 100);
+  require(DCPoA.getLevel(msg.sender) >= 100);
   require(approvedProcessingFacility[msg.sender] == true);
 
   Escrow memory escrow = itemInEscrow[ _escrowId];
   bool _payedInNTC = escrow.PayedInNTC;
-  address _buyer = escrow.buyer;
+  address payable _buyer = escrow.buyer;
     uint _price = escrow.Price;
     if(!_payedInNTC) {
       _buyer.transfer(_price);
     } else {
-      decentraCorp.proxyNTCMint(_buyer, _price);
+      DCPoA.proxyNTCMint(_buyer, _price);
     }
-    decentraCorp.proxyNTCMint(msg.sender, 10000000000000000000);
+    DCPoA.proxyNTCMint(msg.sender, 10000000000000000000);
   }
 
 }

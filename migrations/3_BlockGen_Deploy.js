@@ -1,4 +1,4 @@
-var BlockGen = artifacts.require("./CryptoPatent/CryptoPatentBlockGenerator.sol");
+var BlockGen = artifacts.require("./CryptoPatent/CryptoPatentBlockchain.sol");
 
 
 

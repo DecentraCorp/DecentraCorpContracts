@@ -1,0 +1,14 @@
+{
+  "zosversion": "2.2",
+  "name": "DecentraCorp",
+  "version": "0.1.0",
+  "contracts": {
+    "ChaosCasino": "ChaosCasino",
+    "DC_Depot": "DC_Depot",
+    "DecentraCorpPoA": "DecentraCorpPoA",
+    "CryptoPatentBlockchain": "CryptoPatentBlockchain"
+  },
+  "dependencies": {
+    "openzeppelin-eth": "^2.1.3"
+  }
+}

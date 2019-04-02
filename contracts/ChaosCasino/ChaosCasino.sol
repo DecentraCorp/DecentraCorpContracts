@@ -1,6 +1,9 @@
-pragma solidity ^0.4.21;
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
-import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+pragma solidity ^0.5.0;
+import "zos-lib/contracts/Initializable.sol";
+import "openzeppelin-eth/contracts/ownership/Ownable.sol";
+import 'openzeppelin-eth/contracts/math/SafeMath.sol';
+import "openzeppelin-eth/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @title ChaosCasino
 /// @author DecentraCorp
@@ -8,32 +11,22 @@ import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 /// @dev All function calls are currently implement without side effects
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @author Christopher Dixon
-/////////////////////////////////////////////////////////////////////////////////////////////
-contract DecentraCorpPoA {
-  function proxyCCMint(address _add, uint _amount) external;
-  function proxyCCBurn(address _add, uint _amount) external;
-}
-//DecentraCorpPoA interface
-/////////////////////////////////////////////////////////////////////////////////////////////
-contract CryptoPatentBlockGenerator {
+
+contract CryptoPatentBlockchain {
   function checkIfRep(address _add) external returns(bool);
 }
-//CryptoPatentBlockGenerator interface
+//CryptoPatentBlockchain interface
 /////////////////////////////////////////////////////////////////////////////////////////////
-contract ChaosCoin {
-    function balanceOf(address _addr) public constant returns (uint);
-}
-//ChaosCoin interface
-/////////////////////////////////////////////////////////////////////////////////////////////
-contract ChaosCasino is Ownable {
+
+
+contract ChaosCasino is Initializable, Ownable, ERC20, ERC20Detailed {
 
   using SafeMath for uint256;
 ///@params below are used to import the contracts as usable objects
-  DecentraCorpPoA public decentraCorp;
-  CryptoPatentBlockGenerator public RBG;
-  ChaosCoin public CC;
+
+  CryptoPatentBlockchain public CPB;
 ///@param randNum is set by ChaosMiners, preset for testing
-  uint randNum = 6874925454687615356;
+  uint randNum;
 ///@param bets stores the bets of an address
 ///@dev this will need to be updated for multiple games
   mapping(address => uint) bets;
@@ -44,37 +37,36 @@ contract ChaosCasino is Ownable {
 ///@notice modifier requires that the address calling a function is a replication
 ///@dev this imports function from replication block generator
   modifier onlyReplication() {
-    require(RBG.checkIfRep(msg.sender) == true);
+    require(CPB.checkIfRep(msg.sender) == true);
     _;
   }
 
-///@notice constructor sets up outside contract addresses at deployemnt through truffle dark arts
-  constructor( DecentraCorpPoA _DCP, CryptoPatentBlockGenerator _RBG, ChaosCoin _CC) public {
-    decentraCorp = DecentraCorpPoA(_DCP);
-    RBG = CryptoPatentBlockGenerator(_RBG);
-    CC = ChaosCoin(_CC);
-  }
+  ///@notice constructor sets up Notio address through truffle wizardry
+     function initialize() public initializer {
+     Ownable.initialize(msg.sender);
+     ERC20Detailed.initialize("ChaosCoin", "CCC", 18);
+     randNum = 9236490572340523496;
+     _mint(msg.sender, 1000000000000000000000000);
+     }
+
+
 
 ///@notice folowing three function allow for contract upgrades
-  function setRepGBAdd(address _add) public onlyOwner {
-    RBG = CryptoPatentBlockGenerator(_add);
+  function setCPGAdd(address _add) public onlyOwner {
+    CPB = CryptoPatentBlockchain(_add);
   }
-  function setDCadd(address _add) public onlyOwner {
-    decentraCorp = DecentraCorpPoA(_add);
-  }
-
 
 ///@notice buyChaosCoin allows anyone to exchange ether for ChaosCoin
   function buyChaosCoin() public payable {
     uint amount = msg.value;
     uint _amount = amount.mul(1000);
-    decentraCorp.proxyCCMint(msg.sender, _amount);
+    _mint(msg.sender, _amount);
   }
 
 ///@notice cahsOut allows ChaosCoin to be cashed out into ether
   function cashOut(uint _amount) public {
-    require(CC.balanceOf(msg.sender) >= _amount);
-    decentraCorp.proxyCCBurn(msg.sender, _amount);
+    require(balanceOf(msg.sender) >= _amount);
+    _burnFrom(msg.sender, _amount);
     uint amount = _amount.div(1000);
     msg.sender.transfer(amount);
   }
@@ -92,8 +84,8 @@ contract ChaosCasino is Ownable {
 
 ///@notice placeBet Allows a User to place a bet
   function placeBet(uint _bet) public {
-    require(CC.balanceOf(msg.sender) >= _bet);
-    decentraCorp.proxyCCBurn(msg.sender, _bet);
+    require(balanceOf(msg.sender) >= _bet);
+    _burnFrom(msg.sender, _bet);
     bets[msg.sender] = _bet;
   }
 
@@ -102,7 +94,7 @@ contract ChaosCasino is Ownable {
   function updateUserBalance( bool _won) public {
     uint currentBalance = bets[msg.sender];
     if(_won == true){
-      decentraCorp.proxyCCMint(msg.sender, currentBalance * 2);
+      _mint(msg.sender, currentBalance * 2);
     }else{
       bets[msg.sender] = 0;
     }

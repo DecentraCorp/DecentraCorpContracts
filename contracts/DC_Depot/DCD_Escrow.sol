@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.0;
 
 import "./DecentraControlled.sol";
 
@@ -15,8 +15,8 @@ event ItemBought(
 struct Escrow {
   bool PayedInNTC;
   uint Price;
-  address buyer;
-  address seller;
+  address payable buyer;
+  address payable seller;
   address facility;
   string ItemIPFS;
   }
@@ -26,13 +26,13 @@ struct Escrow {
 function createEscrow(
   bool _payedInNTC,
   uint _price,
-  address _seller,
+  address payable _seller,
   address _facility,
-  string _itemipfs
+  string memory _itemipfs
   )
   internal
   {
-  address _buyer = msg.sender;
+  address payable _buyer = msg.sender;
 
     Escrow memory _escrow = Escrow({
        PayedInNTC: bool(_payedInNTC),
