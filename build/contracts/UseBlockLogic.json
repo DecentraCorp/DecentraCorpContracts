@@ -4850,7 +4850,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-04-02T03:59:36.892Z",
+  "updatedAt": "2019-04-07T23:00:56.895Z",
   "devdoc": {
     "methods": {
       "generateReplicationBlock(uint256,address)": {

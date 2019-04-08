@@ -6605,12 +6605,12 @@
     "3636": {
       "links": {},
       "events": {},
-      "address": "0x28dfc9726338B1A42377d8d81Cc755d7cC753154",
-      "updated_at": 1554160060921
+      "address": "0xd48e2d6b8b482B01164c6b448746a145E7b48C69",
+      "updated_at": 1554678310433
     }
   },
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-04-02T03:59:36.817Z",
+  "updatedAt": "2019-04-07T23:00:56.855Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

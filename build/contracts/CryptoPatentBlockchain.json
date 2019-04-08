@@ -11759,12 +11759,12 @@
     "3636": {
       "links": {},
       "events": {},
-      "address": "0xf6D7DB2D60497CC5719DE53858E3E98Cc2361708",
-      "updated_at": 1554159990745
+      "address": "0xAef71a5ede41692746b354D700893A40662E1A56",
+      "updated_at": 1554678260166
     }
   },
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-04-02T03:59:36.833Z",
+  "updatedAt": "2019-04-07T23:00:56.862Z",
   "devdoc": {
     "methods": {
       "changeStakeAmount(uint256)": {

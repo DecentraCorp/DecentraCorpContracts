@@ -10359,7 +10359,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-04-02T03:59:36.826Z",
+  "updatedAt": "2019-04-07T23:00:56.874Z",
   "devdoc": {
     "methods": {
       "initialize(address)": {
