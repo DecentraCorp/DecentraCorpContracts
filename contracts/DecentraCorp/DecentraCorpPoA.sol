@@ -258,10 +258,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
     }
 
 
-    function setProfileHash(address _add, string memory _hash) public onlyApprovedAdd {
-      require(_checkIfFrozen(_add) == false);
-      memberProfileHash[_add] = _hash;
-    }
+
 
     function getProfileHash(address _add) public view returns(string memory) {
       return memberProfileHash[_add];
@@ -311,7 +308,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
       }
 
       function updateProfile(string memory _newHash) public {
-          setProfileHash(msg.sender, _newHash);
+            memberProfileHash[msg.sender] = _newHash;
           emit ProfileUpdated(msg.sender);
       }
  }

@@ -21,9 +21,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\nimport \"zos-lib/contracts/Initializable.sol\";\nimport \"openzeppelin-eth/contracts/ownership/Ownable.sol\";\n////////////////////////////////////////////////////////////////////////////////////////////\n/// @title Interface Contract for the CryptoPatent Blockchain\n/// @author DecentraCorp\n/// @notice this contract is built using the Ownership contract from the zeppelin-solidity library\n/// @dev All function calls are currently implement without side effects\n////////////////////////////////////////////////////////////////////////////////////////////\ncontract DecentraCorpPoA {\n  function proxyNTCMint(address _add, uint _amount) external;\n  function proxyNTCBurn(address _add, uint _amount) external;\n  function _addMember(address _mem) external;\n  function _checkIfMember(address _member) public view returns(bool);\n  function increaseMemLev(address _add) external;\n  function setProfileHash(address _add, string memory _hash) public;\n  function getMemberCount() public view returns(uint);\n}\n/// DecentraCorp PoA inteface\n////////////////////////////////////////////////////////////////////////////////////////////\n  contract RelayedOwnedSet {\n    \tfunction addValidator(address _validator) external;\n  }\n/// Validator contract interface\n/////////////////////////////////////////////////////////////////////////////////////////////\ncontract IdeaBlockLogic is Initializable, Ownable {\n\n  DecentraCorpPoA public DCPoA;\n  RelayedOwnedSet public Validators;\n\n  ///@param globalIdeaCount tracks amount of ideas on the CryptoPatent Blockchain\n  ///@param globalBlockHalfTime used to track when the ideaBlockReward should be halved\n  ///@param ideaBlockReward set to 1000 DCPoA\n  ///@param repStake set to 100 DCPoA\n  uint public globalIdeaCount;\n  uint public globalBlockHalfTime;\n  uint public ideaBlockReward;\n  uint public repStake;\n  uint public globalIdeaPropCount;\n  ///@param globalRepCount tracks the total number of replications on the CryptoPatent Blockchain\n  uint public globalRepCount;\n  uint public globalUseBlock;\n\n  ///@param ideaVariables maps a token number to an ideas variables\n  ///@param IdeaAddToId maps an Ideas address to its ID number\n  mapping(uint => IdeaBlock) public ideaVariables;\n  mapping(address => uint) public IdeaAddToId;\n  mapping(uint => IdeaProposal) public ideaProposals;\n  mapping(uint => uint) public weightTracker;\n  mapping(address => uint) public localWeightTracker;\n\n  ///@param ideaRepCounter tracks the total number of replications for a specific idea\n  ///@param repInfo maps a reps address to its information\n  ///@param repOwnes tracks how many of a specific type of replication a replicator owns(this is for pool mining)\n  mapping(uint => uint) public ideaRepCounter;\n  mapping(address => uint) public localMiningtimeTracker;\n  mapping(address => bool) public replications;\n  mapping(address => ReplicationInfo) public repInfo;\n  mapping(address => mapping(uint => uint)) public repOwnes;\n  mapping(string => uint) getHash;\n\n  event IdeaProposed(string IPFS);\n  event NewMember(address member);\n  event IdeaApproved(string IPFS);\n  event Voted(address _voter, bool inSupport);\n  event NewReplication(address _repAdd);\n  event LocalUseWeight(address repAdd, uint repWeight);\n  event GlobalUseBlock(address repAdd, uint ideaId);\n\n\n  ///@struct IdeaProposal stores info of a proposal\n  struct IdeaProposal {\n       string IdeaIPFS;\n       bool executed;\n       bool proposalPassed;\n       Vote[] votes;\n       mapping (address => bool) voted;\n   }\n\n  struct Vote {\n          bool inSupport;\n          address voter;\n  }\n\n\n  ///@struct IdeaBlock is built to store only needed variables to the blockchain, IPFS handles the rest\n  struct IdeaBlock {\n    uint globalUseBlockAmount;\n    uint royalty;\n    uint miningTime;\n    address inventorAddress;\n    address inventionAddress;\n    string IPFShash;\n  }\n  //@struct ReplicationInfo stores replication information\n  struct ReplicationInfo {\n    uint BlockReward;\n    address OwnersAddress;\n    uint IdeaID;\n    uint Royalty;\n    uint RepID;\n    address InventorsAddress;\n    address ReplicationAddress;\n  }\n\n\n  ///@notice generateIdeaBlock is used to generate and ideablock after a community vote\n  ///@dev this function is onlyOwner as atm the CPB is owning itself. In the future\n  ///     this will likely be set to an account that will have special privlidges between this contracts and\n  ///     the ethereum Based DecentraCorp contracts to facilitate crosschain communication\n\n  function generateIdeaBlock(\n    string memory _ideaIPFS,\n    uint  _globalUseBlockAmount,\n    uint _miningTime,\n    uint _royalty,\n    address _inventor,\n    address _invention\n    )\ninternal\n    {\n      globalIdeaCount++;\n      uint _ideaId = globalIdeaCount;\n\n      IdeaBlock memory _info = IdeaBlock({\n        globalUseBlockAmount: uint(_globalUseBlockAmount),\n        royalty: uint(_royalty),\n        miningTime: uint(_miningTime),\n        inventorAddress: address(_inventor),\n        inventionAddress: address(_invention),\n        IPFShash: string(_ideaIPFS)\n        });\n\n        IdeaAddToId[_invention] = _ideaId;\n        ideaVariables[_ideaId] = _info;\n        Validators.addValidator(_invention);\n        ideaBlockTimeLord();\n        DCPoA.proxyNTCMint( _inventor, ideaBlockReward);\n        if(DCPoA._checkIfMember(_inventor) != true){\n          DCPoA._addMember(_inventor);\n        }\n        //mints 1000 DCPoA and sends it to the inventor\n        DCPoA.increaseMemLev(_inventor);\n\n    }\n\n  ///@notice ideaBlockTimeLord is called to half an ideablock reward every two years\n  ///@dev this time may need to be adjusted to 4 years depending on predicted inflation patterns of DCPoA\n    function ideaBlockTimeLord() internal returns(uint){\n      if(now >= globalBlockHalfTime + 94670778) {\n        ideaBlockReward = ideaBlockReward / 2;\n        globalBlockHalfTime = now;\n        return ideaBlockReward;\n        }else{\n        return ideaBlockReward;\n      }\n    }\n    ///@notice set_Quorum is an internal function used by proposal vote counts to see if the community approves\n    ///@dev quorum is set to 60%\n      function percent(uint numerator, uint denominator, uint precision) internal pure returns(uint quotient) {\n             // caution, check safe-to-multiply here\n              uint _numerator  = numerator * 10 ** (precision+1);\n            // with rounding of last digit\n              uint _quotient =  ((_numerator / denominator) + 5) / 10;\n              return ( _quotient);\n            }\n\n      function set_Quorum(uint numOfvotes, uint numOfmem) internal pure returns(bool) {\n                uint percOfMemVoted = percent(numOfvotes, numOfmem, 2 );\n                 if(percOfMemVoted >= 60) {\n                     return true;\n                 } else {\n                     return false;\n                 }\n              }\n\n}\n",
-  "sourcePath": "/home/stan36/repos/DecentraCorp/contracts/CryptoPatent/IdeaBlockLogic.sol",
+  "sourcePath": "/home/stan36/repos/DecentraCorpContracts/contracts/CryptoPatent/IdeaBlockLogic.sol",
   "ast": {
-    "absolutePath": "/home/stan36/repos/DecentraCorp/contracts/CryptoPatent/IdeaBlockLogic.sol",
+    "absolutePath": "/home/stan36/repos/DecentraCorpContracts/contracts/CryptoPatent/IdeaBlockLogic.sol",
     "exportedSymbols": {
       "DecentraCorpPoA": [
         731
@@ -55,7 +55,7 @@
         "id": 686,
         "nodeType": "ImportDirective",
         "scope": 1076,
-        "sourceUnit": 3908,
+        "sourceUnit": 3885,
         "src": "24:45:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -66,7 +66,7 @@
         "id": 687,
         "nodeType": "ImportDirective",
         "scope": 1076,
-        "sourceUnit": 3277,
+        "sourceUnit": 3254,
         "src": "70:58:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -658,10 +658,10 @@
               "id": 738,
               "name": "Initializable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3907,
+              "referencedDeclaration": 3884,
               "src": "1384:13:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Initializable_$3907",
+                "typeIdentifier": "t_contract$_Initializable_$3884",
                 "typeString": "contract Initializable"
               }
             },
@@ -676,10 +676,10 @@
               "id": 740,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3276,
+              "referencedDeclaration": 3253,
               "src": "1399:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$3276",
+                "typeIdentifier": "t_contract$_Ownable_$3253",
                 "typeString": "contract Ownable"
               }
             },
@@ -689,8 +689,8 @@
           }
         ],
         "contractDependencies": [
-          3276,
-          3907
+          3253,
+          3884
         ],
         "contractKind": "contract",
         "documentation": "Validator contract interface\n//////////////////////////////////////////////////////////////////////////////////////////",
@@ -698,8 +698,8 @@
         "id": 1075,
         "linearizedBaseContracts": [
           1075,
-          3276,
-          3907
+          3253,
+          3884
         ],
         "name": "IdeaBlockLogic",
         "nodeType": "ContractDefinition",
@@ -3717,7 +3717,7 @@
                       "name": "now",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3924,
+                      "referencedDeclaration": 3901,
                       "src": "5754:3:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -3928,7 +3928,7 @@
                             "name": "now",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3924,
+                            "referencedDeclaration": 3901,
                             "src": "5872:3:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -4919,7 +4919,7 @@
     "src": "0:6848:2"
   },
   "legacyAST": {
-    "absolutePath": "/home/stan36/repos/DecentraCorp/contracts/CryptoPatent/IdeaBlockLogic.sol",
+    "absolutePath": "/home/stan36/repos/DecentraCorpContracts/contracts/CryptoPatent/IdeaBlockLogic.sol",
     "exportedSymbols": {
       "DecentraCorpPoA": [
         731
@@ -4951,7 +4951,7 @@
         "id": 686,
         "nodeType": "ImportDirective",
         "scope": 1076,
-        "sourceUnit": 3908,
+        "sourceUnit": 3885,
         "src": "24:45:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -4962,7 +4962,7 @@
         "id": 687,
         "nodeType": "ImportDirective",
         "scope": 1076,
-        "sourceUnit": 3277,
+        "sourceUnit": 3254,
         "src": "70:58:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -5554,10 +5554,10 @@
               "id": 738,
               "name": "Initializable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3907,
+              "referencedDeclaration": 3884,
               "src": "1384:13:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Initializable_$3907",
+                "typeIdentifier": "t_contract$_Initializable_$3884",
                 "typeString": "contract Initializable"
               }
             },
@@ -5572,10 +5572,10 @@
               "id": 740,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3276,
+              "referencedDeclaration": 3253,
               "src": "1399:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$3276",
+                "typeIdentifier": "t_contract$_Ownable_$3253",
                 "typeString": "contract Ownable"
               }
             },
@@ -5585,8 +5585,8 @@
           }
         ],
         "contractDependencies": [
-          3276,
-          3907
+          3253,
+          3884
         ],
         "contractKind": "contract",
         "documentation": "Validator contract interface\n//////////////////////////////////////////////////////////////////////////////////////////",
@@ -5594,8 +5594,8 @@
         "id": 1075,
         "linearizedBaseContracts": [
           1075,
-          3276,
-          3907
+          3253,
+          3884
         ],
         "name": "IdeaBlockLogic",
         "nodeType": "ContractDefinition",
@@ -8613,7 +8613,7 @@
                       "name": "now",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3924,
+                      "referencedDeclaration": 3901,
                       "src": "5754:3:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -8824,7 +8824,7 @@
                             "name": "now",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3924,
+                            "referencedDeclaration": 3901,
                             "src": "5872:3:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -9820,7 +9820,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-04-07T23:00:56.868Z",
+  "updatedAt": "2019-04-11T03:33:58.843Z",
   "devdoc": {
     "methods": {}
   },
