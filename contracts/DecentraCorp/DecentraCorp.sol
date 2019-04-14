@@ -11,17 +11,13 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////
- contract DecentraCorpPoA is Initializable, Ownable, ERC20, ERC20Detailed {
+ contract DecentraCorp is Initializable, Ownable, ERC20, ERC20Detailed {
    using SafeMath for uint256;
-///@param ERC20Detailed is used to make calls to the Notio Contract
-
-
 
    uint public memberCount;
    uint public buyMemWindow;
    bool public frozen;
    address public founder;
-
 
    mapping (address =>bool) members;
    mapping(address => uint) memberLevel;
@@ -32,9 +28,6 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
    mapping(string => uint) propCode;
    mapping(address => string) profileComments;
    mapping(address => bool) frozenAccounts;
-
-
-
 
    Proposal[] public proposals;
 
@@ -217,7 +210,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
 ///@notice addMember function is an internal function for adding a member to decentracorp
 ///@dev addMember takes in an address _mem, sets its membership to true and increments their rank by one
   function _addMember(address _mem) external onlyApprovedAdd {
-    require(_checkIfFrozen(_mem) == false);
+      require(_checkIfFrozen(_mem) == false);
       members[_mem] = true;
       memberLevel[_mem]++;
       memberCount = memberCount + 1;
@@ -257,14 +250,9 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
       return memberLevel[_add];
     }
 
-
-
-
     function getProfileHash(address _add) public view returns(string memory) {
       return memberProfileHash[_add];
     }
-
-
 
     function terminateMember(address _member) internal {
       uint balance = balanceOf(_member);
@@ -292,12 +280,14 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
        _burnFrom(msg.sender, 10);
       profileComments[_member] = _commentsHash;
     }
+
     function getComment(address _member) public view returns(string memory){
       return profileComments[_member];
     }
     ///@notice buyMembership function allows for the purchase of a membership for 6 months after official launch.
     ///@dev mints the user 10,000 DCPoA
       function buyMembership(address _newMem, address _facility, string memory _hash) public {
+        require(_checkIfFrozen(_newMem) == false);
         require(now <= buyMemWindow + 15780000 seconds);
           members[_newMem] = true;
           memberLevel[_newMem]++;

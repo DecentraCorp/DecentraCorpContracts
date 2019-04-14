@@ -7,22 +7,37 @@ contract CryptoPatentBlockchain is UseBlockLogic {
   function initialize() public initializer {
     Ownable.initialize(msg.sender);
     ideaBlockReward = 1000000000000000000000;
-    repStake = 100000000000000000000;
     globalBlockHalfTime = now;
   }
+
 
 
   ///@notice proposeIdea is used to allow ANYONE to petition the community for idea approval
   ///@dev the struct for this is set in interface.solidity
   ///@dev idea proposals are put up for community approval
-  function proposeIdea(string memory _ideaIPFS) public {
+  function proposeIdea(
+    string memory _ideaIPFS,
+    uint _globalUseBlockAmount,
+    uint _miningTime,
+    uint _royalty,
+    uint _stakeAmount,
+    address _inventor,
+    address _invention
+  ) public {
           globalIdeaPropCount++;
           uint IdeaProposalID = globalIdeaPropCount;
           getHash[_ideaIPFS] = IdeaProposalID;
+
           IdeaProposal storage p = ideaProposals[IdeaProposalID];
           p.IdeaIPFS = _ideaIPFS;
           p.executed = false;
           p.proposalPassed = false;
+          p.globalUseBlockAmount = _globalUseBlockAmount;
+          p.royalty = _royalty;
+          p.stakeAmount = _stakeAmount;
+          p.miningTime = _miningTime;
+          p.inventorAddress = _inventor;
+          p.inventionAddress = _invention;
           emit IdeaProposed(_ideaIPFS);
   }
 
@@ -32,12 +47,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
 
    function ideaVote(
           uint _ideaProposalID,
-          bool supportsProposal,
-          uint _globalUseBlockAmount,
-          uint _miningTime,
-          uint _royalty,
-          address _inventor,
-          address _invention
+          bool supportsProposal
       )
           public
 
@@ -65,7 +75,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
           //sets tally to either true of false depending if the # of votes is
           //greater than 60% of the total # of members
           if(tally) {
-            ideaBlockVote(_ideaProposalID, _globalUseBlockAmount,_miningTime, _royalty, _inventor, _invention);
+            ideaBlockVote(_ideaProposalID);
             //fires of the vote tally function
           }
       }
@@ -74,10 +84,17 @@ contract CryptoPatentBlockchain is UseBlockLogic {
   // allows members to vote on proposals
   ///@notice ideaBlockVote counts the votes and executes and Idea Proposal, adding an idea to the cryptopatent Blockchain
   ///@dev seperate but similiar structures will need to be implemented in the future to stream line voting on different subjects(beta)
-  function ideaBlockVote(uint _ideaProposalID, uint _globalUseBlockAmount,uint _miningTime, uint _royalty, address _inventor, address _invention) internal {
+  function ideaBlockVote(uint _ideaProposalID) internal {
           IdeaProposal storage p = ideaProposals[_ideaProposalID];
                // sets p equal to the specific proposalNumbers struct
           string memory _ideahash = p.IdeaIPFS;
+          uint _globalUseBlockAmount = p.globalUseBlockAmount;
+          uint _miningTime = p.miningTime;
+          uint _royalty = p.royalty;
+          uint _stakeAmount = p.stakeAmount;
+          address _inventor = p.inventorAddress;
+          address _invention = p.inventionAddress;
+
           uint yea = 0;
           uint nay = 0;
 
@@ -95,7 +112,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
                    // Proposal passed; execute the transaction
                  p.executed = true;
                  p.proposalPassed = true;
-                 generateIdeaBlock( _ideahash,  _globalUseBlockAmount, _miningTime, _royalty, _inventor, _invention);
+                 generateIdeaBlock( _ideahash,  _globalUseBlockAmount, _miningTime, _royalty, _stakeAmount, _inventor, _invention);
                  emit IdeaApproved( _ideahash);
              } else {
                    // Proposal failed
@@ -124,18 +141,13 @@ contract CryptoPatentBlockchain is UseBlockLogic {
               function getID(address _ideaAdd) public view returns(uint){
                 return IdeaAddToId[_ideaAdd];
               }
-          ///@notice changeStakeAmount will allow the community to change the stake amount required to stake a replication if it sees fit through a voted
-          ///@dev this new amount must account for 18 decimals
-              function changeStakeAmount(uint _newStakeAmount) external onlyOwner {
-                repStake = _newStakeAmount;
-              }
 
               function setValidatorContract(address _valCon) public onlyOwner {
                     Validators = RelayedOwnedSet(_valCon);
               }
 
-              function setDCPoA(DecentraCorpPoA _dcpoa) public onlyOwner {
-                DCPoA = DecentraCorpPoA(_dcpoa);
+              function setDCPoA(DecentraCorp _dcpoa) public onlyOwner {
+                DCPoA = DecentraCorp(_dcpoa);
               }
 
               function checkIfVotedIdea(address _add, uint _ideaProposalID) public view returns(bool) {

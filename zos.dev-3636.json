@@ -1,11 +1,11 @@
 {
   "contracts": {
     "ChaosCasino": {
-      "address": "0x1D0569E5CaeeE8e6a618A6047c961d49a6306615",
-      "constructorCode": "608060405234801561001057600080fd5b506127f8806100206000396000f3fe",
-      "bodyBytecodeHash": "26d80f07df574f58cf71fcf1e72bf2d26b6050356493bdbf227470ea3fe5f6cf",
-      "localBytecodeHash": "76c9d6130aeba399ea36d9141c8e045561c76275db1987b618c93853b19320fd",
-      "deployedBytecodeHash": "76c9d6130aeba399ea36d9141c8e045561c76275db1987b618c93853b19320fd",
+      "address": "0xBd66b61A4EbE469d019a6ED3FeC86c34F328D974",
+      "constructorCode": "608060405234801561001057600080fd5b506127df806100206000396000f3fe",
+      "bodyBytecodeHash": "631576b4732d6d2bd429a76b630b48e32bb44aab04dbe63f5f0182ddee109720",
+      "localBytecodeHash": "274c4ce86b99ee583c4784f738065b920422703d4e48df5aabc1a71f2cb1d3c2",
+      "deployedBytecodeHash": "274c4ce86b99ee583c4784f738065b920422703d4e48df5aabc1a71f2cb1d3c2",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -51,7 +51,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 3855,
+          "astId": 3922,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -59,7 +59,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 3857,
+          "astId": 3924,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -67,7 +67,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 3906,
+          "astId": 3973,
           "type": "t_array:50<t_uint256>",
           "src": "1891:29:15"
         },
@@ -75,7 +75,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "_owner",
-          "astId": 3164,
+          "astId": 3231,
           "type": "t_address",
           "src": "302:22:11"
         },
@@ -83,7 +83,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "______gap",
-          "astId": 3275,
+          "astId": 3342,
           "type": "t_array:50<t_uint256>",
           "src": "2186:29:11"
         },
@@ -91,7 +91,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_balances",
-          "astId": 3292,
+          "astId": 3359,
           "type": "t_mapping<t_uint256>",
           "src": "774:46:12"
         },
@@ -99,7 +99,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_allowed",
-          "astId": 3298,
+          "astId": 3365,
           "type": "t_mapping<t_uint256>",
           "src": "827:66:12"
         },
@@ -107,7 +107,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_totalSupply",
-          "astId": 3300,
+          "astId": 3367,
           "type": "t_uint256",
           "src": "900:28:12"
         },
@@ -115,7 +115,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "______gap",
-          "astId": 3714,
+          "astId": 3781,
           "type": "t_array:50<t_uint256>",
           "src": "7661:29:12"
         },
@@ -123,7 +123,7 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_name",
-          "astId": 3725,
+          "astId": 3792,
           "type": "t_string",
           "src": "382:20:13"
         },
@@ -131,7 +131,7 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_symbol",
-          "astId": 3727,
+          "astId": 3794,
           "type": "t_string",
           "src": "408:22:13"
         },
@@ -139,7 +139,7 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_decimals",
-          "astId": 3729,
+          "astId": 3796,
           "type": "t_uint8",
           "src": "436:23:13"
         },
@@ -147,7 +147,7 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "______gap",
-          "astId": 3781,
+          "astId": 3848,
           "type": "t_array:50<t_uint256>",
           "src": "1097:29:13"
         },
@@ -185,11 +185,11 @@
       }
     },
     "DC_Depot": {
-      "address": "0x333D1D44C9E5EbfB8A3eE1d34f5068f3dB95Acbe",
+      "address": "0x7F73B3079ea0f1210eEe60DD329feD57F66D6B4B",
       "constructorCode": "608060405234801561001057600080fd5b50613150806100206000396000f3fe",
-      "bodyBytecodeHash": "0652dd526ef9420584db4c8e2592f69c8a5d5589d9769518c1da43b8331d5d77",
-      "localBytecodeHash": "575d771a3c02c78d945a8e728f22a206c48e9bca22802b8c9aaf0e54dfaa6187",
-      "deployedBytecodeHash": "575d771a3c02c78d945a8e728f22a206c48e9bca22802b8c9aaf0e54dfaa6187",
+      "bodyBytecodeHash": "0d4719a6813f6299ac40a05a20edc33664c821cdf7b84a87fbdae9fe97bd9133",
+      "localBytecodeHash": "3aca19a8c551970e7ba2811d0873d535f9edf2ea30ddb4b45caa077f7a0c414f",
+      "deployedBytecodeHash": "3aca19a8c551970e7ba2811d0873d535f9edf2ea30ddb4b45caa077f7a0c414f",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -244,37 +244,37 @@
           "members": [
             {
               "label": "PayedInNTC",
-              "astId": 1647,
+              "astId": 1729,
               "type": "t_bool",
               "src": "212:15:6"
             },
             {
               "label": "Price",
-              "astId": 1649,
+              "astId": 1731,
               "type": "t_uint256",
               "src": "231:10:6"
             },
             {
               "label": "buyer",
-              "astId": 1651,
+              "astId": 1733,
               "type": "t_address_payable",
               "src": "245:21:6"
             },
             {
               "label": "seller",
-              "astId": 1653,
+              "astId": 1735,
               "type": "t_address_payable",
               "src": "270:22:6"
             },
             {
               "label": "facility",
-              "astId": 1655,
+              "astId": 1737,
               "type": "t_address",
               "src": "296:16:6"
             },
             {
               "label": "ItemIPFS",
-              "astId": 1657,
+              "astId": 1739,
               "type": "t_string",
               "src": "316:15:6"
             }
@@ -297,7 +297,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 3855,
+          "astId": 3922,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -305,7 +305,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 3857,
+          "astId": 3924,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -313,7 +313,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 3906,
+          "astId": 3973,
           "type": "t_array:50<t_uint256>",
           "src": "1891:29:15"
         },
@@ -321,7 +321,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "_owner",
-          "astId": 3164,
+          "astId": 3231,
           "type": "t_address",
           "src": "302:22:11"
         },
@@ -329,7 +329,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "______gap",
-          "astId": 3275,
+          "astId": 3342,
           "type": "t_array:50<t_uint256>",
           "src": "2186:29:11"
         },
@@ -337,103 +337,103 @@
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "DCPoA",
-          "astId": 1844,
+          "astId": 1926,
           "type": "t_address",
-          "src": "592:28:8"
+          "src": "589:25:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "globalItemCount",
-          "astId": 1846,
+          "astId": 1928,
           "type": "t_uint256",
-          "src": "626:27:8"
+          "src": "620:27:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "etherEarned",
-          "astId": 1848,
+          "astId": 1930,
           "type": "t_uint256",
-          "src": "657:23:8"
+          "src": "651:23:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "globalEscrowCount",
-          "astId": 1850,
+          "astId": 1932,
           "type": "t_uint256",
-          "src": "684:29:8"
+          "src": "678:29:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "_NTC_PriceMod",
-          "astId": 1852,
+          "astId": 1934,
           "type": "t_uint256",
-          "src": "717:25:8"
+          "src": "711:25:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "_DecentraCorpFee",
-          "astId": 1854,
+          "astId": 1936,
           "type": "t_uint256",
-          "src": "746:28:8"
+          "src": "740:28:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "forSale",
-          "astId": 1856,
+          "astId": 1938,
           "type": "t_string",
-          "src": "779:21:8"
+          "src": "773:21:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "needsProcessing",
-          "astId": 1858,
+          "astId": 1940,
           "type": "t_string",
-          "src": "804:29:8"
+          "src": "798:29:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "processors",
-          "astId": 1861,
+          "astId": 1943,
           "type": "t_array:dyn<t_address>",
-          "src": "838:27:8"
+          "src": "832:27:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "approvedProcessingFacility",
-          "astId": 1865,
+          "astId": 1947,
           "type": "t_mapping<t_bool>",
-          "src": "869:51:8"
+          "src": "863:51:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "IPFStoID",
-          "astId": 1869,
+          "astId": 1951,
           "type": "t_mapping<t_uint256>",
-          "src": "924:32:8"
+          "src": "918:32:8"
         },
         {
           "contract": "DecentraControlled",
           "path": "contracts/DC_Depot/DecentraControlled.sol",
           "label": "PoPTokens",
-          "astId": 1873,
+          "astId": 1955,
           "type": "t_mapping<t_uint256>",
-          "src": "960:34:8"
+          "src": "954:34:8"
         },
         {
           "contract": "DCD_Escrow",
           "path": "contracts/DC_Depot/DCD_Escrow.sol",
           "label": "itemInEscrow",
-          "astId": 1662,
+          "astId": 1744,
           "type": "t_mapping<t_struct<DCD_Escrow.Escrow>>",
           "src": "340:44:6"
         }
@@ -446,442 +446,12 @@
         "uninitializedBaseContracts": []
       }
     },
-    "CryptoPatentBlockchain": {
-      "address": "0x0998584c27bF38379fB1cBdA77838f0820B47818",
-      "constructorCode": "608060405234801561001057600080fd5b506143e7806100206000396000f3fe",
-      "bodyBytecodeHash": "1a8757346eb055ae3b6832dbbafbf0637d7f5a596ce3b25dd9fcb6ae96ce999a",
-      "localBytecodeHash": "e00857a4d95acd6a2e9a2b54b71044e54769cfbedf5301c559dd24f32b2f9b5e",
-      "deployedBytecodeHash": "e00857a4d95acd6a2e9a2b54b71044e54769cfbedf5301c559dd24f32b2f9b5e",
-      "types": {
-        "t_bool": {
-          "id": "t_bool",
-          "kind": "elementary",
-          "label": "bool"
-        },
-        "t_uint256": {
-          "id": "t_uint256",
-          "kind": "elementary",
-          "label": "uint256"
-        },
-        "t_array:50<t_uint256>": {
-          "id": "t_array:50<t_uint256>",
-          "valueType": "t_uint256",
-          "length": "50",
-          "kind": "array",
-          "label": "uint256[50]"
-        },
-        "t_address": {
-          "id": "t_address",
-          "kind": "elementary",
-          "label": "address"
-        },
-        "t_struct<IdeaBlockLogic.IdeaBlock>": {
-          "id": "t_struct<IdeaBlockLogic.IdeaBlock>",
-          "kind": "struct",
-          "label": "IdeaBlockLogic.IdeaBlock",
-          "members": [
-            {
-              "label": "globalUseBlockAmount",
-              "astId": 860,
-              "type": "t_uint256",
-              "src": "3720:25:2"
-            },
-            {
-              "label": "royalty",
-              "astId": 862,
-              "type": "t_uint256",
-              "src": "3751:12:2"
-            },
-            {
-              "label": "miningTime",
-              "astId": 864,
-              "type": "t_uint256",
-              "src": "3769:15:2"
-            },
-            {
-              "label": "inventorAddress",
-              "astId": 866,
-              "type": "t_address",
-              "src": "3790:23:2"
-            },
-            {
-              "label": "inventionAddress",
-              "astId": 868,
-              "type": "t_address",
-              "src": "3819:24:2"
-            },
-            {
-              "label": "IPFShash",
-              "astId": 870,
-              "type": "t_string",
-              "src": "3849:15:2"
-            }
-          ]
-        },
-        "t_string": {
-          "id": "t_string",
-          "kind": "elementary",
-          "label": "string"
-        },
-        "t_mapping<t_struct<IdeaBlockLogic.IdeaBlock>>": {
-          "id": "t_mapping<t_struct<IdeaBlockLogic.IdeaBlock>>",
-          "valueType": "t_struct<IdeaBlockLogic.IdeaBlock>",
-          "label": "mapping(key => IdeaBlockLogic.IdeaBlock)",
-          "kind": "mapping"
-        },
-        "t_mapping<t_uint256>": {
-          "id": "t_mapping<t_uint256>",
-          "valueType": "t_uint256",
-          "label": "mapping(key => uint256)",
-          "kind": "mapping"
-        },
-        "t_struct<IdeaBlockLogic.IdeaProposal>": {
-          "id": "t_struct<IdeaBlockLogic.IdeaProposal>",
-          "kind": "struct",
-          "label": "IdeaBlockLogic.IdeaProposal",
-          "members": [
-            {
-              "label": "IdeaIPFS",
-              "astId": 841,
-              "type": "t_string",
-              "src": "3384:15:2"
-            },
-            {
-              "label": "executed",
-              "astId": 843,
-              "type": "t_bool",
-              "src": "3408:13:2"
-            },
-            {
-              "label": "proposalPassed",
-              "astId": 845,
-              "type": "t_bool",
-              "src": "3430:19:2"
-            },
-            {
-              "label": "votes",
-              "astId": 848,
-              "type": "t_array:dyn<t_struct<IdeaBlockLogic.Vote>>",
-              "src": "3458:12:2"
-            },
-            {
-              "label": "voted",
-              "astId": 852,
-              "type": "t_mapping<t_bool>",
-              "src": "3479:31:2"
-            }
-          ]
-        },
-        "t_struct<IdeaBlockLogic.Vote>": {
-          "id": "t_struct<IdeaBlockLogic.Vote>",
-          "kind": "struct",
-          "label": "IdeaBlockLogic.Vote",
-          "members": [
-            {
-              "label": "inSupport",
-              "astId": 855,
-              "type": "t_bool",
-              "src": "3544:14:2"
-            },
-            {
-              "label": "voter",
-              "astId": 857,
-              "type": "t_address",
-              "src": "3570:13:2"
-            }
-          ]
-        },
-        "t_array:dyn<t_struct<IdeaBlockLogic.Vote>>": {
-          "id": "t_array:dyn<t_struct<IdeaBlockLogic.Vote>>",
-          "valueType": "t_struct<IdeaBlockLogic.Vote>",
-          "length": "dyn",
-          "kind": "array",
-          "label": "IdeaBlockLogic.Vote[]"
-        },
-        "t_mapping<t_bool>": {
-          "id": "t_mapping<t_bool>",
-          "valueType": "t_bool",
-          "label": "mapping(key => bool)",
-          "kind": "mapping"
-        },
-        "t_mapping<t_struct<IdeaBlockLogic.IdeaProposal>>": {
-          "id": "t_mapping<t_struct<IdeaBlockLogic.IdeaProposal>>",
-          "valueType": "t_struct<IdeaBlockLogic.IdeaProposal>",
-          "label": "mapping(key => IdeaBlockLogic.IdeaProposal)",
-          "kind": "mapping"
-        },
-        "t_struct<IdeaBlockLogic.ReplicationInfo>": {
-          "id": "t_struct<IdeaBlockLogic.ReplicationInfo>",
-          "kind": "struct",
-          "label": "IdeaBlockLogic.ReplicationInfo",
-          "members": [
-            {
-              "label": "BlockReward",
-              "astId": 873,
-              "type": "t_uint256",
-              "src": "3960:16:2"
-            },
-            {
-              "label": "OwnersAddress",
-              "astId": 875,
-              "type": "t_address",
-              "src": "3982:21:2"
-            },
-            {
-              "label": "IdeaID",
-              "astId": 877,
-              "type": "t_uint256",
-              "src": "4009:11:2"
-            },
-            {
-              "label": "Royalty",
-              "astId": 879,
-              "type": "t_uint256",
-              "src": "4026:12:2"
-            },
-            {
-              "label": "RepID",
-              "astId": 881,
-              "type": "t_uint256",
-              "src": "4044:10:2"
-            },
-            {
-              "label": "InventorsAddress",
-              "astId": 883,
-              "type": "t_address",
-              "src": "4060:24:2"
-            },
-            {
-              "label": "ReplicationAddress",
-              "astId": 885,
-              "type": "t_address",
-              "src": "4090:26:2"
-            }
-          ]
-        },
-        "t_mapping<t_struct<IdeaBlockLogic.ReplicationInfo>>": {
-          "id": "t_mapping<t_struct<IdeaBlockLogic.ReplicationInfo>>",
-          "valueType": "t_struct<IdeaBlockLogic.ReplicationInfo>",
-          "label": "mapping(key => IdeaBlockLogic.ReplicationInfo)",
-          "kind": "mapping"
-        }
-      },
-      "storage": [
-        {
-          "contract": "Initializable",
-          "path": "zos-lib/contracts/Initializable.sol",
-          "label": "initialized",
-          "astId": 3855,
-          "type": "t_bool",
-          "src": "757:24:15"
-        },
-        {
-          "contract": "Initializable",
-          "path": "zos-lib/contracts/Initializable.sol",
-          "label": "initializing",
-          "astId": 3857,
-          "type": "t_bool",
-          "src": "876:25:15"
-        },
-        {
-          "contract": "Initializable",
-          "path": "zos-lib/contracts/Initializable.sol",
-          "label": "______gap",
-          "astId": 3906,
-          "type": "t_array:50<t_uint256>",
-          "src": "1891:29:15"
-        },
-        {
-          "contract": "Ownable",
-          "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
-          "label": "_owner",
-          "astId": 3164,
-          "type": "t_address",
-          "src": "302:22:11"
-        },
-        {
-          "contract": "Ownable",
-          "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
-          "label": "______gap",
-          "astId": 3275,
-          "type": "t_array:50<t_uint256>",
-          "src": "2186:29:11"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "DCPoA",
-          "astId": 743,
-          "type": "t_address",
-          "src": "1412:28:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "Validators",
-          "astId": 745,
-          "type": "t_address",
-          "src": "1444:33:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "globalIdeaCount",
-          "astId": 747,
-          "type": "t_uint256",
-          "src": "1736:27:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "globalBlockHalfTime",
-          "astId": 749,
-          "type": "t_uint256",
-          "src": "1767:31:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "ideaBlockReward",
-          "astId": 751,
-          "type": "t_uint256",
-          "src": "1802:27:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "repStake",
-          "astId": 753,
-          "type": "t_uint256",
-          "src": "1833:20:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "globalIdeaPropCount",
-          "astId": 755,
-          "type": "t_uint256",
-          "src": "1857:31:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "globalRepCount",
-          "astId": 757,
-          "type": "t_uint256",
-          "src": "1990:26:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "globalUseBlock",
-          "astId": 759,
-          "type": "t_uint256",
-          "src": "2020:26:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "ideaVariables",
-          "astId": 763,
-          "type": "t_mapping<t_struct<IdeaBlockLogic.IdeaBlock>>",
-          "src": "2182:47:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "IdeaAddToId",
-          "astId": 767,
-          "type": "t_mapping<t_uint256>",
-          "src": "2233:43:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "ideaProposals",
-          "astId": 771,
-          "type": "t_mapping<t_struct<IdeaBlockLogic.IdeaProposal>>",
-          "src": "2280:50:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "weightTracker",
-          "astId": 775,
-          "type": "t_mapping<t_uint256>",
-          "src": "2334:42:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "localWeightTracker",
-          "astId": 779,
-          "type": "t_mapping<t_uint256>",
-          "src": "2380:50:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "ideaRepCounter",
-          "astId": 783,
-          "type": "t_mapping<t_uint256>",
-          "src": "2695:43:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "localMiningtimeTracker",
-          "astId": 787,
-          "type": "t_mapping<t_uint256>",
-          "src": "2742:54:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "replications",
-          "astId": 791,
-          "type": "t_mapping<t_bool>",
-          "src": "2800:44:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "repInfo",
-          "astId": 795,
-          "type": "t_mapping<t_struct<IdeaBlockLogic.ReplicationInfo>>",
-          "src": "2848:50:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "repOwnes",
-          "astId": 801,
-          "type": "t_mapping<t_uint256>",
-          "src": "2902:57:2"
-        },
-        {
-          "contract": "IdeaBlockLogic",
-          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
-          "label": "getHash",
-          "astId": 805,
-          "type": "t_mapping<t_uint256>",
-          "src": "2963:31:2"
-        }
-      ],
-      "warnings": {
-        "hasConstructor": false,
-        "hasSelfDestruct": false,
-        "hasDelegateCall": false,
-        "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
-      }
-    },
     "DecentraCorpPoA": {
-      "address": "0xC6C94c867fD1657465073E446307D0b12ee73690",
-      "constructorCode": "608060405234801561001057600080fd5b506148d6806100206000396000f3fe",
-      "bodyBytecodeHash": "3aabfa0c7a246640af692d1eb9b367ddc446befd597f0fe88f0293815ae2154b",
-      "localBytecodeHash": "47455e1fb277789e78754ba91200118e3a5f3cacc30976e7b0961a96c1ca3357",
-      "deployedBytecodeHash": "47455e1fb277789e78754ba91200118e3a5f3cacc30976e7b0961a96c1ca3357",
+      "address": "0x544ED1198094a6410620cE702FE926619722b735",
+      "constructorCode": "608060405234801561001057600080fd5b506148f1806100206000396000f3fe",
+      "bodyBytecodeHash": "e6a809c2d5c978f6f512c74e6ff1bf96788ad3ae2e7793534854a4740a556b03",
+      "localBytecodeHash": "a71117f4f3aad7021b36b21aeba527478e811dd21f3da0d8fc40c4121c5e30b1",
+      "deployedBytecodeHash": "a71117f4f3aad7021b36b21aeba527478e811dd21f3da0d8fc40c4121c5e30b1",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -933,93 +503,93 @@
           "label": "mapping(key => string)",
           "kind": "mapping"
         },
-        "t_struct<DecentraCorpPoA.Proposal>": {
-          "id": "t_struct<DecentraCorpPoA.Proposal>",
+        "t_struct<DecentraCorp.Proposal>": {
+          "id": "t_struct<DecentraCorp.Proposal>",
           "kind": "struct",
-          "label": "DecentraCorpPoA.Proposal",
+          "label": "DecentraCorp.Proposal",
           "members": [
             {
               "label": "Address",
-              "astId": 2157,
+              "astId": 2239,
               "type": "t_address",
-              "src": "1910:15:9"
+              "src": "1833:15:9"
             },
             {
               "label": "PropCode",
-              "astId": 2159,
+              "astId": 2241,
               "type": "t_uint256",
-              "src": "1935:13:9"
+              "src": "1858:13:9"
             },
             {
               "label": "Amount",
-              "astId": 2161,
+              "astId": 2243,
               "type": "t_uint256",
-              "src": "1958:11:9"
+              "src": "1881:11:9"
             },
             {
               "label": "voteHash",
-              "astId": 2163,
+              "astId": 2245,
               "type": "t_string",
-              "src": "1979:15:9"
+              "src": "1902:15:9"
             },
             {
               "label": "executed",
-              "astId": 2165,
+              "astId": 2247,
               "type": "t_bool",
-              "src": "2004:13:9"
+              "src": "1927:13:9"
             },
             {
               "label": "proposalPassed",
-              "astId": 2167,
+              "astId": 2249,
               "type": "t_bool",
-              "src": "2027:19:9"
+              "src": "1950:19:9"
             },
             {
               "label": "votes",
-              "astId": 2170,
-              "type": "t_array:dyn<t_struct<DecentraCorpPoA.Vote>>",
-              "src": "2056:12:9"
+              "astId": 2252,
+              "type": "t_array:dyn<t_struct<DecentraCorp.Vote>>",
+              "src": "1979:12:9"
             },
             {
               "label": "voted",
-              "astId": 2174,
+              "astId": 2256,
               "type": "t_mapping<t_bool>",
-              "src": "2078:31:9"
+              "src": "2001:31:9"
             }
           ]
         },
-        "t_struct<DecentraCorpPoA.Vote>": {
-          "id": "t_struct<DecentraCorpPoA.Vote>",
+        "t_struct<DecentraCorp.Vote>": {
+          "id": "t_struct<DecentraCorp.Vote>",
           "kind": "struct",
-          "label": "DecentraCorpPoA.Vote",
+          "label": "DecentraCorp.Vote",
           "members": [
             {
               "label": "inSupport",
-              "astId": 2177,
+              "astId": 2259,
               "type": "t_bool",
-              "src": "2149:14:9"
+              "src": "2072:14:9"
             },
             {
               "label": "voter",
-              "astId": 2179,
+              "astId": 2261,
               "type": "t_address",
-              "src": "2177:13:9"
+              "src": "2100:13:9"
             }
           ]
         },
-        "t_array:dyn<t_struct<DecentraCorpPoA.Vote>>": {
-          "id": "t_array:dyn<t_struct<DecentraCorpPoA.Vote>>",
-          "valueType": "t_struct<DecentraCorpPoA.Vote>",
+        "t_array:dyn<t_struct<DecentraCorp.Vote>>": {
+          "id": "t_array:dyn<t_struct<DecentraCorp.Vote>>",
+          "valueType": "t_struct<DecentraCorp.Vote>",
           "length": "dyn",
           "kind": "array",
-          "label": "DecentraCorpPoA.Vote[]"
+          "label": "DecentraCorp.Vote[]"
         },
-        "t_array:dyn<t_struct<DecentraCorpPoA.Proposal>>": {
-          "id": "t_array:dyn<t_struct<DecentraCorpPoA.Proposal>>",
-          "valueType": "t_struct<DecentraCorpPoA.Proposal>",
+        "t_array:dyn<t_struct<DecentraCorp.Proposal>>": {
+          "id": "t_array:dyn<t_struct<DecentraCorp.Proposal>>",
+          "valueType": "t_struct<DecentraCorp.Proposal>",
           "length": "dyn",
           "kind": "array",
-          "label": "DecentraCorpPoA.Proposal[]"
+          "label": "DecentraCorp.Proposal[]"
         }
       },
       "storage": [
@@ -1027,7 +597,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 3832,
+          "astId": 3922,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -1035,7 +605,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 3834,
+          "astId": 3924,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -1043,7 +613,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 3883,
+          "astId": 3973,
           "type": "t_array:50<t_uint256>",
           "src": "1891:29:15"
         },
@@ -1051,7 +621,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "_owner",
-          "astId": 3141,
+          "astId": 3231,
           "type": "t_address",
           "src": "302:22:11"
         },
@@ -1059,7 +629,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "______gap",
-          "astId": 3252,
+          "astId": 3342,
           "type": "t_array:50<t_uint256>",
           "src": "2186:29:11"
         },
@@ -1067,7 +637,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_balances",
-          "astId": 3269,
+          "astId": 3359,
           "type": "t_mapping<t_uint256>",
           "src": "774:46:12"
         },
@@ -1075,7 +645,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_allowed",
-          "astId": 3275,
+          "astId": 3365,
           "type": "t_mapping<t_uint256>",
           "src": "827:66:12"
         },
@@ -1083,7 +653,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_totalSupply",
-          "astId": 3277,
+          "astId": 3367,
           "type": "t_uint256",
           "src": "900:28:12"
         },
@@ -1091,7 +661,7 @@
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "______gap",
-          "astId": 3691,
+          "astId": 3781,
           "type": "t_array:50<t_uint256>",
           "src": "7661:29:12"
         },
@@ -1099,7 +669,7 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_name",
-          "astId": 3702,
+          "astId": 3792,
           "type": "t_string",
           "src": "382:20:13"
         },
@@ -1107,7 +677,7 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_symbol",
-          "astId": 3704,
+          "astId": 3794,
           "type": "t_string",
           "src": "408:22:13"
         },
@@ -1115,7 +685,7 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_decimals",
-          "astId": 3706,
+          "astId": 3796,
           "type": "t_uint8",
           "src": "436:23:13"
         },
@@ -1123,113 +693,113 @@
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "______gap",
-          "astId": 3758,
+          "astId": 3848,
           "type": "t_array:50<t_uint256>",
           "src": "1097:29:13"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "memberCount",
-          "astId": 2072,
+          "astId": 2154,
           "type": "t_uint256",
-          "src": "902:23:9"
+          "src": "829:23:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "buyMemWindow",
-          "astId": 2074,
+          "astId": 2156,
           "type": "t_uint256",
-          "src": "930:24:9"
+          "src": "857:24:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "frozen",
-          "astId": 2076,
+          "astId": 2158,
           "type": "t_bool",
-          "src": "959:18:9"
+          "src": "886:18:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "founder",
-          "astId": 2078,
+          "astId": 2160,
           "type": "t_address",
-          "src": "982:22:9"
+          "src": "909:22:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "members",
-          "astId": 2082,
+          "astId": 2164,
           "type": "t_mapping<t_bool>",
-          "src": "1011:32:9"
+          "src": "937:32:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "memberLevel",
-          "astId": 2086,
+          "astId": 2168,
           "type": "t_mapping<t_uint256>",
-          "src": "1048:36:9"
+          "src": "974:36:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "memberProfileHash",
-          "astId": 2090,
+          "astId": 2172,
           "type": "t_mapping<t_string>",
-          "src": "1089:44:9"
+          "src": "1015:44:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "approvedContracts",
-          "astId": 2094,
+          "astId": 2176,
           "type": "t_mapping<t_bool>",
-          "src": "1226:42:9"
+          "src": "1152:42:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "getHash",
-          "astId": 2098,
+          "astId": 2180,
           "type": "t_mapping<t_uint256>",
-          "src": "1273:31:9"
+          "src": "1199:31:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "propCode",
-          "astId": 2102,
+          "astId": 2184,
           "type": "t_mapping<t_uint256>",
-          "src": "1309:32:9"
+          "src": "1235:32:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "profileComments",
-          "astId": 2106,
+          "astId": 2188,
           "type": "t_mapping<t_string>",
-          "src": "1346:42:9"
+          "src": "1272:42:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "frozenAccounts",
-          "astId": 2110,
+          "astId": 2192,
           "type": "t_mapping<t_bool>",
-          "src": "1393:39:9"
+          "src": "1319:39:9"
         },
         {
-          "contract": "DecentraCorpPoA",
-          "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp/DecentraCorp.sol",
           "label": "proposals",
-          "astId": 2113,
-          "type": "t_array:dyn<t_struct<DecentraCorpPoA.Proposal>>",
-          "src": "1441:27:9"
+          "astId": 2195,
+          "type": "t_array:dyn<t_struct<DecentraCorp.Proposal>>",
+          "src": "1364:27:9"
         }
       ],
       "warnings": {
@@ -1237,18 +807,471 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": [],
-        "storageUncheckedVars": [
-          {
-            "contract": "DecentraCorpPoA",
-            "path": "contracts/DecentraCorp/DecentraCorpPoA.sol",
-            "label": "proposals",
-            "astId": 2113,
-            "type": "t_array:dyn<t_struct<DecentraCorpPoA.Proposal>>",
-            "src": "1441:27:9"
-          }
-        ],
-        "storageDiff": []
+        "uninitializedBaseContracts": []
+      }
+    },
+    "CryptoPatentBlockchain": {
+      "address": "0xaB3F26Df789676720ac41D298acdD6E5F6A7f07B",
+      "constructorCode": "608060405234801561001057600080fd5b506145f4806100206000396000f3fe",
+      "bodyBytecodeHash": "9b05f75c77c403e4114a457cbd591af8e654598154b90dd538d16f5326ca9610",
+      "localBytecodeHash": "4df483f323099662310c778ed21e13dc949695e1a3443d96078dc91a61e495e3",
+      "deployedBytecodeHash": "4df483f323099662310c778ed21e13dc949695e1a3443d96078dc91a61e495e3",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<IdeaBlockLogic.IdeaBlock>": {
+          "id": "t_struct<IdeaBlockLogic.IdeaBlock>",
+          "kind": "struct",
+          "label": "IdeaBlockLogic.IdeaBlock",
+          "members": [
+            {
+              "label": "globalUseBlockAmount",
+              "astId": 902,
+              "type": "t_uint256",
+              "src": "3860:25:2"
+            },
+            {
+              "label": "royalty",
+              "astId": 904,
+              "type": "t_uint256",
+              "src": "3891:12:2"
+            },
+            {
+              "label": "miningTime",
+              "astId": 906,
+              "type": "t_uint256",
+              "src": "3909:15:2"
+            },
+            {
+              "label": "stakeAmount",
+              "astId": 908,
+              "type": "t_uint256",
+              "src": "3930:16:2"
+            },
+            {
+              "label": "inventorAddress",
+              "astId": 910,
+              "type": "t_address",
+              "src": "3952:23:2"
+            },
+            {
+              "label": "inventionAddress",
+              "astId": 912,
+              "type": "t_address",
+              "src": "3981:24:2"
+            },
+            {
+              "label": "IPFShash",
+              "astId": 914,
+              "type": "t_string",
+              "src": "4011:15:2"
+            }
+          ]
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_mapping<t_struct<IdeaBlockLogic.IdeaBlock>>": {
+          "id": "t_mapping<t_struct<IdeaBlockLogic.IdeaBlock>>",
+          "valueType": "t_struct<IdeaBlockLogic.IdeaBlock>",
+          "label": "mapping(key => IdeaBlockLogic.IdeaBlock)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_struct<IdeaBlockLogic.IdeaProposal>": {
+          "id": "t_struct<IdeaBlockLogic.IdeaProposal>",
+          "kind": "struct",
+          "label": "IdeaBlockLogic.IdeaProposal",
+          "members": [
+            {
+              "label": "IdeaIPFS",
+              "astId": 871,
+              "type": "t_string",
+              "src": "3355:15:2"
+            },
+            {
+              "label": "executed",
+              "astId": 873,
+              "type": "t_bool",
+              "src": "3379:13:2"
+            },
+            {
+              "label": "proposalPassed",
+              "astId": 875,
+              "type": "t_bool",
+              "src": "3401:19:2"
+            },
+            {
+              "label": "globalUseBlockAmount",
+              "astId": 877,
+              "type": "t_uint256",
+              "src": "3429:25:2"
+            },
+            {
+              "label": "royalty",
+              "astId": 879,
+              "type": "t_uint256",
+              "src": "3463:12:2"
+            },
+            {
+              "label": "miningTime",
+              "astId": 881,
+              "type": "t_uint256",
+              "src": "3484:15:2"
+            },
+            {
+              "label": "stakeAmount",
+              "astId": 883,
+              "type": "t_uint256",
+              "src": "3508:16:2"
+            },
+            {
+              "label": "inventorAddress",
+              "astId": 885,
+              "type": "t_address",
+              "src": "3533:23:2"
+            },
+            {
+              "label": "inventionAddress",
+              "astId": 887,
+              "type": "t_address",
+              "src": "3565:24:2"
+            },
+            {
+              "label": "votes",
+              "astId": 890,
+              "type": "t_array:dyn<t_struct<IdeaBlockLogic.Vote>>",
+              "src": "3598:12:2"
+            },
+            {
+              "label": "voted",
+              "astId": 894,
+              "type": "t_mapping<t_bool>",
+              "src": "3619:31:2"
+            }
+          ]
+        },
+        "t_struct<IdeaBlockLogic.Vote>": {
+          "id": "t_struct<IdeaBlockLogic.Vote>",
+          "kind": "struct",
+          "label": "IdeaBlockLogic.Vote",
+          "members": [
+            {
+              "label": "inSupport",
+              "astId": 897,
+              "type": "t_bool",
+              "src": "3684:14:2"
+            },
+            {
+              "label": "voter",
+              "astId": 899,
+              "type": "t_address",
+              "src": "3710:13:2"
+            }
+          ]
+        },
+        "t_array:dyn<t_struct<IdeaBlockLogic.Vote>>": {
+          "id": "t_array:dyn<t_struct<IdeaBlockLogic.Vote>>",
+          "valueType": "t_struct<IdeaBlockLogic.Vote>",
+          "length": "dyn",
+          "kind": "array",
+          "label": "IdeaBlockLogic.Vote[]"
+        },
+        "t_mapping<t_bool>": {
+          "id": "t_mapping<t_bool>",
+          "valueType": "t_bool",
+          "label": "mapping(key => bool)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_struct<IdeaBlockLogic.IdeaProposal>>": {
+          "id": "t_mapping<t_struct<IdeaBlockLogic.IdeaProposal>>",
+          "valueType": "t_struct<IdeaBlockLogic.IdeaProposal>",
+          "label": "mapping(key => IdeaBlockLogic.IdeaProposal)",
+          "kind": "mapping"
+        },
+        "t_struct<IdeaBlockLogic.ReplicationInfo>": {
+          "id": "t_struct<IdeaBlockLogic.ReplicationInfo>",
+          "kind": "struct",
+          "label": "IdeaBlockLogic.ReplicationInfo",
+          "members": [
+            {
+              "label": "BlockReward",
+              "astId": 917,
+              "type": "t_uint256",
+              "src": "4122:16:2"
+            },
+            {
+              "label": "OwnersAddress",
+              "astId": 919,
+              "type": "t_address",
+              "src": "4144:21:2"
+            },
+            {
+              "label": "IdeaID",
+              "astId": 921,
+              "type": "t_uint256",
+              "src": "4171:11:2"
+            },
+            {
+              "label": "Royalty",
+              "astId": 923,
+              "type": "t_uint256",
+              "src": "4188:12:2"
+            },
+            {
+              "label": "RepID",
+              "astId": 925,
+              "type": "t_uint256",
+              "src": "4206:10:2"
+            },
+            {
+              "label": "InventorsAddress",
+              "astId": 927,
+              "type": "t_address",
+              "src": "4222:24:2"
+            },
+            {
+              "label": "ReplicationAddress",
+              "astId": 929,
+              "type": "t_address",
+              "src": "4252:26:2"
+            }
+          ]
+        },
+        "t_mapping<t_struct<IdeaBlockLogic.ReplicationInfo>>": {
+          "id": "t_mapping<t_struct<IdeaBlockLogic.ReplicationInfo>>",
+          "valueType": "t_struct<IdeaBlockLogic.ReplicationInfo>",
+          "label": "mapping(key => IdeaBlockLogic.ReplicationInfo)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "zos-lib/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 3922,
+          "type": "t_bool",
+          "src": "757:24:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "zos-lib/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 3924,
+          "type": "t_bool",
+          "src": "876:25:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "zos-lib/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 3973,
+          "type": "t_array:50<t_uint256>",
+          "src": "1891:29:15"
+        },
+        {
+          "contract": "Ownable",
+          "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 3231,
+          "type": "t_address",
+          "src": "302:22:11"
+        },
+        {
+          "contract": "Ownable",
+          "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 3342,
+          "type": "t_array:50<t_uint256>",
+          "src": "2186:29:11"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "DCPoA",
+          "astId": 775,
+          "type": "t_address",
+          "src": "1409:25:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "Validators",
+          "astId": 777,
+          "type": "t_address",
+          "src": "1438:33:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "globalIdeaCount",
+          "astId": 779,
+          "type": "t_uint256",
+          "src": "1730:27:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "globalBlockHalfTime",
+          "astId": 781,
+          "type": "t_uint256",
+          "src": "1761:31:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "ideaBlockReward",
+          "astId": 783,
+          "type": "t_uint256",
+          "src": "1796:27:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "globalIdeaPropCount",
+          "astId": 785,
+          "type": "t_uint256",
+          "src": "1827:31:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "globalRepCount",
+          "astId": 787,
+          "type": "t_uint256",
+          "src": "1960:26:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "globalUseBlock",
+          "astId": 789,
+          "type": "t_uint256",
+          "src": "1990:26:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "ideaVariables",
+          "astId": 793,
+          "type": "t_mapping<t_struct<IdeaBlockLogic.IdeaBlock>>",
+          "src": "2152:47:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "IdeaAddToId",
+          "astId": 797,
+          "type": "t_mapping<t_uint256>",
+          "src": "2203:43:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "ideaProposals",
+          "astId": 801,
+          "type": "t_mapping<t_struct<IdeaBlockLogic.IdeaProposal>>",
+          "src": "2250:50:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "weightTracker",
+          "astId": 805,
+          "type": "t_mapping<t_uint256>",
+          "src": "2304:42:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "localWeightTracker",
+          "astId": 809,
+          "type": "t_mapping<t_uint256>",
+          "src": "2350:50:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "ideaRepCounter",
+          "astId": 813,
+          "type": "t_mapping<t_uint256>",
+          "src": "2665:43:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "localMiningtimeTracker",
+          "astId": 817,
+          "type": "t_mapping<t_uint256>",
+          "src": "2712:54:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "replications",
+          "astId": 821,
+          "type": "t_mapping<t_bool>",
+          "src": "2770:44:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "repInfo",
+          "astId": 825,
+          "type": "t_mapping<t_struct<IdeaBlockLogic.ReplicationInfo>>",
+          "src": "2818:50:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "repOwnes",
+          "astId": 831,
+          "type": "t_mapping<t_uint256>",
+          "src": "2872:57:2"
+        },
+        {
+          "contract": "IdeaBlockLogic",
+          "path": "contracts/CryptoPatent/IdeaBlockLogic.sol",
+          "label": "getHash",
+          "astId": 835,
+          "type": "t_mapping<t_uint256>",
+          "src": "2933:31:2"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
       }
     }
   },
@@ -1256,48 +1279,43 @@
   "proxies": {
     "DecentraCorp/CryptoPatentBlockchain": [
       {
-        "address": "0xD7985c173553d57bA546403e3379ce4540DbB876",
+        "address": "0x71b3fAf66baFCdC1bc3d15f74b7e1a4D3c181f35",
         "version": "0.1.0",
-        "implementation": "0x0998584c27bF38379fB1cBdA77838f0820B47818"
-      },
-      {
-        "address": "0xAef71a5ede41692746b354D700893A40662E1A56",
-        "version": "0.1.0",
-        "implementation": "0x0998584c27bF38379fB1cBdA77838f0820B47818"
+        "implementation": "0xaB3F26Df789676720ac41D298acdD6E5F6A7f07B"
       }
     ],
     "DecentraCorp/DecentraCorpPoA": [
       {
-        "address": "0x3fAb0cC32F60DccA88368e550692bf753b329A77",
+        "address": "0x4a569Ae95f8eDBdE1E6B9E8d65529e28445ea164",
         "version": "0.1.0",
-        "implementation": "0xC6C94c867fD1657465073E446307D0b12ee73690"
-      }
-    ],
-    "DecentraCorp/ChaosCasino": [
-      {
-        "address": "0xd48e2d6b8b482B01164c6b448746a145E7b48C69",
-        "version": "0.1.0",
-        "implementation": "0x1D0569E5CaeeE8e6a618A6047c961d49a6306615"
+        "implementation": "0x544ED1198094a6410620cE702FE926619722b735"
       }
     ],
     "DecentraCorp/DC_Depot": [
       {
-        "address": "0xEf1389beb9b9d9dF39E2753D53C1eA8Ab970A5A7",
+        "address": "0x1167e5a0531378e79135Ca62b81BbF345fbF0844",
         "version": "0.1.0",
-        "implementation": "0x333D1D44C9E5EbfB8A3eE1d34f5068f3dB95Acbe"
+        "implementation": "0x7F73B3079ea0f1210eEe60DD329feD57F66D6B4B"
+      }
+    ],
+    "DecentraCorp/ChaosCasino": [
+      {
+        "address": "0x91fa7244258d8F83744b152C9A9b3E9c60b58cDA",
+        "version": "0.1.0",
+        "implementation": "0xBd66b61A4EbE469d019a6ED3FeC86c34F328D974"
       }
     ]
   },
   "zosversion": "2.2",
-  "version": "0.1.0",
   "dependencies": {
     "openzeppelin-eth": {
-      "package": "0xABc9cff9ef0ef69c4F5f7189511e1097fF02F5BB",
+      "package": "0x1D0569E5CaeeE8e6a618A6047c961d49a6306615",
       "version": "2.1.3",
       "customDeploy": true
     }
   },
+  "version": "0.1.0",
   "proxyAdmin": {
-    "address": "0x8E83aBf6B9ACB751F1bE324835830064D9C0725c"
+    "address": "0x5355c3300C123D395AA280Fa846f586d3082B5C0"
   }
 }

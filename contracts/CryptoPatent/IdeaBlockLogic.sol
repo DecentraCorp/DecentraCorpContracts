@@ -7,7 +7,7 @@ import "openzeppelin-eth/contracts/ownership/Ownable.sol";
 /// @notice this contract is built using the Ownership contract from the zeppelin-solidity library
 /// @dev All function calls are currently implement without side effects
 ////////////////////////////////////////////////////////////////////////////////////////////
-contract DecentraCorpPoA {
+contract DecentraCorp {
   function proxyNTCMint(address _add, uint _amount) external;
   function proxyNTCBurn(address _add, uint _amount) external;
   function _addMember(address _mem) external;
@@ -25,7 +25,7 @@ contract DecentraCorpPoA {
 /////////////////////////////////////////////////////////////////////////////////////////////
 contract IdeaBlockLogic is Initializable, Ownable {
 
-  DecentraCorpPoA public DCPoA;
+  DecentraCorp public DCPoA;
   RelayedOwnedSet public Validators;
 
   ///@param globalIdeaCount tracks amount of ideas on the CryptoPatent Blockchain
@@ -35,7 +35,6 @@ contract IdeaBlockLogic is Initializable, Ownable {
   uint public globalIdeaCount;
   uint public globalBlockHalfTime;
   uint public ideaBlockReward;
-  uint public repStake;
   uint public globalIdeaPropCount;
   ///@param globalRepCount tracks the total number of replications on the CryptoPatent Blockchain
   uint public globalRepCount;
@@ -59,6 +58,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
   mapping(address => mapping(uint => uint)) public repOwnes;
   mapping(string => uint) getHash;
 
+
   event IdeaProposed(string IPFS);
   event NewMember(address member);
   event IdeaApproved(string IPFS);
@@ -73,6 +73,12 @@ contract IdeaBlockLogic is Initializable, Ownable {
        string IdeaIPFS;
        bool executed;
        bool proposalPassed;
+       uint globalUseBlockAmount;
+       uint royalty;
+       uint miningTime;
+       uint stakeAmount;
+       address inventorAddress;
+       address inventionAddress;
        Vote[] votes;
        mapping (address => bool) voted;
    }
@@ -88,6 +94,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
     uint globalUseBlockAmount;
     uint royalty;
     uint miningTime;
+    uint stakeAmount;
     address inventorAddress;
     address inventionAddress;
     string IPFShash;
@@ -114,6 +121,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
     uint  _globalUseBlockAmount,
     uint _miningTime,
     uint _royalty,
+    uint _stakeAmount,
     address _inventor,
     address _invention
     )
@@ -126,6 +134,7 @@ internal
         globalUseBlockAmount: uint(_globalUseBlockAmount),
         royalty: uint(_royalty),
         miningTime: uint(_miningTime),
+        stakeAmount: uint(_stakeAmount),
         inventorAddress: address(_inventor),
         inventionAddress: address(_invention),
         IPFShash: string(_ideaIPFS)
@@ -141,7 +150,6 @@ internal
         }
         //mints 1000 DCPoA and sends it to the inventor
         DCPoA.increaseMemLev(_inventor);
-
     }
 
   ///@notice ideaBlockTimeLord is called to half an ideablock reward every two years

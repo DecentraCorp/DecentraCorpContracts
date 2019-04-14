@@ -16,10 +16,13 @@ contract UseBlockLogic is RepBlockLogic {
   //sets ideaID as a specific replications ideaID from a rep struct
     uint royalty = infoR.Royalty;
   //sets royalty as a specific replications royalty from a rep struct
-    uint BlockReward =  infoR.BlockReward;
+    uint blockReward =  infoR.BlockReward;
   //sets BlockReward as the block reward for a specific idea
+
+    uint poolModedBlockReward = poolMiningCalculator(blockReward, ideaID, repOwnerAddress);
+
     globalUseBlock++;
-    DCPoA.proxyNTCMint(repOwnerAddress, BlockReward);
+    DCPoA.proxyNTCMint(repOwnerAddress, poolModedBlockReward);
   //mints the replication Owner his block reward
     DCPoA.proxyNTCMint(inventor, royalty);
   //mints royalties to the idea inventor
@@ -61,5 +64,10 @@ contract UseBlockLogic is RepBlockLogic {
     }
   }
 
+function poolMiningCalculator(uint _blockReward, uint _ideaId, address _owner) internal view returns(uint){
+  uint numberOfRepsOwned = repOwnes[_owner][_ideaId];
+  return _blockReward * numberOfRepsOwned;
+
+}
 
 }

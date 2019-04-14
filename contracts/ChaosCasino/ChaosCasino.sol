@@ -45,14 +45,13 @@ contract ChaosCasino is Initializable, Ownable, ERC20, ERC20Detailed {
      function initialize() public initializer {
      Ownable.initialize(msg.sender);
      ERC20Detailed.initialize("ChaosCoin", "CCC", 18);
-     randNum = 9236490572340523496;
-     _mint(msg.sender, 1000000000000000000000000);
+     randNum = 8675309;
      }
 
 
 
 ///@notice folowing three function allow for contract upgrades
-  function setCPGAdd(address _add) public onlyOwner {
+  function setCPBAdd(address _add) public onlyOwner {
     CPB = CryptoPatentBlockchain(_add);
   }
 

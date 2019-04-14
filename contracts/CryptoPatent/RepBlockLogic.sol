@@ -10,11 +10,11 @@ contract RepBlockLogic is IdeaBlockLogic {
   ///@dev it also adds the replicator as a member of DecentraCorp
   ///@dev finally, this contract calls the Proof of Replication Ownership contract and mints a PoRO token to the msg.sender
   function generateReplicationBlock(uint _ideaId, address _repAdd) public  {
-  require(DCPoA._checkIfMember(msg.sender));
-  DCPoA.proxyNTCBurn(msg.sender, repStake);
-  globalRepCount++;
-
   IdeaBlock memory info = ideaVariables[_ideaId];
+
+  require(DCPoA._checkIfMember(msg.sender));
+  DCPoA.proxyNTCBurn(msg.sender, info.stakeAmount);
+  globalRepCount++;
 
   uint RepBlockReward  = info.globalUseBlockAmount;
   //sets RepBlockReward as the specific rep block amount Stored for an idea

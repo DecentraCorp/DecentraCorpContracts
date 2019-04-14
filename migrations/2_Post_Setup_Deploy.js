@@ -1,14 +1,8 @@
-var Notio = artifacts.require("./CryptoPatent/Notio.sol");
+
 var DCPoA = artifacts.require("./DecentraCorp/DecentraCorpPoA.sol");
-var IdeaBlockGen = artifacts.require("./CryptoPatent/IdeaBlockGenerator.sol");
-var RepBlockGen = artifacts.require("./CryptoPatent/ReplicationBlockGenerator.sol");
-var UseBlockGen = artifacts.require("./CryptoPatent/GlobalUseBlockGenerator.sol");
 var CryptoPatent = artifacts.require("./CryptoPatent/CryptoPatentBlockchain.sol");
-var ChaosCoin = artifacts.require("./ChaosCasino/ChaosCoin.sol");
 var ChaosCasino = artifacts.require("./ChaosCasino/ChaosCasino.sol");
-var PoPT = artifacts.require("./DC_Depot/ProofOfPurchaseToken.sol");
 var Depot = artifacts.require("./DC_Depot/DC_Depot.sol");
-var BlockGen = artifacts.require("./CryptoPatent/CryptoPatentBlockchain.sol");
 
 
 

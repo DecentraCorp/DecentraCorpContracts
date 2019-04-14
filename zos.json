@@ -5,7 +5,7 @@
   "contracts": {
     "ChaosCasino": "ChaosCasino",
     "DC_Depot": "DC_Depot",
-    "DecentraCorpPoA": "DecentraCorpPoA",
+    "DecentraCorpPoA": "DecentraCorp",
     "CryptoPatentBlockchain": "CryptoPatentBlockchain"
   },
   "dependencies": {

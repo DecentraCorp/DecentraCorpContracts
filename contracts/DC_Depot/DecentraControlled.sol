@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 import "zos-lib/contracts/Initializable.sol";
 import "openzeppelin-eth/contracts/ownership/Ownable.sol";
 /////////////////////////////////////////////////////////////////////////////////////////////
-contract DecentraCorpPoA {
+contract DecentraCorp {
   function proxyNTCMint(address _add, uint _amount) external;
   function proxyNTCBurn(address _add, uint _amount) external;
   function getLevel(address _add) public view returns(uint);
@@ -13,7 +13,7 @@ contract DecentraCorpPoA {
 contract DecentraControlled is Initializable, Ownable {
 
 
-  DecentraCorpPoA public DCPoA;
+  DecentraCorp public DCPoA;
 
 
   uint public globalItemCount;
@@ -78,8 +78,8 @@ IPFS Hash
   }
 
 
-  function DCTokenHF(address _newDCAdd) public onlyOwner {
-    DCPoA = DecentraCorpPoA(_newDCAdd);
+  function DCcontractHF(address _newDCAdd) public onlyOwner {
+    DCPoA = DecentraCorp(_newDCAdd);
   }
 
 
