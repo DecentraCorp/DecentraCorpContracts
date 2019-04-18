@@ -2,31 +2,22 @@ pragma solidity ^0.5.0;
 import './RepBlockLogic.sol';
 
 contract UseBlockLogic is RepBlockLogic {
-
   ///@notice generateGlobalUseBlock is an internal function called when the cryptopatent blockchain has determined
   ///        that a replication has mined a global use block.
   function generateGlobalUseBlock(address _rep) internal {
   ReplicationInfo memory infoR = repInfo[_rep];
+  //pulls a specific replications information in to be used as the variable infoR
 
-    address repOwnerAddress = infoR.OwnersAddress;
-  //sets repOwnerAddress as a specific replications owner from a rep struct
-    address inventor = infoR.InventorsAddress;
-  //sets inventor as a specific idea owner from a rep struct
-    uint ideaID = infoR.IdeaID;
-  //sets ideaID as a specific replications ideaID from a rep struct
-    uint royalty = infoR.Royalty;
-  //sets royalty as a specific replications royalty from a rep struct
-    uint blockReward =  infoR.BlockReward;
-  //sets BlockReward as the block reward for a specific idea
-
-    uint poolModedBlockReward = poolMiningCalculator(blockReward, ideaID, repOwnerAddress);
-
+    uint poolModedBlockReward = infoR.BlockReward * repOwnes[infoR.OwnersAddress][infoR.IdeaID];
+  // sets poolModedBlockReward equal to the block reward for a specific replications
+  // and multiplies it by how many replications a member owns. this is the pool mining bonus
     globalUseBlock++;
-    DCPoA.proxyNTCMint(repOwnerAddress, poolModedBlockReward);
-  //mints the replication Owner his block reward
-    DCPoA.proxyNTCMint(inventor, royalty);
+  //increases the Global UseBlock count
+    DCPoA.proxyNTCMint(infoR.OwnersAddress, poolModedBlockReward);
+  //mints the replication Owner his modded block reward
+    DCPoA.proxyNTCMint(infoR.InventorsAddress, infoR.Royalty);
   //mints royalties to the idea inventor
-    emit GlobalUseBlock(_rep, ideaID);
+    emit GlobalUseBlock(_rep, infoR.IdeaID);
   }
 
   ///@notice UseBlockWeight is an internal function that tracks loacal use weightTracker
@@ -36,38 +27,36 @@ contract UseBlockLogic is RepBlockLogic {
     address _rep = msg.sender;
 
     ReplicationInfo memory infoR = repInfo[_rep];
-
+  //pulls a specific replications information in to be used as the variable infoR
     uint ideaID = infoR.IdeaID;
   //sets ideaID as a specific ideaID from the replications struct
     IdeaBlock memory info = ideaVariables[ideaID];
-
-    uint weight = localWeightTracker[_rep];
-  // sets weight equal to the current weight of a specific replication
-    uint newWeight = weight + 1;
+  //pulls a specific idea struct int to be used as the variable info
+    uint newWeight = localWeightTracker[_rep] + 1;
   // increases the weight of a specific replication
-    uint globalWeight = weightTracker[ideaID];
-
     require(now >= localMiningtimeTracker[_rep] +  info.miningTime);
+  //requires the time the function is called to be later than the combined total of its last call
+  //and the specific ideas mining time resraint
   //this require fails if the rep is calling to frequently
-    localWeightTracker[_rep] = newWeight;
-  //sets the newWeight for that specific replication
-    if(newWeight > globalWeight) {
+    if(newWeight > weightTracker[ideaID]) {
   //checks if the replication has the heaviest weight
     generateGlobalUseBlock(_rep);
   //if it does it generates a global use block
-      localMiningtimeTracker[_rep] = now;
+     localMiningtimeTracker[_rep] = now;
   //resets the global mining time for a specific idea after a useBlock is mined
      weightTracker[ideaID] = newWeight;
-  }else {
+  //sets the global block height to the weight of the mining replication
+     localWeightTracker[_rep] = 0;
+  //resets the local weight tracker for the mining replication
+  } else {
+    //if the replications weight is not heavy enough to mine a new block
       localMiningtimeTracker[_rep] = now;
+    //set its local mining time tracker to the current time so it cant abuse the mining function
+      localWeightTracker[_rep] = newWeight;
+    //setts the local weight tracker for the rep to its new weight
       emit LocalUseWeight(_rep, newWeight);
+    //emit event signaling that a replication mined a local weight without a global Useblock
     }
   }
-
-function poolMiningCalculator(uint _blockReward, uint _ideaId, address _owner) internal view returns(uint){
-  uint numberOfRepsOwned = repOwnes[_owner][_ideaId];
-  return _blockReward * numberOfRepsOwned;
-
-}
 
 }

@@ -9,13 +9,17 @@ contract RepBlockLogic is IdeaBlockLogic {
   ///@dev this requires the replicator has enough Notio to meet the stake amount and burns it from existence
   ///@dev it also adds the replicator as a member of DecentraCorp
   ///@dev finally, this contract calls the Proof of Replication Ownership contract and mints a PoRO token to the msg.sender
-  function generateReplicationBlock(uint _ideaId, address _repAdd) public  {
+  function generateReplicationBlock(uint _ideaId, address _repAdd, string memory _userId) public  {
+    address member = DCPoA.getAddFromPass(_userId);
+ //pulls the members address in from his username/password combo
   IdeaBlock memory info = ideaVariables[_ideaId];
-
-  require(DCPoA._checkIfMember(msg.sender));
-  DCPoA.proxyNTCBurn(msg.sender, info.stakeAmount);
+//pulls the ideas variables in as info
+  require(DCPoA._checkIfMember(member));
+//requires the address of the member is an active member
+  DCPoA.proxyNTCBurn(member, info.stakeAmount);
+//burns the stake amount for the specific Idea from the members account
   globalRepCount++;
-
+//increases the Global Replication coount
   uint RepBlockReward  = info.globalUseBlockAmount;
   //sets RepBlockReward as the specific rep block amount Stored for an idea
   uint royalty = info.royalty;
@@ -29,7 +33,7 @@ contract RepBlockLogic is IdeaBlockLogic {
 
   ReplicationInfo memory _info = ReplicationInfo({
     BlockReward: uint( blockReward),
-    OwnersAddress: address(msg.sender),
+    OwnersAddress: address(member),
     IdeaID: uint(_ideaId),
     Royalty: uint(royalty),
     RepID: uint(_repId),
@@ -41,15 +45,16 @@ contract RepBlockLogic is IdeaBlockLogic {
     repInfo[_repAdd] = _info;
     //stores new struct stored at the replications address
     uint ideaRepCount = ideaRepCounter[_ideaId];
+    //sets var ideaRepCount equal to the rep count for the idea
     ideaRepCounter[_ideaId] = ideaRepCount++;
     //increments the global rep count for a specific idea
     replications[_repAdd] = true;
     //stores replications address as a replicator
-    uint ownerRepCount = repOwnes[msg.sender][_ideaId];
+    uint ownerRepCount = repOwnes[member][_ideaId];
     //sets ownerRepCount to how many replications of a specific idea a replicator owns
-    repOwnes[msg.sender][_ideaId] = ownerRepCount++;
+    repOwnes[member][_ideaId] = ownerRepCount++;
     //increments the amount of replications for an idea a replicator owns
-    DCPoA.increaseMemLev(msg.sender);
+    DCPoA.increaseMemLev(member);
     localMiningtimeTracker[_repAdd] = now;
     emit NewReplication(_repAdd);
     }

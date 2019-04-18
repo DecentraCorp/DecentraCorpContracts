@@ -28,6 +28,8 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
    mapping(string => uint) propCode;
    mapping(address => string) profileComments;
    mapping(address => bool) frozenAccounts;
+   mapping(bytes32 => address) passwords;
+
 
    Proposal[] public proposals;
 
@@ -72,6 +74,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
      memberCount = memberCount + 1;
      memberLevel[msg.sender] += 100;
      memberProfileHash[msg.sender] = "QmSu93p6XRanSNmov4e5c8VQPBxKo2zWf1jZpvVTfwi2L9";
+     passwords[0x0e46372e12408078737eee1b57870ca6632577bbd32effe3bb4f26f0e51989f9] = msg.sender;
      founder = msg.sender;
      buyMemWindow = now;
      _mint(msg.sender, 1000000000000000000000000);
@@ -209,11 +212,12 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
 
 ///@notice addMember function is an internal function for adding a member to decentracorp
 ///@dev addMember takes in an address _mem, sets its membership to true and increments their rank by one
-  function _addMember(address _mem) external onlyApprovedAdd {
+  function _addMember(address _mem, string calldata _userId) external onlyApprovedAdd {
       require(_checkIfFrozen(_mem) == false);
       members[_mem] = true;
       memberLevel[_mem]++;
       memberCount = memberCount + 1;
+      passwords[keccak256(abi.encodePacked(_userId))] = _mem;
   }
 
 
@@ -286,13 +290,14 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
     }
     ///@notice buyMembership function allows for the purchase of a membership for 6 months after official launch.
     ///@dev mints the user 10,000 DCPoA
-      function buyMembership(address _newMem, address _facility, string memory _hash) public {
+      function buyMembership(address _newMem, address _facility, string memory _hash, string memory _userId) public {
         require(_checkIfFrozen(_newMem) == false);
         require(now <= buyMemWindow + 15780000 seconds);
           members[_newMem] = true;
           memberLevel[_newMem]++;
           memberCount = memberCount + 1;
           memberProfileHash[_newMem] = _hash;
+          passwords[keccak256(abi.encodePacked(_userId))] = _newMem;
           _mint(msg.sender, 1000000000000000000000);
         emit NewMember(_newMem, _facility, _hash);
       }
@@ -300,5 +305,9 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
       function updateProfile(string memory _newHash) public {
             memberProfileHash[msg.sender] = _newHash;
           emit ProfileUpdated(msg.sender);
+      }
+
+      function getAddFromPass(string memory _userId) public view returns(address) {
+        return passwords[keccak256(abi.encodePacked(_userId))];
       }
  }

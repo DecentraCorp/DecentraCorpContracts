@@ -10,11 +10,12 @@ import "openzeppelin-eth/contracts/ownership/Ownable.sol";
 contract DecentraCorp {
   function proxyNTCMint(address _add, uint _amount) external;
   function proxyNTCBurn(address _add, uint _amount) external;
-  function _addMember(address _mem) external;
+  function _addMember(address _mem, string calldata _userId) external;
   function _checkIfMember(address _member) public view returns(bool);
   function increaseMemLev(address _add) external;
   function setProfileHash(address _add, string memory _hash) public;
   function getMemberCount() public view returns(uint);
+  function getAddFromPass(string memory _userId) public view returns(address);
 }
 /// DecentraCorp PoA inteface
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +72,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
   ///@struct IdeaProposal stores info of a proposal
   struct IdeaProposal {
        string IdeaIPFS;
+       string UserId;
        bool executed;
        bool proposalPassed;
        uint globalUseBlockAmount;
@@ -145,9 +147,6 @@ internal
         Validators.addValidator(_invention);
         ideaBlockTimeLord();
         DCPoA.proxyNTCMint( _inventor, ideaBlockReward);
-        if(DCPoA._checkIfMember(_inventor) != true){
-          DCPoA._addMember(_inventor);
-        }
         //mints 1000 DCPoA and sends it to the inventor
         DCPoA.increaseMemLev(_inventor);
     }
