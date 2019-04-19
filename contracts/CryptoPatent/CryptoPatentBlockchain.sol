@@ -17,7 +17,6 @@ contract CryptoPatentBlockchain is UseBlockLogic {
   ///@dev idea proposals are put up for community approval
   function proposeIdea(
     string memory _ideaIPFS,
-    string memory _userId,
     uint _globalUseBlockAmount,
     uint _miningTime,
     uint _royalty,
@@ -31,7 +30,6 @@ contract CryptoPatentBlockchain is UseBlockLogic {
 
           IdeaProposal storage p = ideaProposals[IdeaProposalID];
           p.IdeaIPFS = _ideaIPFS;
-          p.UserId = _userId;
           p.executed = false;
           p.proposalPassed = false;
           p.globalUseBlockAmount = _globalUseBlockAmount;
@@ -90,7 +88,6 @@ contract CryptoPatentBlockchain is UseBlockLogic {
           IdeaProposal storage p = ideaProposals[_ideaProposalID];
                // sets p equal to the specific proposalNumbers struct
           string memory _ideahash = p.IdeaIPFS;
-          string memory _userId = p.UserId;
           uint _globalUseBlockAmount = p.globalUseBlockAmount;
           uint _miningTime = p.miningTime;
           uint _royalty = p.royalty;
@@ -115,9 +112,6 @@ contract CryptoPatentBlockchain is UseBlockLogic {
                    // Proposal passed; execute the transaction
                  p.executed = true;
                  p.proposalPassed = true;
-                 if(DCPoA._checkIfMember(_inventor) != true){
-                   DCPoA._addMember(_inventor, _userId);
-                 }
                  generateIdeaBlock( _ideahash, _globalUseBlockAmount, _miningTime, _royalty, _stakeAmount, _inventor, _invention);
                  emit IdeaApproved( _ideahash);
              } else {

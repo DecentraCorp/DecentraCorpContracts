@@ -72,7 +72,6 @@ contract IdeaBlockLogic is Initializable, Ownable {
   ///@struct IdeaProposal stores info of a proposal
   struct IdeaProposal {
        string IdeaIPFS;
-       string UserId;
        bool executed;
        bool proposalPassed;
        uint globalUseBlockAmount;
