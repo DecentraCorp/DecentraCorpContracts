@@ -7,17 +7,15 @@ contract UseBlockLogic is RepBlockLogic {
   function generateGlobalUseBlock(address _rep) internal {
   ReplicationInfo memory infoR = repInfo[_rep];
   //pulls a specific replications information in to be used as the variable infoR
-
-    uint poolModedBlockReward = infoR.BlockReward * repOwnes[infoR.OwnersAddress][infoR.IdeaID];
   // sets poolModedBlockReward equal to the block reward for a specific replications
   // and multiplies it by how many replications a member owns. this is the pool mining bonus
     globalUseBlock++;
   //increases the Global UseBlock count
-    DCPoA.proxyNTCMint(infoR.OwnersAddress, poolModedBlockReward);
+    DCPoA.proxyNTCMint(infoR.OwnersAddress, infoR.BlockReward);
   //mints the replication Owner his modded block reward
     DCPoA.proxyNTCMint(infoR.InventorsAddress, infoR.Royalty);
   //mints royalties to the idea inventor
-    emit GlobalUseBlock(_rep, infoR.IdeaID);
+    emit GlobalUseBlock(_rep, infoR.OwnersAddress, infoR.IdeaID);
   }
 
   ///@notice UseBlockWeight is an internal function that tracks loacal use weightTracker
@@ -54,7 +52,7 @@ contract UseBlockLogic is RepBlockLogic {
     //set its local mining time tracker to the current time so it cant abuse the mining function
       localWeightTracker[_rep] = newWeight;
     //setts the local weight tracker for the rep to its new weight
-      emit LocalUseWeight(_rep, newWeight);
+      emit LocalUseWeight(_rep, infoR.OwnersAddress, newWeight);
     //emit event signaling that a replication mined a local weight without a global Useblock
     }
   }

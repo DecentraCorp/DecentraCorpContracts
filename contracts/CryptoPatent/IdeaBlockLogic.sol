@@ -58,15 +58,16 @@ contract IdeaBlockLogic is Initializable, Ownable {
   mapping(address => ReplicationInfo) public repInfo;
   mapping(address => mapping(uint => uint)) public repOwnes;
   mapping(string => uint) getHash;
+  mapping(address => uint[]) ideaBlocksOwned;
 
 
   event IdeaProposed(string IPFS);
   event NewMember(address member);
-  event IdeaApproved(string IPFS);
+  event IdeaApproved(string IPFS, address Inventor);
   event Voted(address _voter, bool inSupport);
-  event NewReplication(address _repAdd);
-  event LocalUseWeight(address repAdd, uint repWeight);
-  event GlobalUseBlock(address repAdd, uint ideaId);
+  event NewReplication(address _repAdd, address repOwner);
+  event LocalUseWeight(address repAdd, address reOwner, uint repWeight);
+  event GlobalUseBlock(address repAdd, address reOwner, uint ideaId);
 
 
   ///@struct IdeaProposal stores info of a proposal
@@ -148,6 +149,7 @@ internal
         DCPoA.proxyNTCMint( _inventor, ideaBlockReward);
         //mints 1000 DCPoA and sends it to the inventor
         DCPoA.increaseMemLev(_inventor);
+        ideaBlocksOwned[_inventor].push(_ideaId);
     }
 
   ///@notice ideaBlockTimeLord is called to half an ideablock reward every two years

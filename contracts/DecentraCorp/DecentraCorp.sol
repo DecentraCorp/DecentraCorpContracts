@@ -141,7 +141,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
           memberLevel[msg.sender]++;
           emit Voted(msg.sender, supportsProposal);
           bool tally = set_Quorum(voteID, memberCount);
-          if(tally == true) {
+          if(tally) {
             executeVote(_ProposalID);
           }
           return voteID;

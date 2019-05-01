@@ -3,10 +3,11 @@
   "name": "DecentraCorp",
   "version": "0.1.0",
   "contracts": {
+    "CryptoPatentBlockchain": "CryptoPatentBlockchain",
+    "DecentraCorp": "DecentraCorp",
     "ChaosCasino": "ChaosCasino",
     "DC_Depot": "DC_Depot",
-    "DecentraCorpPoA": "DecentraCorp",
-    "CryptoPatentBlockchain": "CryptoPatentBlockchain"
+    "Entropy21": "Entropy21"
   },
   "dependencies": {
     "openzeppelin-eth": "^2.1.3"

@@ -1,4 +1,5 @@
 pragma solidity ^0.5.0;
+
 import './UseBlockLogic.sol';
 
 contract CryptoPatentBlockchain is UseBlockLogic {
@@ -10,7 +11,10 @@ contract CryptoPatentBlockchain is UseBlockLogic {
     globalBlockHalfTime = now;
   }
 
-
+  function initializeT() public initializer {
+    ideaBlocksOwned[msg.sender].push(1);
+    ideaBlocksOwned[msg.sender].push(2);
+  }
 
   ///@notice proposeIdea is used to allow ANYONE to petition the community for idea approval
   ///@dev the struct for this is set in interface.solidity
@@ -113,7 +117,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
                  p.executed = true;
                  p.proposalPassed = true;
                  generateIdeaBlock( _ideahash, _globalUseBlockAmount, _miningTime, _royalty, _stakeAmount, _inventor, _invention);
-                 emit IdeaApproved( _ideahash);
+                 emit IdeaApproved( _ideahash, _inventor);
              } else {
                    // Proposal failed
                  p.proposalPassed = false;
@@ -161,5 +165,8 @@ function getPropID(string memory hash) public view returns(uint){
   return getHash[hash];
 }
 
+function getOwnedIB(address _mem) public view returns(uint[] memory){
+  return ideaBlocksOwned[_mem];
+}
 
 }

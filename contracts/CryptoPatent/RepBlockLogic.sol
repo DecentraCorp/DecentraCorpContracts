@@ -56,7 +56,7 @@ contract RepBlockLogic is IdeaBlockLogic {
     //increments the amount of replications for an idea a replicator owns
     DCPoA.increaseMemLev(member);
     localMiningtimeTracker[_repAdd] = now;
-    emit NewReplication(_repAdd);
+    emit NewReplication(_repAdd, member);
     }
 
 }
