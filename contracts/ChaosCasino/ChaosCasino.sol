@@ -92,7 +92,7 @@ contract ChaosCasino is Initializable, Ownable, ERC20, ERC20Detailed {
    DCPoA.proxyNTCMint(dcAdd, _amount);
  }
 ///@notice buyChaosCoin allows anyone to exchange ether for ChaosCoin
-  function buyChaosCoin(uint _amount) public payable {
+  function buyChaosCoin(uint _amount) public {
     DCPoA.proxyNTCBurn(msg.sender, _amount);
     uint _amountCC = _amount.mul(1000);
     _mint(msg.sender, _amountCC);

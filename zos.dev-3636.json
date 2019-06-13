@@ -864,11 +864,11 @@
       }
     },
     "ChaosCasino": {
-      "address": "0x9B7117E89D2378aDD8Fa71926A608881b5335987",
-      "constructorCode": "608060405234801561001057600080fd5b50612bd2806100206000396000f3fe",
-      "bodyBytecodeHash": "12e63270b755690ac11a9d064d7a20b67d7a67474ee531b072ef6a0b85b0eb24",
-      "localBytecodeHash": "0e9eca91f0e45d55250388f32757396d995b1aa6721bf37cf18a154c1d6e4e33",
-      "deployedBytecodeHash": "0e9eca91f0e45d55250388f32757396d995b1aa6721bf37cf18a154c1d6e4e33",
+      "address": "0x511e98D53135EC7a11F753bAEe06a00874e1631E",
+      "constructorCode": "608060405234801561001057600080fd5b50612bdf806100206000396000f3fe",
+      "bodyBytecodeHash": "21fecc7a93afc4a7eea79845f42a21611d310df0b4134d93057a0794901c0fd9",
+      "localBytecodeHash": "8d3b26255c8ad55e68f430b7632881401c93752e5c4b5274a3c46333ff272d91",
+      "deployedBytecodeHash": "8d3b26255c8ad55e68f430b7632881401c93752e5c4b5274a3c46333ff272d91",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -920,105 +920,105 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4022,
+          "astId": 4332,
           "type": "t_bool",
-          "src": "757:24:15"
+          "src": "757:24:16"
         },
         {
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4024,
+          "astId": 4334,
           "type": "t_bool",
-          "src": "876:25:15"
+          "src": "876:25:16"
         },
         {
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4073,
+          "astId": 4383,
           "type": "t_array:50<t_uint256>",
-          "src": "1891:29:15"
+          "src": "1891:29:16"
         },
         {
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "_owner",
-          "astId": 3331,
+          "astId": 3641,
           "type": "t_address",
-          "src": "302:22:11"
+          "src": "302:22:12"
         },
         {
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "______gap",
-          "astId": 3442,
+          "astId": 3752,
           "type": "t_array:50<t_uint256>",
-          "src": "2186:29:11"
+          "src": "2186:29:12"
         },
         {
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_balances",
-          "astId": 3459,
+          "astId": 3769,
           "type": "t_mapping<t_uint256>",
-          "src": "774:46:12"
+          "src": "774:46:13"
         },
         {
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_allowed",
-          "astId": 3465,
+          "astId": 3775,
           "type": "t_mapping<t_uint256>",
-          "src": "827:66:12"
+          "src": "827:66:13"
         },
         {
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "_totalSupply",
-          "astId": 3467,
+          "astId": 3777,
           "type": "t_uint256",
-          "src": "900:28:12"
+          "src": "900:28:13"
         },
         {
           "contract": "ERC20",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20.sol",
           "label": "______gap",
-          "astId": 3881,
+          "astId": 4191,
           "type": "t_array:50<t_uint256>",
-          "src": "7661:29:12"
+          "src": "7661:29:13"
         },
         {
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_name",
-          "astId": 3892,
+          "astId": 4202,
           "type": "t_string",
-          "src": "382:20:13"
+          "src": "382:20:14"
         },
         {
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_symbol",
-          "astId": 3894,
+          "astId": 4204,
           "type": "t_string",
-          "src": "408:22:13"
+          "src": "408:22:14"
         },
         {
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "_decimals",
-          "astId": 3896,
+          "astId": 4206,
           "type": "t_uint8",
-          "src": "436:23:13"
+          "src": "436:23:14"
         },
         {
           "contract": "ERC20Detailed",
           "path": "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol",
           "label": "______gap",
-          "astId": 3948,
+          "astId": 4258,
           "type": "t_array:50<t_uint256>",
-          "src": "1097:29:13"
+          "src": "1097:29:14"
         },
         {
           "contract": "ChaosCasino",
@@ -1066,7 +1066,9 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [],
+        "storageDiff": []
       }
     },
     "DC_Depot": {
@@ -1332,11 +1334,11 @@
       }
     },
     "Entropy21": {
-      "address": "0x2AF09696Ab079F4D4397D982134414C02D9FC215",
-      "constructorCode": "608060405234801561001057600080fd5b506115c4806100206000396000f3fe",
-      "bodyBytecodeHash": "0485be3a1f4b379594eb9b5a3036e53633debb56e63c87af89c13558bdc9d005",
-      "localBytecodeHash": "22862da9eebda1f1a30aa70cf6844aec503a6ab63887edf9a4d1cd4349fcfa17",
-      "deployedBytecodeHash": "22862da9eebda1f1a30aa70cf6844aec503a6ab63887edf9a4d1cd4349fcfa17",
+      "address": "0xDd8B07B0B2b6846855b3D44AFf466E0FE38319A3",
+      "constructorCode": "608060405234801561001057600080fd5b5061125c806100206000396000f3fe",
+      "bodyBytecodeHash": "93cf65609d11d31737cdb0ab7ecdd0461e923e1cb2cac88e2d0720d446b6c401",
+      "localBytecodeHash": "c5b249b14b0067523be63a29026d068e200d606e4b36b0bed3c59be39f22deea",
+      "deployedBytecodeHash": "c5b249b14b0067523be63a29026d068e200d606e4b36b0bed3c59be39f22deea",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -1367,53 +1369,35 @@
           "members": [
             {
               "label": "NumberOfPlayers",
-              "astId": 318,
+              "astId": 308,
               "type": "t_uint256",
-              "src": "863:20:1"
-            },
-            {
-              "label": "RoundId",
-              "astId": 320,
-              "type": "t_uint256",
-              "src": "887:12:1"
+              "src": "578:20:1"
             },
             {
               "label": "PoolAmount",
-              "astId": 322,
+              "astId": 310,
               "type": "t_uint256",
-              "src": "903:15:1"
+              "src": "602:15:1"
             },
             {
               "label": "CurrentHighest",
-              "astId": 324,
+              "astId": 312,
               "type": "t_uint256",
-              "src": "922:19:1"
+              "src": "621:19:1"
             },
             {
               "label": "CurrentWinner",
-              "astId": 326,
+              "astId": 314,
               "type": "t_address",
-              "src": "945:21:1"
-            },
-            {
-              "label": "InTheGame",
-              "astId": 330,
-              "type": "t_mapping<t_bool>",
-              "src": "970:34:1"
-            },
-            {
-              "label": "PlayerHashs",
-              "astId": 334,
-              "type": "t_mapping<t_string>",
-              "src": "1008:38:1"
-            },
-            {
-              "label": "AnnihilatedPlayers",
-              "astId": 339,
-              "type": "t_mapping<t_array:dyn<t_address>>",
-              "src": "1050:46:1"
+              "src": "644:21:1"
             }
           ]
+        },
+        "t_mapping<t_struct<Entropy21.NewRound>>": {
+          "id": "t_mapping<t_struct<Entropy21.NewRound>>",
+          "valueType": "t_struct<Entropy21.NewRound>",
+          "label": "mapping(key => Entropy21.NewRound)",
+          "kind": "mapping"
         },
         "t_mapping<t_bool>": {
           "id": "t_mapping<t_bool>",
@@ -1431,26 +1415,6 @@
           "valueType": "t_string",
           "label": "mapping(key => string)",
           "kind": "mapping"
-        },
-        "t_array:dyn<t_address>": {
-          "id": "t_array:dyn<t_address>",
-          "valueType": "t_address",
-          "length": "dyn",
-          "kind": "array",
-          "label": "address[]"
-        },
-        "t_mapping<t_array:dyn<t_address>>": {
-          "id": "t_mapping<t_array:dyn<t_address>>",
-          "valueType": "t_array:dyn<t_address>",
-          "label": "mapping(key => address[])",
-          "kind": "mapping"
-        },
-        "t_array:dyn<t_struct<Entropy21.NewRound>>": {
-          "id": "t_array:dyn<t_struct<Entropy21.NewRound>>",
-          "valueType": "t_struct<Entropy21.NewRound>",
-          "length": "dyn",
-          "kind": "array",
-          "label": "Entropy21.NewRound[]"
         }
       },
       "storage": [
@@ -1458,7 +1422,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4351,
+          "astId": 4270,
           "type": "t_bool",
           "src": "757:24:16"
         },
@@ -1466,7 +1430,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4353,
+          "astId": 4272,
           "type": "t_bool",
           "src": "876:25:16"
         },
@@ -1474,7 +1438,7 @@
           "contract": "Initializable",
           "path": "zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4402,
+          "astId": 4321,
           "type": "t_array:50<t_uint256>",
           "src": "1891:29:16"
         },
@@ -1482,7 +1446,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "_owner",
-          "astId": 3660,
+          "astId": 3579,
           "type": "t_address",
           "src": "302:22:12"
         },
@@ -1490,7 +1454,7 @@
           "contract": "Ownable",
           "path": "openzeppelin-eth/contracts/ownership/Ownable.sol",
           "label": "______gap",
-          "astId": 3771,
+          "astId": 3690,
           "type": "t_array:50<t_uint256>",
           "src": "2186:29:12"
         },
@@ -1498,33 +1462,49 @@
           "contract": "Entropy21",
           "path": "contracts/ChaosCasino/Entropy21.sol",
           "label": "CC",
-          "astId": 309,
+          "astId": 290,
           "type": "t_address",
-          "src": "740:21:1"
+          "src": "362:21:1"
         },
         {
           "contract": "Entropy21",
           "path": "contracts/ChaosCasino/Entropy21.sol",
           "label": "round",
-          "astId": 311,
+          "astId": 292,
           "type": "t_uint256",
-          "src": "767:17:1"
+          "src": "389:17:1"
         },
         {
           "contract": "Entropy21",
           "path": "contracts/ChaosCasino/Entropy21.sol",
           "label": "roundTimer",
-          "astId": 313,
+          "astId": 294,
           "type": "t_uint256",
-          "src": "788:22:1"
+          "src": "410:22:1"
         },
         {
           "contract": "Entropy21",
           "path": "contracts/ChaosCasino/Entropy21.sol",
           "label": "rounds",
-          "astId": 316,
-          "type": "t_array:dyn<t_struct<Entropy21.NewRound>>",
-          "src": "816:24:1"
+          "astId": 298,
+          "type": "t_mapping<t_struct<Entropy21.NewRound>>",
+          "src": "436:39:1"
+        },
+        {
+          "contract": "Entropy21",
+          "path": "contracts/ChaosCasino/Entropy21.sol",
+          "label": "inTheGame",
+          "astId": 302,
+          "type": "t_mapping<t_bool>",
+          "src": "479:34:1"
+        },
+        {
+          "contract": "Entropy21",
+          "path": "contracts/ChaosCasino/Entropy21.sol",
+          "label": "playerHashs",
+          "astId": 306,
+          "type": "t_mapping<t_string>",
+          "src": "517:38:1"
         }
       ],
       "warnings": {
@@ -1532,7 +1512,18 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "Entropy21",
+            "path": "contracts/ChaosCasino/Entropy21.sol",
+            "label": "rounds",
+            "astId": 298,
+            "type": "t_mapping<t_struct<Entropy21.NewRound>>",
+            "src": "436:39:1"
+          }
+        ],
+        "storageDiff": []
       }
     }
   },
@@ -1556,7 +1547,7 @@
       {
         "address": "0x589DD04Bf2aA74f407910B7da82D9044536246Eb",
         "version": "0.1.0",
-        "implementation": "0x9B7117E89D2378aDD8Fa71926A608881b5335987"
+        "implementation": "0x511e98D53135EC7a11F753bAEe06a00874e1631E"
       }
     ],
     "DecentraCorp/DC_Depot": [
@@ -1568,9 +1559,9 @@
     ],
     "DecentraCorp/Entropy21": [
       {
-        "address": "0x28a52c7757fc4A8a00Ba45782F3d07424e384A9F",
+        "address": "0xf9651C74e82Addba327b471e03AC821e9236743C",
         "version": "0.1.0",
-        "implementation": "0x2AF09696Ab079F4D4397D982134414C02D9FC215"
+        "implementation": "0xDd8B07B0B2b6846855b3D44AFf466E0FE38319A3"
       }
     ]
   },

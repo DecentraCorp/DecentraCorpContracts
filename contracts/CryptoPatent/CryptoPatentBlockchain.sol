@@ -25,6 +25,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
     uint _miningTime,
     uint _royalty,
     uint _stakeAmount,
+    uint _levelRequirement,
     address _inventor,
     address _invention
   ) public {
@@ -39,6 +40,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
           p.globalUseBlockAmount = _globalUseBlockAmount;
           p.royalty = _royalty;
           p.stakeAmount = _stakeAmount;
+          p.levelRequirement = _levelRequirement;
           p.miningTime = _miningTime;
           p.inventorAddress = _inventor;
           p.inventionAddress = _invention;
@@ -96,6 +98,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
           uint _miningTime = p.miningTime;
           uint _royalty = p.royalty;
           uint _stakeAmount = p.stakeAmount;
+          uint _levelRequirement = p.levelRequirement;
           address _inventor = p.inventorAddress;
           address _invention = p.inventionAddress;
 
@@ -116,7 +119,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
                    // Proposal passed; execute the transaction
                  p.executed = true;
                  p.proposalPassed = true;
-                 generateIdeaBlock( _ideahash, _globalUseBlockAmount, _miningTime, _royalty, _stakeAmount, _inventor, _invention);
+                 generateIdeaBlock( _ideahash, _globalUseBlockAmount, _miningTime, _royalty, _stakeAmount, _levelRequirement, _inventor, _invention);
                  emit IdeaApproved( _ideahash, _inventor);
              } else {
                    // Proposal failed

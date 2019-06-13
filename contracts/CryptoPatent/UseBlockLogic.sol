@@ -20,11 +20,16 @@ contract UseBlockLogic is RepBlockLogic {
 
   ///@notice UseBlockWeight is an internal function that tracks loacal use weightTracker
   ///@dev this is called by generateUseBlockWeight
-  function generateUseBlockWeight() public {
+  function generateUseBlockWeight(string memory _DLhash) public {
+  //requires the msg.sender's address is an activated replication
     require(replications[msg.sender]);
     address _rep = msg.sender;
-
+  //pulls the specific replications replication block into memory
     ReplicationInfo memory infoR = repInfo[_rep];
+  //requires that the DeviceLock IPFS hash sent from the MineUseBlock function of the EPMS matches
+  //the one stored in the devices Replication Block...
+  //this encodes both strings as == doesnt work with strings in solidity directly
+    require(keccak256(abi.encodePacked((_DLhash))) == keccak256(abi.encodePacked((infoR.DeviceLockHash))));
   //pulls a specific replications information in to be used as the variable infoR
     uint ideaID = infoR.IdeaID;
   //sets ideaID as a specific ideaID from the replications struct

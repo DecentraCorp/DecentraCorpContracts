@@ -16,6 +16,7 @@ contract DecentraCorp {
   function setProfileHash(address _add, string memory _hash) public;
   function getMemberCount() public view returns(uint);
   function getAddFromPass(string memory _userId) public view returns(address);
+  function getLevel(address _add) public view returns(uint);
 }
 /// DecentraCorp PoA inteface
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +80,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
        uint royalty;
        uint miningTime;
        uint stakeAmount;
+       uint levelRequirement;
        address inventorAddress;
        address inventionAddress;
        Vote[] votes;
@@ -97,6 +99,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
     uint royalty;
     uint miningTime;
     uint stakeAmount;
+    uint levelRequirement;
     address inventorAddress;
     address inventionAddress;
     string IPFShash;
@@ -104,12 +107,13 @@ contract IdeaBlockLogic is Initializable, Ownable {
   //@struct ReplicationInfo stores replication information
   struct ReplicationInfo {
     uint BlockReward;
-    address OwnersAddress;
     uint IdeaID;
     uint Royalty;
     uint RepID;
     address InventorsAddress;
     address ReplicationAddress;
+    address OwnersAddress;
+    string DeviceLockHash;
   }
 
 
@@ -124,6 +128,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
     uint _miningTime,
     uint _royalty,
     uint _stakeAmount,
+    uint _levelRequirement,
     address _inventor,
     address _invention
     )
@@ -137,6 +142,7 @@ internal
         royalty: uint(_royalty),
         miningTime: uint(_miningTime),
         stakeAmount: uint(_stakeAmount),
+        levelRequirement: uint(_levelRequirement),
         inventorAddress: address(_inventor),
         inventionAddress: address(_invention),
         IPFShash: string(_ideaIPFS)

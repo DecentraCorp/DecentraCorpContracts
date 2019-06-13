@@ -14,24 +14,22 @@ contract Entropy21 is Initializable, Ownable {
 
   uint public round;
   uint public roundTimer;
-
-
-  NewRound[] public rounds;
+  mapping(uint => NewRound) public rounds;
+  mapping(address => bool) inTheGame;
+  mapping(address => string) playerHashs;
 
 struct NewRound {
   uint NumberOfPlayers;
-  uint RoundId;
   uint PoolAmount;
   uint CurrentHighest;
   address CurrentWinner;
-  mapping(address => bool) InTheGame;
-  mapping(address => string) PlayerHashs;
-  mapping(uint => address[])  AnnihilatedPlayers;
 }
 
 ///@notice constructor sets up Notio address through truffle wizardry
   function initialize() public initializer {
      Ownable.initialize(msg.sender);
+     round++;
+     roundTimer = now.add(600);
    }
 
   function setCAdd(address _add) public onlyOwner {
@@ -40,53 +38,47 @@ struct NewRound {
 
 
 function joinCurrentRound() public {
-  if(now >= roundTimer){
-    NewRound storage r = rounds[round];
-    if(r.CurrentHighest == 0){
-      CC.housesCut(r.PoolAmount);
-    }
+  uint roundId = round;
+  NewRound storage r = rounds[roundId];
 
+  if(now >= roundTimer && r.NumberOfPlayers >= 2 ){
     CC.proxyCCMint(r.CurrentWinner, r.PoolAmount);
     round++;
-    roundTimer = now + 600;
+    roundTimer = now.add(600);
   }
- NewRound storage r = rounds[round];
-  if(r.NumberOfPlayers++ <= 200){
+
   CC.proxyCCBurn(msg.sender, 10000000000000000000);
   r.NumberOfPlayers++;
   r.PoolAmount += 9000000000000000000;
   CC.housesCut(1000000000000000000);
-  r.InTheGame[msg.sender] = true;
-}else{
-  NewRound storage n = rounds[round++];
-  CC.proxyCCBurn(msg.sender, 10000000000000000000);
-  n.NumberOfPlayers++;
-  n.PoolAmount += 9000000000000000000;
-  CC.housesCut(1000000000000000000);
-  n.InTheGame[msg.sender] = true;
+  inTheGame[msg.sender] = true;
+}
 
-}
-}
 
 function endGame(string memory _ipfsHash, uint _score) public {
-  NewRound storage r = rounds[round];
-  require(r.InTheGame[msg.sender]);
+    uint roundId = round;
+  NewRound storage r = rounds[roundId];
+
+  require(inTheGame[msg.sender]);
+
   if(_score == r.CurrentHighest){
-    r.PlayerHashs[msg.sender] = _ipfsHash;
+    playerHashs[msg.sender] = _ipfsHash;
     r.CurrentHighest = 0;
-    r.AnnihilatedPlayers[_score].push(msg.sender);
   }else if(_score > r.CurrentHighest){
     r.CurrentHighest = _score;
     r.CurrentWinner = msg.sender;
-    r.PlayerHashs[msg.sender] = _ipfsHash;
+    playerHashs[msg.sender] = _ipfsHash;
   }else{
-    r.PlayerHashs[msg.sender] = _ipfsHash;
-    r.AnnihilatedPlayers[_score].push(msg.sender);
+    playerHashs[msg.sender] = _ipfsHash;
   }
+
+  inTheGame[msg.sender] = false;
 }
 
 
-
+function timeLeft() public view returns(uint) {
+  return roundTimer - now;
+}
 
 
 
