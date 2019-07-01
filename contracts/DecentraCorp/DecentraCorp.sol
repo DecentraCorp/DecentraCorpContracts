@@ -28,7 +28,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
    mapping(string => uint) propCode;
    mapping(address => string) profileComments;
    mapping(address => bool) frozenAccounts;
-   mapping(bytes32 => address) passwords;
+   mapping(bytes32 => address) userIDs;
 
 
    Proposal[] public proposals;
@@ -73,8 +73,8 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
      members[msg.sender] = true;
      memberCount = memberCount + 1;
      memberLevel[msg.sender] += 100;
-     memberProfileHash[msg.sender] = "QmSu93p6XRanSNmov4e5c8VQPBxKo2zWf1jZpvVTfwi2L9";
-     passwords[0x0e46372e12408078737eee1b57870ca6632577bbd32effe3bb4f26f0e51989f9] = msg.sender;
+     memberProfileHash[msg.sender] = "Qma6SaoazBAsDs6XqojWFw3LCqXtopaPoxd5FFknPWeHrr";
+     userIDs[0x4a5a6c7b222906da854d27f33bcabdaeb079f40f9e9e9964bd82c37309023d19] = msg.sender;
      founder = msg.sender;
      buyMemWindow = now;
      _mint(msg.sender, 1000000000000000000000000);
@@ -217,7 +217,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
       members[_mem] = true;
       memberLevel[_mem]++;
       memberCount = memberCount + 1;
-      passwords[keccak256(abi.encodePacked(_userId))] = _mem;
+      userIDs[keccak256(abi.encodePacked(_userId))] = _mem;
   }
 
 
@@ -297,7 +297,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
           memberLevel[_newMem]++;
           memberCount = memberCount + 1;
           memberProfileHash[_newMem] = _hash;
-          passwords[keccak256(abi.encodePacked(_userId))] = _newMem;
+          userIDs[keccak256(abi.encodePacked(_userId))] = _newMem;
           _mint(msg.sender, 1000000000000000000000);
         emit NewMember(_newMem, _facility, _hash);
       }
@@ -308,6 +308,8 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
       }
 
       function getAddFromPass(string memory _userId) public view returns(address) {
-        return passwords[keccak256(abi.encodePacked(_userId))];
+        return userIDs[keccak256(abi.encodePacked(_userId))];
       }
+
+
  }

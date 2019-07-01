@@ -38,8 +38,6 @@ contract IdeaBlockLogic is Initializable, Ownable {
   uint public globalBlockHalfTime;
   uint public ideaBlockReward;
   uint public globalIdeaPropCount;
-  ///@param globalRepCount tracks the total number of replications on the CryptoPatent Blockchain
-  uint public globalRepCount;
   uint public globalUseBlock;
 
   ///@param ideaVariables maps a token number to an ideas variables
@@ -109,9 +107,9 @@ contract IdeaBlockLogic is Initializable, Ownable {
     uint BlockReward;
     uint IdeaID;
     uint Royalty;
-    uint RepID;
     address InventorsAddress;
     address ReplicationAddress;
+    address ReplicationMember;
     address OwnersAddress;
     string DeviceLockHash;
   }

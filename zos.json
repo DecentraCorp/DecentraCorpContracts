@@ -3,10 +3,9 @@
   "name": "DecentraCorp",
   "version": "0.1.0",
   "contracts": {
-    "CryptoPatentBlockchain": "CryptoPatentBlockchain",
     "DecentraCorp": "DecentraCorp",
+    "CryptoPatentBlockchain": "CryptoPatentBlockchain",
     "ChaosCasino": "ChaosCasino",
-    "DC_Depot": "DC_Depot",
     "Entropy21": "Entropy21"
   },
   "dependencies": {

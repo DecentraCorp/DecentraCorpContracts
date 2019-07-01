@@ -11,7 +11,11 @@ contract UseBlockLogic is RepBlockLogic {
   // and multiplies it by how many replications a member owns. this is the pool mining bonus
     globalUseBlock++;
   //increases the Global UseBlock count
-    DCPoA.proxyNTCMint(infoR.OwnersAddress, infoR.BlockReward);
+   uint halfsies = infoR.BlockReward / 2;
+  //cuts block reward in half to be split between the rep maker and rep owner
+    DCPoA.proxyNTCMint(infoR.ReplicationMember, halfsies);
+  //mints the replicating member his modded block reward
+    DCPoA.proxyNTCMint(infoR.OwnersAddress, halfsies);
   //mints the replication Owner his modded block reward
     DCPoA.proxyNTCMint(infoR.InventorsAddress, infoR.Royalty);
   //mints royalties to the idea inventor

@@ -128,39 +128,39 @@ contract CryptoPatentBlockchain is UseBlockLogic {
              }
         }
 
-        ///@notice stakeReplicatorWallet function allows for the activation of a replication wallet by
-        ///        burning Notio from the msg.sender
-        ///@dev stakeReplicatorWallet costs 100 DCPoA and burns them from existence
-          function stakeReplicatorWallet(string memory _hash, string memory _userId) public {
-            DCPoA.proxyNTCBurn(msg.sender, 100000000000000000000);
-            DCPoA._addMember(msg.sender, _userId);
-            DCPoA.setProfileHash(msg.sender, _hash);
-            emit NewMember(msg.sender);
-          }
+  ///@notice stakeReplicatorWallet function allows for the activation of a replication wallet by
+  ///        burning Notio from the msg.sender
+  ///@dev stakeReplicatorWallet costs 100 DCPoA and burns them from existence
+function stakeReplicatorWallet(string memory _hash, string memory _userId) public {
+        DCPoA.proxyNTCBurn(msg.sender, 100000000000000000000);
+        DCPoA._addMember(msg.sender, _userId);
+        DCPoA.setProfileHash(msg.sender, _hash);
+        emit NewMember(msg.sender);
+        }
 
-            ///@notice the following functions allow for easier access to info by both the front end and other contracts
-            ///@dev all the following contracts allow for the retreval of token block information
-              function checkIfRep(address _add) external view returns(bool) {
-                return replications[_add];
-              }
+  ///@notice the following functions allow for easier access to info by both the front end and other contracts
+  ///@dev all the following contracts allow for the retreval of token block information
+function checkIfRep(address _add) external view returns(bool) {
+        return replications[_add];
+        }
 
 
-              function getID(address _ideaAdd) public view returns(uint){
-                return IdeaAddToId[_ideaAdd];
-              }
+function getID(address _ideaAdd) public view returns(uint){
+        return IdeaAddToId[_ideaAdd];
+        }
 
-              function setValidatorContract(address _valCon) public onlyOwner {
-                    Validators = RelayedOwnedSet(_valCon);
-              }
+function setValidatorContract(address _valCon) public onlyOwner {
+        Validators = RelayedOwnedSet(_valCon);
+        }
 
-              function setDCPoA(DecentraCorp _dcpoa) public onlyOwner {
-                DCPoA = DecentraCorp(_dcpoa);
-              }
+function setDCPoA(DecentraCorp _dcpoa) public onlyOwner {
+        DCPoA = DecentraCorp(_dcpoa);
+        }
 
-              function checkIfVotedIdea(address _add, uint _ideaProposalID) public view returns(bool) {
-                IdeaProposal storage p = ideaProposals[_ideaProposalID];
-                return p.voted[_add];
-              }
+function checkIfVotedIdea(address _add, uint _ideaProposalID) public view returns(bool) {
+        IdeaProposal storage p = ideaProposals[_ideaProposalID];
+        return p.voted[_add];
+        }
 
               ///@notice getPropID function allows one to rerieve a proposal ID by its ipfs hash
 ///@dev getPropID is made for easier front end interaction
@@ -170,6 +170,12 @@ function getPropID(string memory hash) public view returns(uint){
 
 function getOwnedIB(address _mem) public view returns(uint[] memory){
   return ideaBlocksOwned[_mem];
+}
+
+function transferRepBlock(address _newOwner, address _rep) public view {
+  ReplicationInfo memory infoR = repInfo[_rep];
+  require(msg.sender == infoR.OwnersAddress);
+  infoR.OwnersAddress = _newOwner;
 }
 
 }
