@@ -70,16 +70,19 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
    function initialize() public initializer {
      Ownable.initialize(msg.sender);
      ERC20Detailed.initialize("NotioCoin", "NTC", 18);
-     members[msg.sender] = true;
-     memberCount = memberCount + 1;
-     memberLevel[msg.sender] += 100;
-     memberProfileHash[msg.sender] = "Qma6SaoazBAsDs6XqojWFw3LCqXtopaPoxd5FFknPWeHrr";
-     userIDs[0x4a5a6c7b222906da854d27f33bcabdaeb079f40f9e9e9964bd82c37309023d19] = msg.sender;
-     founder = msg.sender;
      buyMemWindow = now;
-     _mint(msg.sender, 1000000000000000000000000);
    }
 
+
+   function setFounder(address _add, string memory _userID) public onlyOwner {
+     userIDs[keccak256(abi.encodePacked(_userID))] = _add;
+     members[_add] = true;
+     memberCount = memberCount + 1;
+     memberLevel[_add] += 100;
+     memberProfileHash[_add] = "Qma6SaoazBAsDs6XqojWFw3LCqXtopaPoxd5FFknPWeHrr";
+     founder = _add;
+      _mint(_add, 1000000000000000000000000);
+   }
 
          ///@notice set_Quorum is an internal function used by proposal vote counts to see if the community approves
          ///@dev quorum is set to 60%

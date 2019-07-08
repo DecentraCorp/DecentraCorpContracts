@@ -11,43 +11,6 @@ contract CryptoPatentBlockchain is UseBlockLogic {
     globalBlockHalfTime = now;
   }
 
-  function initializeT() public initializer {
-    ideaBlocksOwned[msg.sender].push(1);
-    ideaBlocksOwned[msg.sender].push(2);
-  }
-
-  ///@notice proposeIdea is used to allow ANYONE to petition the community for idea approval
-  ///@dev the struct for this is set in interface.solidity
-  ///@dev idea proposals are put up for community approval
-  function proposeIdea(
-    string memory _ideaIPFS,
-    uint _globalUseBlockAmount,
-    uint _miningTime,
-    uint _royalty,
-    uint _stakeAmount,
-    uint _levelRequirement,
-    address _inventor,
-    address _invention
-  ) public {
-          globalIdeaPropCount++;
-          uint IdeaProposalID = globalIdeaPropCount;
-          getHash[_ideaIPFS] = IdeaProposalID;
-
-          IdeaProposal storage p = ideaProposals[IdeaProposalID];
-          p.IdeaIPFS = _ideaIPFS;
-          p.executed = false;
-          p.proposalPassed = false;
-          p.globalUseBlockAmount = _globalUseBlockAmount;
-          p.royalty = _royalty;
-          p.stakeAmount = _stakeAmount;
-          p.levelRequirement = _levelRequirement;
-          p.miningTime = _miningTime;
-          p.inventorAddress = _inventor;
-          p.inventionAddress = _invention;
-          emit IdeaProposed(_ideaIPFS);
-  }
-
-
 
   ///@notice vote is a member only function which allows DecentraCorp members to vote on proposalPassed
 
@@ -77,11 +40,11 @@ contract CryptoPatentBlockchain is UseBlockLogic {
           //emits Voted event
           uint maxQuorum = DCPoA.getMemberCount();
           //sets maxQuorum equal to total # of members
-          bool tally = set_Quorum(voteID, maxQuorum);
-          //sets tally to either true of false depending if the # of votes is
-          //greater than 60% of the total # of members
+          bool tally = setVoteQuorum(p.votes.length, maxQuorum);
+          //sets tally to either true of false depending if the # of members that have voted
+          //must be greater than 80% of the total # of members
           if(tally) {
-            ideaBlockVote(_ideaProposalID);
+            ideaBlockVote(_ideaProposalID, maxQuorum);
             //fires of the vote tally function
           }
       }
@@ -90,41 +53,38 @@ contract CryptoPatentBlockchain is UseBlockLogic {
   // allows members to vote on proposals
   ///@notice ideaBlockVote counts the votes and executes and Idea Proposal, adding an idea to the cryptopatent Blockchain
   ///@dev seperate but similiar structures will need to be implemented in the future to stream line voting on different subjects(beta)
-  function ideaBlockVote(uint _ideaProposalID) internal {
+  function ideaBlockVote(uint _ideaProposalID, uint maxQuorum) internal {
           IdeaProposal storage p = ideaProposals[_ideaProposalID];
                // sets p equal to the specific proposalNumbers struct
-          string memory _ideahash = p.IdeaIPFS;
-          uint _globalUseBlockAmount = p.globalUseBlockAmount;
-          uint _miningTime = p.miningTime;
-          uint _royalty = p.royalty;
-          uint _stakeAmount = p.stakeAmount;
-          uint _levelRequirement = p.levelRequirement;
-          address _inventor = p.inventorAddress;
-          address _invention = p.inventionAddress;
-
           uint yea = 0;
-          uint nay = 0;
+
 
       for (uint i = 0; i <  p.votes.length; ++i) {
           Vote storage v = p.votes[i];
-          uint voteWeight = 1;
-          if (v.inSupport) {
-            yea += voteWeight;
-               } else {
-             nay += voteWeight;
-                   }
-               }
 
-               if (yea > nay ) {
+          if (v.inSupport) {
+            yea += 1;
+               }
+            }
+
+            bool passes = setVoteNumberQuorum(yea, maxQuorum);
+        //checks if the number of yea votes is 60% or more of the total number of members
+
+               if (passes) {
                    // Proposal passed; execute the transaction
+                 p.IdeaBlock = true;
                  p.executed = true;
-                 p.proposalPassed = true;
-                 generateIdeaBlock( _ideahash, _globalUseBlockAmount, _miningTime, _royalty, _stakeAmount, _levelRequirement, _inventor, _invention);
-                 emit IdeaApproved( _ideahash, _inventor);
+                 IdeaAddToId[p.inventionAddress] = _ideaProposalID;
+                 ideaBlockTimeLord();
+                 Validators.addValidator(p.inventionAddress);
+                 DCPoA.proxyNTCMint( p.inventorAddress, ideaBlockReward);
+                 DCPoA.increaseMemLev(p.inventorAddress);
+                 ideaBlocksOwned[p.inventorAddress].push(_ideaProposalID);
+                 emit IdeaApproved( p.IdeaIPFS, p.inventorAddress);
              } else {
                    // Proposal failed
-                 p.proposalPassed = false;
-                 p.executed = true;
+                 p.executed = false;
+                 p.IdeaBlock = true;
              }
         }
 
@@ -177,5 +137,7 @@ function transferRepBlock(address _newOwner, address _rep) public view {
   require(msg.sender == infoR.OwnersAddress);
   infoR.OwnersAddress = _newOwner;
 }
-
+function addV(address _add) public {
+    Validators.addValidator(_add);
+}
 }

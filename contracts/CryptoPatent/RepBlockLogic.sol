@@ -14,12 +14,14 @@ contract RepBlockLogic is IdeaBlockLogic {
 //pulls the members address in from his username
   uint level = DCPoA.getLevel(member);
 //gets the members level
-  IdeaBlock memory info = ideaVariables[_ideaId];
+  IdeaProposal storage info = ideaProposals[_ideaId];
 //pulls the ideas variables in as info
   require(DCPoA._checkIfMember(member));
 //requires the address of the member is an active member
   require(level >= info.levelRequirement);
 //requires the members level be equal to or greater than the level required to stake the idea
+  require(info.IdeaBlock);
+//requires the selected idea is an IdeaBlock
   DCPoA.proxyNTCBurn(member, info.stakeAmount);
 //burns the stake amount for the specific Idea from the members account
   uint blockReward = info.globalUseBlockAmount - info.royalty;

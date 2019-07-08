@@ -37,7 +37,7 @@ contract UseBlockLogic is RepBlockLogic {
   //pulls a specific replications information in to be used as the variable infoR
     uint ideaID = infoR.IdeaID;
   //sets ideaID as a specific ideaID from the replications struct
-    IdeaBlock memory info = ideaVariables[ideaID];
+      IdeaProposal storage info = ideaProposals[ideaID];
   //pulls a specific idea struct int to be used as the variable info
     uint newWeight = localWeightTracker[_rep] + 1;
   // increases the weight of a specific replication

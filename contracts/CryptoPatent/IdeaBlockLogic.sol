@@ -30,11 +30,11 @@ contract IdeaBlockLogic is Initializable, Ownable {
   DecentraCorp public DCPoA;
   RelayedOwnedSet public Validators;
 
-  ///@param globalIdeaCount tracks amount of ideas on the CryptoPatent Blockchain
+
   ///@param globalBlockHalfTime used to track when the ideaBlockReward should be halved
   ///@param ideaBlockReward set to 1000 DCPoA
   ///@param repStake set to 100 DCPoA
-  uint public globalIdeaCount;
+
   uint public globalBlockHalfTime;
   uint public ideaBlockReward;
   uint public globalIdeaPropCount;
@@ -42,7 +42,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
 
   ///@param ideaVariables maps a token number to an ideas variables
   ///@param IdeaAddToId maps an Ideas address to its ID number
-  mapping(uint => IdeaBlock) public ideaVariables;
+
   mapping(address => uint) public IdeaAddToId;
   mapping(uint => IdeaProposal) public ideaProposals;
   mapping(uint => uint) public weightTracker;
@@ -72,8 +72,8 @@ contract IdeaBlockLogic is Initializable, Ownable {
   ///@struct IdeaProposal stores info of a proposal
   struct IdeaProposal {
        string IdeaIPFS;
+       bool IdeaBlock;
        bool executed;
-       bool proposalPassed;
        uint globalUseBlockAmount;
        uint royalty;
        uint miningTime;
@@ -91,17 +91,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
   }
 
 
-  ///@struct IdeaBlock is built to store only needed variables to the blockchain, IPFS handles the rest
-  struct IdeaBlock {
-    uint globalUseBlockAmount;
-    uint royalty;
-    uint miningTime;
-    uint stakeAmount;
-    uint levelRequirement;
-    address inventorAddress;
-    address inventionAddress;
-    string IPFShash;
-  }
+
   //@struct ReplicationInfo stores replication information
   struct ReplicationInfo {
     uint BlockReward;
@@ -115,46 +105,36 @@ contract IdeaBlockLogic is Initializable, Ownable {
   }
 
 
-  ///@notice generateIdeaBlock is used to generate and ideablock after a community vote
-  ///@dev this function is onlyOwner as atm the CPB is owning itself. In the future
-  ///     this will likely be set to an account that will have special privlidges between this contracts and
-  ///     the ethereum Based DecentraCorp contracts to facilitate crosschain communication
-
-  function generateIdeaBlock(
+  ///@notice proposeIdea is used to allow ANYONE to petition the community for idea approval
+  ///@dev the struct for this is set in interface.solidity
+  ///@dev idea proposals are put up for community approval
+  function proposeIdea(
     string memory _ideaIPFS,
-    uint  _globalUseBlockAmount,
+    uint _globalUseBlockAmount,
     uint _miningTime,
     uint _royalty,
     uint _stakeAmount,
     uint _levelRequirement,
     address _inventor,
     address _invention
-    )
-internal
-    {
-      globalIdeaCount++;
-      uint _ideaId = globalIdeaCount;
+  ) public {
+          globalIdeaPropCount++;
+          uint IdeaProposalID = globalIdeaPropCount;
+          getHash[_ideaIPFS] = IdeaProposalID;
 
-      IdeaBlock memory _info = IdeaBlock({
-        globalUseBlockAmount: uint(_globalUseBlockAmount),
-        royalty: uint(_royalty),
-        miningTime: uint(_miningTime),
-        stakeAmount: uint(_stakeAmount),
-        levelRequirement: uint(_levelRequirement),
-        inventorAddress: address(_inventor),
-        inventionAddress: address(_invention),
-        IPFShash: string(_ideaIPFS)
-        });
-
-        IdeaAddToId[_invention] = _ideaId;
-        ideaVariables[_ideaId] = _info;
-        Validators.addValidator(_invention);
-        ideaBlockTimeLord();
-        DCPoA.proxyNTCMint( _inventor, ideaBlockReward);
-        //mints 1000 DCPoA and sends it to the inventor
-        DCPoA.increaseMemLev(_inventor);
-        ideaBlocksOwned[_inventor].push(_ideaId);
-    }
+          IdeaProposal storage p = ideaProposals[IdeaProposalID];
+          p.IdeaIPFS = _ideaIPFS;
+          p.IdeaBlock = false;
+          p.executed = false;
+          p.globalUseBlockAmount = _globalUseBlockAmount;
+          p.royalty = _royalty;
+          p.stakeAmount = _stakeAmount;
+          p.levelRequirement = _levelRequirement;
+          p.miningTime = _miningTime;
+          p.inventorAddress = _inventor;
+          p.inventionAddress = _invention;
+          emit IdeaProposed(_ideaIPFS);
+  }
 
   ///@notice ideaBlockTimeLord is called to half an ideablock reward every two years
   ///@dev this time may need to be adjusted to 4 years depending on predicted inflation patterns of DCPoA
@@ -169,21 +149,31 @@ internal
     }
     ///@notice set_Quorum is an internal function used by proposal vote counts to see if the community approves
     ///@dev quorum is set to 60%
-      function percent(uint numerator, uint denominator, uint precision) internal pure returns(uint quotient) {
-             // caution, check safe-to-multiply here
-              uint _numerator  = numerator * 10 ** (precision+1);
-            // with rounding of last digit
-              uint _quotient =  ((_numerator / denominator) + 5) / 10;
-              return ( _quotient);
-            }
-
-      function set_Quorum(uint numOfvotes, uint numOfmem) internal pure returns(bool) {
-                uint percOfMemVoted = percent(numOfvotes, numOfmem, 2 );
-                 if(percOfMemVoted >= 60) {
-                     return true;
-                 } else {
-                     return false;
-                 }
+        function percent(uint numerator, uint denominator, uint precision) public pure returns(uint quotient) {
+               // caution, check safe-to-multiply here
+                uint _numerator  = numerator * 10 ** (precision+1);
+              // with rounding of last digit
+                uint _quotient =  ((_numerator / denominator) + 5) / 10;
+                return ( _quotient);
               }
+
+        function setVoteQuorum(uint numOfvotes, uint numOfmem) public pure returns(bool) {
+                  uint percOfMemVoted = percent(numOfvotes, numOfmem, 2 );
+                   if(percOfMemVoted >= 80) {
+                       return true;
+                   } else {
+                       return false;
+                   }
+                }
+
+        function setVoteNumberQuorum(uint numOfvotes, uint numOfmem) public pure returns(bool) {
+                  uint percOfMemVoted = percent(numOfvotes, numOfmem, 2 );
+                     if(percOfMemVoted >= 60) {
+                           return true;
+                       } else {
+                           return false;
+                           }
+                        }
+
 
 }
