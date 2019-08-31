@@ -119,10 +119,10 @@ contract IdeaBlockLogic is Initializable, Ownable {
     address _invention
   ) public {
           globalIdeaPropCount++;
-          uint IdeaProposalID = globalIdeaPropCount;
-          getHash[_ideaIPFS] = IdeaProposalID;
 
-          IdeaProposal storage p = ideaProposals[IdeaProposalID];
+          getHash[_ideaIPFS] = globalIdeaPropCount;
+
+          IdeaProposal storage p = ideaProposals[globalIdeaPropCount];
           p.IdeaIPFS = _ideaIPFS;
           p.IdeaBlock = false;
           p.executed = false;

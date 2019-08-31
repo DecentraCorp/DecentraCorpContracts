@@ -1,0 +1,25 @@
+{
+    "authors": "Ryota Murohoshi <https://github.com/RyotaMurohoshi>",
+    "definitionFilename": "index.d.ts",
+    "libraryDependencies": [],
+    "moduleDependencies": [],
+    "libraryMajorVersion": "1",
+    "libraryMinorVersion": "2",
+    "libraryName": "is-url v1.2.1",
+    "typingsPackageName": "is-url",
+    "projectName": "https://github.com/segmentio/is-url",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "sourceBranch": "types-2.0",
+    "kind": "ProperModule",
+    "globals": [
+        "isUrl"
+    ],
+    "declaredModules": [
+        "is-url"
+    ],
+    "files": [
+        "index.d.ts"
+    ],
+    "hasPackageJson": false,
+    "contentHash": "b8a70146ed0a62ee8c5c6c81e7314e00d5adeeb7f2b0d6715a45b24040f3490a"
+}

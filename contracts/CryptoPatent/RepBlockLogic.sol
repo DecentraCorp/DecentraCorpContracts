@@ -30,24 +30,23 @@ contract RepBlockLogic is IdeaBlockLogic {
   //sets inventor as the specific inventor for an idea
 
 
-  if(_repOwner == 0x0000000000000000000000000000000000000000) {
-    _repOwner = member;
+
+
+  ReplicationInfo storage i = repInfo[_repAdd];
+    i.BlockReward = blockReward;
+    i.IdeaID = _ideaId;
+    i.Royalty = info.royalty;
+    i.InventorsAddress = inventor;
+    i.ReplicationAddress = _repAdd;
+    i.ReplicationMember = member;
+    i.OwnersAddress = _repOwner;
+    i.DeviceLockHash = _DLhash;
+
+  //creates replication struct for new rep
+  if(i.OwnersAddress == 0x0000000000000000000000000000000000000000) {
+    i.OwnersAddress = member;
   }
 
-  ReplicationInfo memory _info = ReplicationInfo({
-    BlockReward: uint( blockReward),
-    IdeaID: uint(_ideaId),
-    Royalty: uint(info.royalty),
-    InventorsAddress: address(inventor),
-    ReplicationAddress: address(_repAdd),
-    ReplicationMember: address(member),
-    OwnersAddress: address(_repOwner),
-    DeviceLockHash: string(_DLhash)
-    });
-  //creates replication struct for new rep
-
-    repInfo[_repAdd] = _info;
-    //stores new struct stored at the replications address
     ideaRepCounter[_ideaId] = ideaRepCounter[_ideaId]++;
     //increments the global rep count for a specific idea
     replications[_repAdd] = true;

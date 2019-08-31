@@ -1,34 +1,12 @@
 pragma solidity ^0.5.0;
-import "openzeppelin-eth/contracts/ownership/Ownable.sol";
-import 'openzeppelin-eth/contracts/math/SafeMath.sol';
-import "zos-lib/contracts/Initializable.sol";
-import "openzeppelin-eth/contracts/token/ERC20/ERC20.sol";
-import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
-////////////////////////////////////////////////////////////////////////////////////////////
-/// @title DecentraCorpPoA
-/// @dev All function calls are currently implement without side effects
-/// @author Christopher Dixon
-////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////
- contract DecentraCorp is Initializable, Ownable, ERC20, ERC20Detailed {
+import './DCMember.sol';
+
+ contract DecentraCorp is DCMember{
    using SafeMath for uint256;
 
-   uint public memberCount;
-   uint public buyMemWindow;
-   bool public frozen;
-   address public founder;
-
-   mapping (address =>bool) members;
-   mapping(address => uint) memberLevel;
-   mapping(address => string) memberProfileHash;
-///@param approvedContracts is a mappiung of contracts alloud to call function on other
-   mapping(address => bool) approvedContracts;
    mapping(string => uint) getHash;
    mapping(string => uint) propCode;
-   mapping(address => string) profileComments;
-   mapping(address => bool) frozenAccounts;
-   mapping(bytes32 => address) userIDs;
 
 
    Proposal[] public proposals;
@@ -36,11 +14,10 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
    event ProposalCreated(string VoteHash, uint PropCode);
    event Voted(address _voter, bool inSupport);
    event FundingApproved(address addToFund, uint amount);
-   event NewMember(address _newMem, address newMemFacility, string profHash);
-   event IdeaApproved(string _ideahash);
-   event ProfileUpdated(address updatedAccount);
-   event IdeaProposed(string IdeaHash);
-   event NewMember(address member);
+
+
+
+
 
    struct  Proposal {
         address Address;
@@ -60,48 +37,6 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
     }
 
 
-   modifier onlyApprovedAdd() {
-     require(approvedContracts[msg.sender] == true);
-     _;
-   }
-
-
-///@notice constructor sets up Notio address through truffle wizardry
-   function initialize() public initializer {
-     Ownable.initialize(msg.sender);
-     ERC20Detailed.initialize("NotioCoin", "NTC", 18);
-     buyMemWindow = now;
-   }
-
-
-   function setFounder(address _add, string memory _userID) public onlyOwner {
-     userIDs[keccak256(abi.encodePacked(_userID))] = _add;
-     members[_add] = true;
-     memberCount = memberCount + 1;
-     memberLevel[_add] += 100;
-     memberProfileHash[_add] = "Qma6SaoazBAsDs6XqojWFw3LCqXtopaPoxd5FFknPWeHrr";
-     founder = _add;
-      _mint(_add, 1000000000000000000000000);
-   }
-
-         ///@notice set_Quorum is an internal function used by proposal vote counts to see if the community approves
-         ///@dev quorum is set to 60%
-           function percent(uint numerator, uint denominator, uint precision) internal pure returns(uint quotient) {
-                  // caution, check safe-to-multiply here
-                   uint _numerator  = numerator * 10 ** (precision+1);
-                 // with rounding of last digit
-                   uint _quotient =  ((_numerator / denominator) + 5) / 10;
-                   return ( _quotient);
-                 }
-
-           function set_Quorum(uint numOfvotes, uint numOfmem) internal pure returns(bool) {
-                     uint percOfMemVoted = percent(numOfvotes, numOfmem, 2 );
-                      if(percOfMemVoted >= 60) {
-                          return true;
-                      } else {
-                          return false;
-                      }
-                   }
 
 
 /**
@@ -110,6 +45,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
 ** 1. Funding Proposal: the address entered is the address receiving funding
 ** 2. MemberShip Account Freeze Proposal: the address entered is the address to be frozen
 ** 3. Membership Termination Proposal: the address entered is the address to be terminated
+** 4. Add new Approved Contract: the address entered will be approved to mint/burn NotioCoin
 //more options will be added to allow for contract upgrades in the future
 */
    function createProposal(address _address, uint _propCode, string memory _voteHash, uint _amount) public {
@@ -143,7 +79,11 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
           p.voted[msg.sender] = true;
           memberLevel[msg.sender]++;
           emit Voted(msg.sender, supportsProposal);
+          if(memberCount >= 3){
           bool tally = set_Quorum(voteID, memberCount);
+         }else{
+          bool tally = true;
+         }
           if(tally) {
             executeVote(_ProposalID);
           }
@@ -180,6 +120,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
                      p.executed = true;
                      p.proposalPassed = true;
                      if(p.PropCode == 1) {
+                       transfer(p.Address, p.Amount);
                       emit FundingApproved(p.Address, p.Amount);
                      }
                      if(p.PropCode == 2) {
@@ -187,6 +128,9 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
                      }
                      if(p.PropCode == 3) {
                        terminateMember(p.Address);
+                     }
+                     if(p.PropCode == 4) {
+                       addApprovedContract(p.Address);
                      }
                  } else {
                        // Proposal failed
@@ -196,79 +140,8 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
             }
 
 
-//@addApprovedContract allows another contract to call functions
-///@dev adds contract to list of approved calling contracts
-  function addApprovedContract(address _newContract) public onlyOwner {
-        approvedContracts[_newContract] = true;
-      }
-
-///@notice proxyMint allows an approved address to mint Notio
-   function proxyNTCMint(address _add, uint _amount) external onlyApprovedAdd {
-     require(_checkIfFrozen(_add) == false);
-     _mint(_add, _amount);
-   }
-///@notice proxyBurn allows an approved address to burn Notio
-   function proxyNTCBurn(address _add,  uint _amount) external onlyApprovedAdd {
-     _burn(_add, _amount);
-   }
 
 
-///@notice addMember function is an internal function for adding a member to decentracorp
-///@dev addMember takes in an address _mem, sets its membership to true and increments their rank by one
-  function _addMember(address _mem, string calldata _userId) external onlyApprovedAdd {
-      require(_checkIfFrozen(_mem) == false);
-      members[_mem] = true;
-      memberLevel[_mem]++;
-      memberCount = memberCount + 1;
-      userIDs[keccak256(abi.encodePacked(_userId))] = _mem;
-  }
-
-
-  function _checkIfMember(address _member) public view returns(bool) {
-    if(members[_member] == true){
-      return true;
-    }
-  }
-
-  function _checkIfFrozen(address _member) public view returns(bool) {
-    if(frozenAccounts[_member] == true){
-      return true;
-    }
-  }
-
-
-  ///@notice getMemberCount function returns total membercount
-  ///@dev getMemberCount is for front end and internal use
-    function getMemberCount() public view returns(uint) {
-      return memberCount;
-    }
-
-    function increaseMemLev(address _add) external onlyApprovedAdd {
-      require(_checkIfFrozen(_add) == false);
-      memberLevel[_add]++;
-    }
-
-    function increaseMemLevel(address _add) internal {
-      require(_checkIfFrozen(_add) == false);
-      memberLevel[_add]++;
-    }
-
-    function getLevel(address _add) public view returns(uint) {
-      return memberLevel[_add];
-    }
-
-    function getProfileHash(address _add) public view returns(string memory) {
-      return memberProfileHash[_add];
-    }
-
-    function terminateMember(address _member) internal {
-      uint balance = balanceOf(_member);
-       _burnFrom(_member, balance);
-       members[_member] = false;
-       memberLevel[_member] = 0;
-       frozenAccounts[_member] = true;
-       memberCount = memberCount - 1;
-    }
 
     function getPropID(string memory hash) public view returns(uint){
       return getHash[hash];
@@ -283,36 +156,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
       return p.voted[_add];
     }
 
-    function postComment(address _member, string memory _commentsHash) public {
-       _burnFrom(msg.sender, 10);
-      profileComments[_member] = _commentsHash;
-    }
 
-    function getComment(address _member) public view returns(string memory){
-      return profileComments[_member];
-    }
-    ///@notice buyMembership function allows for the purchase of a membership for 6 months after official launch.
-    ///@dev mints the user 10,000 DCPoA
-      function buyMembership(address _newMem, address _facility, string memory _hash, string memory _userId) public {
-        require(_checkIfFrozen(_newMem) == false);
-        require(now <= buyMemWindow + 15780000 seconds);
-          members[_newMem] = true;
-          memberLevel[_newMem]++;
-          memberCount = memberCount + 1;
-          memberProfileHash[_newMem] = _hash;
-          userIDs[keccak256(abi.encodePacked(_userId))] = _newMem;
-          _mint(msg.sender, 1000000000000000000000);
-        emit NewMember(_newMem, _facility, _hash);
-      }
-
-      function updateProfile(string memory _newHash) public {
-            memberProfileHash[msg.sender] = _newHash;
-          emit ProfileUpdated(msg.sender);
-      }
-
-      function getAddFromPass(string memory _userId) public view returns(address) {
-        return userIDs[keccak256(abi.encodePacked(_userId))];
-      }
 
 
  }
