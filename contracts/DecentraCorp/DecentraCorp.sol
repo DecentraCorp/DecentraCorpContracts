@@ -79,10 +79,11 @@ import './DCMember.sol';
           p.voted[msg.sender] = true;
           memberLevel[msg.sender]++;
           emit Voted(msg.sender, supportsProposal);
+          bool tally = false;
           if(memberCount >= 3){
-          bool tally = set_Quorum(voteID, memberCount);
+           tally = set_Quorum(voteID, memberCount);
          }else{
-          bool tally = true;
+           tally = true;
          }
           if(tally) {
             executeVote(_ProposalID);

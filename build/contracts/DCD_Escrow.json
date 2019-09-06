@@ -526,8 +526,8 @@
         ],
         "contractDependencies": [
           2440,
-          3868,
-          4499
+          3900,
+          4531
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -536,8 +536,8 @@
         "linearizedBaseContracts": [
           2108,
           2440,
-          3868,
-          4499
+          3900,
+          4531
         ],
         "name": "DCD_Escrow",
         "nodeType": "ContractDefinition",
@@ -904,7 +904,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4514,
+                      "referencedDeclaration": 4546,
                       "src": "565:3:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -1727,8 +1727,8 @@
         ],
         "contractDependencies": [
           2440,
-          3868,
-          4499
+          3900,
+          4531
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -1737,8 +1737,8 @@
         "linearizedBaseContracts": [
           2108,
           2440,
-          3868,
-          4499
+          3900,
+          4531
         ],
         "name": "DCD_Escrow",
         "nodeType": "ContractDefinition",
@@ -2105,7 +2105,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4514,
+                      "referencedDeclaration": 4546,
                       "src": "565:3:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -2879,7 +2879,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-08-30T22:03:59.570Z",
+  "updatedAt": "2019-09-06T16:44:40.024Z",
   "devdoc": {
     "methods": {
       "initialize(address)": {
