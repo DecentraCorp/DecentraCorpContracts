@@ -11,6 +11,36 @@ contract CryptoPatentBlockchain is UseBlockLogic {
     globalBlockHalfTime = now;
   }
 
+  ///@notice proposeIdea is used to allow ANYONE to petition the community for idea approval
+  ///@dev the struct for this is set in interface.solidity
+  ///@dev idea proposals are put up for community approval
+  function proposeIdeaUpgrade(
+    string memory _ideaIPFS,
+
+    uint _globalUseBlockAmount,
+    uint _miningTime,
+    uint _royalty,
+    uint _stakeAmount,
+    uint _levelRequirement,
+    address _inventor,
+    address _invention
+  ) public {
+
+          uint ideaID = getHash[_ideaIPFS];
+
+          IdeaUpgradeProposal storage p = ideaUpgradeProposals[ideaID];
+          p.uIdeaIPFS = _ideaIPFS;
+          p.uexecuted = false;
+          p.uglobalUseBlockAmount = _globalUseBlockAmount;
+          p.uroyalty = _royalty;
+          p.ustakeAmount = _stakeAmount;
+          p.ulevelRequirement = _levelRequirement;
+          p.uminingTime = _miningTime;
+          p.uinventorAddress = _inventor;
+          p.uinventionAddress = _invention;
+          emit IdeaProposed(_ideaIPFS);
+  }
+
 
   ///@notice vote is a member only function which allows DecentraCorp members to vote on proposalPassed
 
@@ -22,17 +52,17 @@ contract CryptoPatentBlockchain is UseBlockLogic {
 
       {
           require(DCPoA._checkIfMember(msg.sender) == true);
-          IdeaProposal storage p = ideaProposals[_ideaProposalID];
+          IdeaUpgradeProposal storage p = ideaUpgradeProposals[_ideaProposalID];
           //makes the proposal an object, p
-          require(p.voted[msg.sender] != true);
+          require(p.uvoted[msg.sender] != true);
           //requires that the person calling the function hasnt voted yet
-          require(p.executed != true);
+          require(p.uexecuted != true);
           //requires the proposal hasnt been executed yet
-          uint voteID = p.votes.length++;
+          uint voteID = p.uvotes.length++;
           //sets voteID to the length of the votes array for that proposal
-          p.votes[voteID] = Vote({inSupport: supportsProposal, voter: msg.sender});
+          p.uvotes[voteID] = Vote({inSupport: supportsProposal, voter: msg.sender});
           //sets the individual Vote struct  properties to a voteID within votes struct array
-          p.voted[msg.sender] = true;
+          p.uvoted[msg.sender] = true;
           //sets the voter to true so they cant vote twice
           DCPoA.increaseMemLev(msg.sender);
           //increases the members level for voting
@@ -40,7 +70,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
           //emits Voted event
           uint maxQuorum = DCPoA.getMemberCount();
           //sets maxQuorum equal to total # of members
-          bool tally = setVoteQuorum(p.votes.length, maxQuorum);
+          bool tally = setVoteQuorum(p.uvotes.length, maxQuorum);
           //sets tally to either true of false depending if the # of members that have voted
           //must be greater than 80% of the total # of members
           if(tally) {
@@ -56,6 +86,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
   function ideaBlockVote(uint _ideaProposalID, uint maxQuorum) internal {
           IdeaProposal storage p = ideaProposals[_ideaProposalID];
                // sets p equal to the specific proposalNumbers struct
+                 IdeaUpgradeProposal storage u = ideaUpgradeProposals[_ideaProposalID];
           uint yea = 0;
 
 
@@ -72,15 +103,17 @@ contract CryptoPatentBlockchain is UseBlockLogic {
 
                if (passes) {
                    // Proposal passed; execute the transaction
-                 p.IdeaBlock = true;
-                 p.executed = true;
-                 IdeaAddToId[p.inventionAddress] = _ideaProposalID;
-                 ideaBlockTimeLord();
-                 Validators.addValidator(p.inventionAddress);
-                 DCPoA.proxyNTCMint( p.inventorAddress, ideaBlockReward);
-                 DCPoA.increaseMemLev(p.inventorAddress);
-                 ideaBlocksOwned[p.inventorAddress].push(_ideaProposalID);
-                 emit IdeaApproved( p.IdeaIPFS, p.inventorAddress);
+
+                 u.uexecuted = true;
+                p.IdeaIPFS =   u.uIdeaIPFS;
+                p.globalUseBlockAmount = u.uglobalUseBlockAmount;
+                p.royalty = u.uroyalty;
+                p.stakeAmount = u.ustakeAmount;
+                p.levelRequirement = u.ulevelRequirement;
+                p.miningTime = u.uminingTime;
+                p.inventorAddress = u.uinventorAddress;
+                p.inventionAddress = u.uinventionAddress;
+
              } else {
                    // Proposal failed
                  p.executed = false;
@@ -88,15 +121,7 @@ contract CryptoPatentBlockchain is UseBlockLogic {
              }
         }
 
-  ///@notice stakeReplicatorWallet function allows for the activation of a replication wallet by
-  ///        burning Notio from the msg.sender
-  ///@dev stakeReplicatorWallet costs 100 DCPoA and burns them from existence
-function stakeReplicatorWallet(string memory _hash, string memory _userId) public {
-        DCPoA.proxyNTCBurn(msg.sender, 100000000000000000000);
-        DCPoA._addMember(msg.sender, _userId);
-        DCPoA.setProfileHash(msg.sender, _hash);
-        emit NewMember(msg.sender);
-        }
+
 
   ///@notice the following functions allow for easier access to info by both the front end and other contracts
   ///@dev all the following contracts allow for the retreval of token block information
@@ -117,27 +142,12 @@ function setDCPoA(DecentraCorp _dcpoa) public onlyOwner {
         DCPoA = DecentraCorp(_dcpoa);
         }
 
-function checkIfVotedIdea(address _add, uint _ideaProposalID) public view returns(bool) {
-        IdeaProposal storage p = ideaProposals[_ideaProposalID];
-        return p.voted[_add];
-        }
 
-              ///@notice getPropID function allows one to rerieve a proposal ID by its ipfs hash
-///@dev getPropID is made for easier front end interaction
-function getPropID(string memory hash) public view returns(uint){
-  return getHash[hash];
-}
-
-function getOwnedIB(address _mem) public view returns(uint[] memory){
-  return ideaBlocksOwned[_mem];
-}
 
 function transferRepBlock(address _newOwner, address _rep) public view {
   ReplicationInfo memory infoR = repInfo[_rep];
   require(msg.sender == infoR.OwnersAddress);
   infoR.OwnersAddress = _newOwner;
 }
-function addV(address _add) public {
-    Validators.addValidator(_add);
-}
+
 }

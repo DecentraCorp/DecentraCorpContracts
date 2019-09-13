@@ -6,7 +6,7 @@ contract RepBlockLogic is IdeaBlockLogic {
 
 
   ///@notice generateReplicationBlock is used to generate a replication block when someone sucessfully replicates an Idea
-  ///@dev this requires the replicator has enough Notio to meet the stake amount and burns it from existence
+  ///@dev this requires the replicator has enough NotiCoin to meet the stake amount and burns it from existence
   ///@dev it also adds the replicator as a member of DecentraCorp
   ///@dev finally, this contract calls the Proof of Replication Ownership contract and mints a PoRO token to the msg.sender
   function generateReplicationBlock(uint _ideaId, address _repAdd, address _repOwner, string memory _userId, string memory _DLhash) public  {

@@ -1,9 +1,9 @@
 pragma solidity ^0.5.0;
-import "openzeppelin-eth/contracts/ownership/Ownable.sol";
-import 'openzeppelin-eth/contracts/math/SafeMath.sol';
-import "zos-lib/contracts/Initializable.sol";
-import "openzeppelin-eth/contracts/token/ERC20/ERC20.sol";
-import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol";
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @title DecentraCorp
 /// @dev All function calls are currently implement without side effects
@@ -16,16 +16,17 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
 
    address public founder;
    uint public memberCount;
-   uint public buyMemWindow;
    bool public frozen;
+
 
    mapping(address => string) profileComments;
    mapping(address => bool) frozenAccounts;
    mapping(address => bool) approvedContracts;
    mapping(bytes32 => address) userIDs;
-   mapping (address =>bool) members;
+   mapping(address =>bool) members;
    mapping(address => uint) memberLevel;
    mapping(address => string) memberProfileHash;
+
 
 
    modifier onlyApprovedAdd() {
@@ -34,11 +35,10 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
    }
 
 
-///@notice constructor sets up Notio address through truffle wizardry
+///@notice constructor sets up NotiCoin address through truffle wizardry
    function initialize() public initializer {
      Ownable.initialize(msg.sender);
-     ERC20Detailed.initialize("NotioCoin", "NTC", 18);
-     buyMemWindow = now;
+     ERC20Detailed.initialize("NotiCoinCoin", "NTC", 18);
    }
 
 
@@ -58,12 +58,12 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
               approvedContracts[_newContract] = true;
             }
 
-      ///@notice proxyMint allows an approved address to mint Notio
+      ///@notice proxyMint allows an approved address to mint NotiCoin
          function proxyNTCMint(address _add, uint _amount) external onlyApprovedAdd {
            require(_checkIfFrozen(_add) == false);
            _mint(_add, _amount);
          }
-      ///@notice proxyBurn allows an approved address to burn Notio
+      ///@notice proxyBurn allows an approved address to burn NotiCoin
          function proxyNTCBurn(address _add,  uint _amount) external onlyApprovedAdd {
            _burn(_add, _amount);
          }
@@ -73,6 +73,7 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
              return true;
            }
          }
+
 
           ///@notice set_Quorum is an internal function used by proposal vote counts to see if the community approves
           ///@dev quorum is set to 60%
@@ -92,5 +93,12 @@ import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
                            return false;
                        }
                     }
+
+            function getDCbalance() public view returns(uint) {
+              return balanceOf(address(this));
+            }
+
+  
+
 
        }

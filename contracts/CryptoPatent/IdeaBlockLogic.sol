@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
-import "zos-lib/contracts/Initializable.sol";
-import "openzeppelin-eth/contracts/ownership/Ownable.sol";
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @title Interface Contract for the CryptoPatent Blockchain
 /// @author DecentraCorp
@@ -45,6 +45,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
 
   mapping(address => uint) public IdeaAddToId;
   mapping(uint => IdeaProposal) public ideaProposals;
+  mapping(uint => IdeaUpgradeProposal) public ideaUpgradeProposals;
   mapping(uint => uint) public weightTracker;
   mapping(address => uint) public localWeightTracker;
 
@@ -85,6 +86,22 @@ contract IdeaBlockLogic is Initializable, Ownable {
        mapping (address => bool) voted;
    }
 
+
+   struct IdeaUpgradeProposal {
+        string uIdeaIPFS;
+        bool uexecuted;
+        uint uglobalUseBlockAmount;
+        uint uroyalty;
+        uint uminingTime;
+        uint ustakeAmount;
+        uint ulevelRequirement;
+        address uinventorAddress;
+        address uinventionAddress;
+        Vote[] uvotes;
+        mapping (address => bool) uvoted;
+    }
+
+
   struct Vote {
           bool inSupport;
           address voter;
@@ -122,12 +139,14 @@ contract IdeaBlockLogic is Initializable, Ownable {
 
           getHash[_ideaIPFS] = globalIdeaPropCount;
 
+          uint royalty = _globalUseBlockAmount * _royalty / 100;
+
           IdeaProposal storage p = ideaProposals[globalIdeaPropCount];
           p.IdeaIPFS = _ideaIPFS;
           p.IdeaBlock = false;
           p.executed = false;
           p.globalUseBlockAmount = _globalUseBlockAmount;
-          p.royalty = _royalty;
+          p.royalty = royalty;
           p.stakeAmount = _stakeAmount;
           p.levelRequirement = _levelRequirement;
           p.miningTime = _miningTime;
@@ -176,4 +195,100 @@ contract IdeaBlockLogic is Initializable, Ownable {
                         }
 
 
+                        ///@notice vote is a member only function which allows DecentraCorp members to vote on proposalPassed
+
+        function ideaVote(
+              uint _ideaProposalID,
+              bool supportsProposal
+              )
+                public
+
+                {
+                    require(DCPoA._checkIfMember(msg.sender) == true);
+                    IdeaProposal storage p = ideaProposals[_ideaProposalID];
+                  //makes the proposal an object, p
+                    require(p.voted[msg.sender] != true);
+                  //requires that the person calling the function hasnt voted yet
+                    require(p.executed != true);
+                  //requires the proposal hasnt been executed yet
+                    uint voteID = p.votes.length++;
+                  //sets voteID to the length of the votes array for that proposal
+                    p.votes[voteID] = Vote({inSupport: supportsProposal, voter: msg.sender});
+                  //sets the individual Vote struct  properties to a voteID within votes struct array
+                    p.voted[msg.sender] = true;
+                  //sets the voter to true so they cant vote twice
+                    DCPoA.increaseMemLev(msg.sender);
+                  //increases the members level for voting
+                    emit Voted(msg.sender, supportsProposal);
+                  //emits Voted event
+                    uint maxQuorum = DCPoA.getMemberCount();
+                  //sets maxQuorum equal to total # of members
+                    bool tally = setVoteQuorum(p.votes.length, maxQuorum);
+                                //sets tally to either true of false depending if the # of members that have voted
+                                //must be greater than 80% of the total # of members
+                                if(tally) {
+                                  ideaBlockVote(_ideaProposalID, maxQuorum);
+                                  //fires of the vote tally function
+                                }
+                            }
+
+
+    // allows members to vote on proposals
+      ///@notice ideaBlockVote counts the votes and executes and Idea Proposal, adding an idea to the cryptopatent Blockchain
+      ///@dev seperate but similiar structures will need to be implemented in the future to stream line voting on different subjects(beta)
+          function ideaBlockVote(uint _ideaProposalID, uint maxQuorum) internal {
+                    IdeaProposal storage p = ideaProposals[_ideaProposalID];
+                     // sets p equal to the specific proposalNumbers struct
+                      uint yea = 0;
+
+
+                            for (uint i = 0; i <  p.votes.length; ++i) {
+                                Vote storage v = p.votes[i];
+
+                                if (v.inSupport) {
+                                  yea += 1;
+                                     }
+                                  }
+
+                    bool passes = setVoteNumberQuorum(yea, maxQuorum);
+                              //checks if the number of yea votes is 60% or more of the total number of members
+                              if (passes) {
+                                     // Proposal passed; execute the transaction
+                                       p.IdeaBlock = true;
+                                       p.executed = true;
+                                       IdeaAddToId[p.inventionAddress] = _ideaProposalID;
+                                       ideaBlockTimeLord();
+                                       Validators.addValidator(p.inventionAddress);
+                                       DCPoA.proxyNTCMint( p.inventorAddress, ideaBlockReward);
+                                       DCPoA.increaseMemLev(p.inventorAddress);
+                                       ideaBlocksOwned[p.inventorAddress].push(_ideaProposalID);
+                                       emit IdeaApproved( p.IdeaIPFS, p.inventorAddress);
+                                   } else {
+                                         // Proposal failed
+                                       p.executed = false;
+                                       p.IdeaBlock = true;
+                                   }
+                              }
+
+
+        function checkIfVotedIdea(address _add, uint _ideaProposalID) public view returns(bool) {
+                    IdeaProposal storage p = ideaProposals[_ideaProposalID];
+                    return p.voted[_add];
+                }
+
+///@notice getPropID function allows one to rerieve a proposal ID by its ipfs hash
+///@dev getPropID is made for easier front end interaction
+        function getPropID(string memory hash) public view returns(uint){
+                  return getHash[hash];
+              }
+
+        function getOwnedIB(address _mem) public view returns(uint[] memory){
+              return ideaBlocksOwned[_mem];
+              }
+
+        function transferIdeaBlock(address _newOwner, uint _ideaProposalID) public  {
+                IdeaProposal storage p = ideaProposals[_ideaProposalID];
+                require(msg.sender == p.inventorAddress);
+                p.inventorAddress = _newOwner;
+              }
 }

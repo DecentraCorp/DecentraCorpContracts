@@ -12963,13 +12963,13 @@
         "notice": "getMemberCount function returns total membercount"
       },
       "initialize()": {
-        "notice": "constructor sets up Notio address through truffle wizardry"
+        "notice": "constructor sets up NotiCoin address through truffle wizardry"
       },
       "proxyNTCBurn(address,uint256)": {
-        "notice": "proxyBurn allows an approved address to burn Notio"
+        "notice": "proxyBurn allows an approved address to burn NotiCoin"
       },
       "proxyNTCMint(address,uint256)": {
-        "notice": "proxyMint allows an approved address to mint Notio"
+        "notice": "proxyMint allows an approved address to mint NotiCoin"
       },
       "renounceOwnership()": {
         "notice": "Renouncing to ownership will leave the contract without an owner. It will not be possible to call the functions with the `onlyOwner` modifier anymore."

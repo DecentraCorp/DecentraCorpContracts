@@ -1,9 +1,9 @@
 pragma solidity ^0.5.0;
-import "zos-lib/contracts/Initializable.sol";
-import 'openzeppelin-eth/contracts/math/SafeMath.sol';
-import "openzeppelin-eth/contracts/ownership/Ownable.sol";
-import "openzeppelin-eth/contracts/token/ERC20/ERC20.sol";
-import "openzeppelin-eth/contracts/token/ERC20/ERC20Detailed.sol";
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
+import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol";
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// @title ChaosCasino
 /// @author DecentraCorp
@@ -48,7 +48,7 @@ contract ChaosCasino is Initializable, Ownable, ERC20, ERC20Detailed {
     require(approvedGameContracts[msg.sender]);
     _;
   }
-  ///@notice constructor sets up Notio address through truffle wizardry
+  ///@notice constructor sets up NotiCoin address through truffle wizardry
   function initialize() public initializer {
    Ownable.initialize(msg.sender);
    ERC20Detailed.initialize("ChaosCoin", "CCC", 18);
@@ -79,11 +79,11 @@ contract ChaosCasino is Initializable, Ownable, ERC20, ERC20Detailed {
   function addApprovedGame(address _newGame) public onlyOwner {
     approvedGameContracts[_newGame] = true;
   }
-  ///@notice proxyMint allows an approved address to mint Notio
+  ///@notice proxyMint allows an approved address to mint NotiCoin
  function proxyCCMint(address _add, uint _amount) external onlyApprovedAdd {
    _mint(_add, _amount);
  }
-  ///@notice proxyBurn allows an approved address to burn Notio
+  ///@notice proxyBurn allows an approved address to burn NotiCoin
  function proxyCCBurn(address _add,  uint _amount) external onlyApprovedAdd {
    _burn(_add, _amount);
  }

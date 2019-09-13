@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
-import "openzeppelin-eth/contracts/ownership/Ownable.sol";
-import 'openzeppelin-eth/contracts/math/SafeMath.sol';
-import "zos-lib/contracts/Initializable.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
 
 
 contract AccountAbstraction is Initializable, Ownable {

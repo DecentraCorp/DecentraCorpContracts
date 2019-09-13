@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
-import "zos-lib/contracts/Initializable.sol";
-import "openzeppelin-eth/contracts/ownership/Ownable.sol";
-import 'openzeppelin-eth/contracts/math/SafeMath.sol';
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 import './ChaosCasino.sol';
 
 
@@ -25,7 +25,7 @@ struct NewRound {
   address CurrentWinner;
 }
 
-///@notice constructor sets up Notio address through truffle wizardry
+///@notice constructor sets up NotiCoin address through truffle wizardry
   function initialize() public initializer {
      Ownable.initialize(msg.sender);
      round++;

@@ -1,8 +1,8 @@
 pragma solidity ^0.5.0;
 
-import './DCBase.sol';
+import './DecentraStock.sol';
 
- contract DCMember is DCBase {
+ contract DCMember is DecentraStock {
    using SafeMath for uint256;
 
 event NewMember(address _newMem, address newMemFacility, string profHash);
@@ -69,16 +69,41 @@ event ProfileUpdated(address updatedAccount);
     }
 
     ///@notice buyMembership function allows for the purchase of a membership for 6 months after official launch.
-    ///@dev mints the user 10,000 DCPoA
-      function buyMembership(address _newMem, address _facility, string memory _hash, string memory _userId) public {
+    ///@dev mints the user 1000 NTC if member is one of the first 100
+      function buyMembership(
+        address _newMem,
+        address _facility,
+        string memory _hash,
+        string memory _userId
+      ) public {
         require(_checkIfFrozen(_newMem) == false);
-        require(now <= buyMemWindow + 15780000 seconds);
+
+        if(memberCount > 100) {
           members[_newMem] = true;
           memberLevel[_newMem]++;
           memberCount = memberCount + 1;
           memberProfileHash[_newMem] = _hash;
           userIDs[keccak256(abi.encodePacked(_userId))] = _newMem;
           _mint(msg.sender, 1000000000000000000000);
+          issueCommonStock(msg.sender, 1);
+        emit NewMember(_newMem, _facility, _hash);
+        }
+          _burn(msg.sender, commonStockPrice);
+          _mint(address(this), commonStockPrice);
+
+          members[_newMem] = true;
+          memberLevel[_newMem]++;
+          memberCount = memberCount + 1;
+          memberProfileHash[_newMem] = _hash;
+          userIDs[keccak256(abi.encodePacked(_userId))] = _newMem;
+
+          if(commonStocksHeldByDC <= 0) {
+              issueCommonStock(msg.sender, 1);
+          } else {
+           commonStocksHeldByDC -= 1;
+           DecentraStocks storage s = stocks[msg.sender];
+           s.commonStocks += 1;
+         }
         emit NewMember(_newMem, _facility, _hash);
       }
 
