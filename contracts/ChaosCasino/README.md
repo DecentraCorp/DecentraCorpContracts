@@ -12,4 +12,4 @@ The Entropy21 game contract handle the logic for interacting with the ChaosCasin
 front end as well as the logic for interacting with ChaosCoin/ the ChaosCasino
 
 for more information about the ChaosCasino please visit our documentation found
-[HERE]: https://github.com/DecentraCorp/Documentation/blob/master/ChaosCasinoWhitePaper.md
+[HERE]: [https://github.com/DecentraCorp/Documentation/blob/master/ChaosCasinoWhitePaper.md]
