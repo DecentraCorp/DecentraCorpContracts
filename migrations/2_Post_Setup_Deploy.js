@@ -16,7 +16,7 @@ module.exports = (deployer) => {
     b = instance;
     return b.transferOwnership(DCPoA.address);
   }).then(function() {
-    return NotiCoin.deployed();
+    return NotioCoin.deployed();
   }).then(function(instance) {
     b = instance;
     return b.transferOwnership(DCPoA.address);

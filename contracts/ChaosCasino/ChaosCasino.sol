@@ -48,7 +48,7 @@ contract ChaosCasino is Initializable, Ownable, ERC20, ERC20Detailed {
     require(approvedGameContracts[msg.sender]);
     _;
   }
-  ///@notice constructor sets up NotiCoin address through truffle wizardry
+  ///@notice constructor sets up NotioCoin address through truffle wizardry
   function initialize() public initializer {
    Ownable.initialize(msg.sender);
    ERC20Detailed.initialize("ChaosCoin", "CCC", 18);
@@ -79,11 +79,11 @@ contract ChaosCasino is Initializable, Ownable, ERC20, ERC20Detailed {
   function addApprovedGame(address _newGame) public onlyOwner {
     approvedGameContracts[_newGame] = true;
   }
-  ///@notice proxyMint allows an approved address to mint NotiCoin
+  ///@notice proxyMint allows an approved address to mint NotioCoin
  function proxyCCMint(address _add, uint _amount) external onlyApprovedAdd {
    _mint(_add, _amount);
  }
-  ///@notice proxyBurn allows an approved address to burn NotiCoin
+  ///@notice proxyBurn allows an approved address to burn NotioCoin
  function proxyCCBurn(address _add,  uint _amount) external onlyApprovedAdd {
    _burn(_add, _amount);
  }

@@ -35,10 +35,10 @@ import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Deta
    }
 
 
-///@notice constructor sets up NotiCoin address through truffle wizardry
+///@notice constructor sets up NotioCoin address through truffle wizardry
    function initialize() public initializer {
      Ownable.initialize(msg.sender);
-     ERC20Detailed.initialize("NotiCoinCoin", "NTC", 18);
+     ERC20Detailed.initialize("NotioCoin", "NTC", 18);
    }
 
 
@@ -58,12 +58,12 @@ import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Deta
               approvedContracts[_newContract] = true;
             }
 
-      ///@notice proxyMint allows an approved address to mint NotiCoin
+      ///@notice proxyMint allows an approved address to mint NotioCoin
          function proxyNTCMint(address _add, uint _amount) external onlyApprovedAdd {
            require(_checkIfFrozen(_add) == false);
            _mint(_add, _amount);
          }
-      ///@notice proxyBurn allows an approved address to burn NotiCoin
+      ///@notice proxyBurn allows an approved address to burn NotioCoin
          function proxyNTCBurn(address _add,  uint _amount) external onlyApprovedAdd {
            _burn(_add, _amount);
          }

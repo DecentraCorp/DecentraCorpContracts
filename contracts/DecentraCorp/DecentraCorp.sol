@@ -45,7 +45,7 @@ import './DCMember.sol';
 ** 1. Funding Proposal: the address entered is the address receiving funding
 ** 2. MemberShip Account Freeze Proposal: the address entered is the address to be frozen
 ** 3. Membership Termination Proposal: the address entered is the address to be terminated
-** 4. Add new Approved Contract: the address entered will be approved to mint/burn NotiCoinCoin
+** 4. Add new Approved Contract: the address entered will be approved to mint/burn NotioCoin
 //more options will be added to allow for contract upgrades in the future
 */
    function createProposal(address _address, uint _propCode, string memory _voteHash, uint _amount) public {
