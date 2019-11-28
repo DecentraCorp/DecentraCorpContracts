@@ -11,10 +11,14 @@ contract DC_Bank is Initializable, Ownable, IERC20, BamcorFormula {
   using SafeMath for uint256;
 
   uint public idCDP;
+  uint public CDPminTime;
+
 
   DecentraDollar public DCD;
   DecentraStockP public DSP;
   DecentraCorp public DC;
+
+
 
 DecentraStockCDP[] public CDPs;
 
@@ -23,6 +27,7 @@ DecentraStockCDP[] public CDPs;
     uint DSPamountLocked; //Amount of Preffered Stock locked in CDP
     uint DCDvalueOfCDP; //value Amount When Locked
     uint DCDvalueOfLoan; //value of loan given
+    uint timeLock; //sets time of CDP creation
     bool isPayedOff; //whether or not a loan has been payed back
   }
 
@@ -32,6 +37,7 @@ DecentraStockCDP[] public CDPs;
        DC = _DC;
        DCD = _DCD;
        DSP = _DSP;
+       CDPminTime = 2628002;
      }
 
 
@@ -47,7 +53,7 @@ DecentraStockCDP[] public CDPs;
      function sellPrefferedStock(uint _DSPamount) public {
        uint256 ts = DSP.totalSupply();
        uint poolBalance = DC.getDCbalance();
-       uint amountOfDCD = calculateSaleReturn(ts, poolBalance, 400000, _DSPamount);
+       uint amountOfDCD = calculateSaleReturn(ts, poolBalance, 450000, _DSPamount);
        DC.proxyDSPBurn(msg.sender, _DSPamount);
        DC.proxyDCDBurn(owner() , amountOfDCD);
        DC.proxyDCDMint(msg.sender , amountOfDCD);
@@ -68,6 +74,9 @@ DecentraStockCDP[] public CDPs;
        c.DCDvalueOfCDP = DCDvalueOfDSP;
        c.DCDvalueOfLoan = loanAmountOfDCD;
        c.isPayedOff = false;
+       c.timeLock = now;
+
+       checkForDefault();
 
        DC.proxyDSPBurn(msg.sender, _DSPamount);
        DC.proxyDSPMint(owner(), _DSPamount);
@@ -75,36 +84,53 @@ DecentraStockCDP[] public CDPs;
        return(idCDP);
      }
 
-     function checkForDefault() public {
+     function checkForDefault() internal {
          for (uint i = 0; i <  p.votes.length; ++i) {
+
            DecentraStockCDP storage c = CDPs[i];
-              if(!c.isPayedOff) {
+           uint timeLapsed = now - c.timeLock ;
+
+              if(!c.isPayedOff && timeLapsed >= CDPminTime) {
+
                 uint256 ts = DSP.totalSupply();
                 uint poolBalance = DC.getDCbalance();
                 uint DCDvalueOfDSP = calculateSaleReturn(ts, poolBalance, 500000, c.DSPamountLocked);
-                if(c.DCDvalueOfCDP <= DCDvalueOfDSP) {
+
+                if(c.DCDvalueOfCDP <= DCDvalueOfDSP ) {
+
                   c.isPayedOff = true;
+                  DC.proxyDSPBurn(owner(), c.DSPamountLocked);
                 }
               }
             }
           }
 
-      function payBackLoan(uint _idCDP) public {
+      function payBackLoan(uint _idCDP, uint _amountPayed) public {
 
         DecentraStockCDP storage c = CDPs[_idCDP];
-        c.isPayedOff = true;
-        DC.proxyDCDBurn(msg.sender, c.DCDvalueOfLoan);
-        DC.proxyDSPBurn(owner(), c.DSPamountLocked);
-        DC.proxyDSPMint(CDPowner, c.DSPamountLocked);
 
+        uint timeLapsed = now - c.timeLock ;
+        require(timeLapsed >= CDPminTime);
+
+        c.DCDvalueOfLoan = c.DCDvalueOfLoan - _amountPayed;
+        DC.proxyDCDBurn(msg.sender, _amountPayed);
+
+        if(c.DCDvalue == 0){
+            c.isPayedOff = true;
+            DC.proxyDSPBurn(owner(), c.DSPamountLocked);
+            DC.proxyDSPMint(CDPowner, c.DSPamountLocked);
+        }
       }
 
       function addToCDP(uint _DSPamount, uint _idCDP) public {
+
         DecentraStockCDP storage c = CDPs[_idCDP];
 
         DC.proxyDSPBurn(msg.sender, _DSPamount);
         DC.proxyDSPMint(owner(), _DSPamount);
         c.DSPamountLocked += _DSPamount;
       }
+
+
 
   }
