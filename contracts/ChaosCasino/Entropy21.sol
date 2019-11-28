@@ -25,7 +25,7 @@ struct NewRound {
   address CurrentWinner;
 }
 
-///@notice constructor sets up NotioCoin address through truffle wizardry
+///@notice constructor sets up DecentraDollar address through truffle wizardry
   function initialize() public initializer {
      Ownable.initialize(msg.sender);
      round++;

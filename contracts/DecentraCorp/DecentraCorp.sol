@@ -45,7 +45,8 @@ import './DCMember.sol';
 ** 1. Funding Proposal: the address entered is the address receiving funding
 ** 2. MemberShip Account Freeze Proposal: the address entered is the address to be frozen
 ** 3. Membership Termination Proposal: the address entered is the address to be terminated
-** 4. Add new Approved Contract: the address entered will be approved to mint/burn NotioCoin
+** 4. Add new Approved Contract: the address entered will be approved to mint/burn DecentraDollar
+** 5. Add new Validator to the DCPoA
 //more options will be added to allow for contract upgrades in the future
 */
    function createProposal(address _address, uint _propCode, string memory _voteHash, uint _amount) public {
@@ -79,7 +80,7 @@ import './DCMember.sol';
           p.voted[msg.sender] = true;
           emit Voted(msg.sender, supportsProposal);
           bool tally = false;
-          if(memberCount >= 3){
+          if(memberCount >= 10){
            tally = set_Quorum(voteID, memberCount);
          }else{
            tally = true;
@@ -105,7 +106,15 @@ import './DCMember.sol';
 
           for (uint i = 0; i <  p.votes.length; ++i) {
               Vote storage v = p.votes[i];
-              uint voteWeight = 1;
+
+              uint levelWeight = getLevel(v.voter);
+              uint DSCWeight = DecentraStockC.balanceOf(v.voter);
+
+              if(DSCWeight >= 4) {
+                DSCWeight = 4;
+              }
+
+              uint voteWeight = DSCWeight + levelWeight;
               quorum += voteWeight;
               if (v.inSupport) {
                 yea += voteWeight;
@@ -120,7 +129,8 @@ import './DCMember.sol';
                      p.executed = true;
                      p.proposalPassed = true;
                      if(p.PropCode == 1) {
-                       transfer(p.Address, p.Amount);
+                       DecentraDollar._BurnDecentraDollar(address(this),  p.Amount);
+                       DecentraDollar._MintDecentraDollar((p.Address, p.Amount);
                       emit FundingApproved(p.Address, p.Amount);
                      }
                      if(p.PropCode == 2) {
@@ -131,6 +141,9 @@ import './DCMember.sol';
                      }
                      if(p.PropCode == 4) {
                        addApprovedContract(p.Address);
+                     }
+                     if(p.PropCode == 5) {
+                       Validators.addValidator(p.Address);
                      }
                  } else {
                        // Proposal failed

@@ -1,15 +1,7 @@
 {
   "manifestVersion": "2.2",
-  "contracts": {
-    "DecentraCorp": "DecentraCorp",
-    "CryptoPatentBlockchain": "CryptoPatentBlockchain",
-    "ChaosCasino": "ChaosCasino",
-    "AccountAbstraction": "AccountAbstraction",
-    "Entropy21": "Entropy21"
-  },
-  "dependencies": {
-    "@openzeppelin/contracts-ethereum-package": "^2.2.3"
-  },
+  "contracts": {},
+  "dependencies": {},
   "name": "DecentraCorp",
   "version": "1.0.0",
   "compiler": {

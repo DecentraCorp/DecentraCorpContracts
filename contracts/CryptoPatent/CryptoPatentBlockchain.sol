@@ -134,9 +134,7 @@ function getID(address _ideaAdd) public view returns(uint){
         return IdeaAddToId[_ideaAdd];
         }
 
-function setValidatorContract(address _valCon) public onlyOwner {
-        Validators = RelayedOwnedSet(_valCon);
-        }
+
 
 function setDCPoA(DecentraCorp _dcpoa) public onlyOwner {
         DCPoA = DecentraCorp(_dcpoa);

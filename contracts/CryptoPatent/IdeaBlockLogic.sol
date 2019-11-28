@@ -17,13 +17,11 @@ contract DecentraCorp {
   function getMemberCount() public view returns(uint);
   function getAddFromPass(string memory _userId) public view returns(address);
   function getLevel(address _add) public view returns(uint);
+  function addValidatorProxy(address _newVal) external;
 }
 /// DecentraCorp PoA inteface
 ////////////////////////////////////////////////////////////////////////////////////////////
-  contract RelayedOwnedSet {
-    	function addValidator(address _validator) external;
-  }
-/// Validator contract interface
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 contract IdeaBlockLogic is Initializable, Ownable {
 
@@ -258,7 +256,7 @@ contract IdeaBlockLogic is Initializable, Ownable {
                                        p.executed = true;
                                        IdeaAddToId[p.inventionAddress] = _ideaProposalID;
                                        ideaBlockTimeLord();
-                                       Validators.addValidator(p.inventionAddress);
+                                       DCPoA.addValidatorProxy(p.inventionAddress);
                                        DCPoA.proxyNTCMint( p.inventorAddress, ideaBlockReward);
                                        DCPoA.increaseMemLev(p.inventorAddress);
                                        ideaBlocksOwned[p.inventorAddress].push(_ideaProposalID);
