@@ -1,0 +1,695 @@
+{
+  "contracts": {
+    "DecentraDollar": {
+      "address": "0xedd52dAbd146073740e81B3f812f5F1227969EA9",
+      "constructorCode": "60806040526122a6806100136000396000f3fe",
+      "bodyBytecodeHash": "ffe03423e92878f55dbd15a4961969942abde1297240b4df2cadede54d3043e3",
+      "localBytecodeHash": "7d48c372b7655fa4031ffc7186574d7ebfac6b5c6db5e0576045b5ce07eb3122",
+      "deployedBytecodeHash": "7d48c372b7655fa4031ffc7186574d7ebfac6b5c6db5e0576045b5ce07eb3122",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_uint8": {
+          "id": "t_uint8",
+          "kind": "elementary",
+          "label": "uint8"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 4566,
+          "type": "t_bool",
+          "src": "757:24:14"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 4568,
+          "type": "t_bool",
+          "src": "876:25:14"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 4630,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:14"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 3900,
+          "type": "t_address",
+          "src": "526:22:10"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 4013,
+          "type": "t_array:50<t_uint256>",
+          "src": "2471:29:10"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "_balances",
+          "astId": 4033,
+          "type": "t_mapping<t_uint256>",
+          "src": "1418:46:11"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "_allowances",
+          "astId": 4039,
+          "type": "t_mapping<t_uint256>",
+          "src": "1471:69:11"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "_totalSupply",
+          "astId": 4041,
+          "type": "t_uint256",
+          "src": "1547:28:11"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "______gap",
+          "astId": 4425,
+          "type": "t_array:50<t_uint256>",
+          "src": "8173:29:11"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "_name",
+          "astId": 4436,
+          "type": "t_string",
+          "src": "224:20:12"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "_symbol",
+          "astId": 4438,
+          "type": "t_string",
+          "src": "250:22:12"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "_decimals",
+          "astId": 4440,
+          "type": "t_uint8",
+          "src": "278:23:12"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "______gap",
+          "astId": 4492,
+          "type": "t_array:50<t_uint256>",
+          "src": "1654:29:12"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "DecentraStock": {
+      "address": "0xcD347a158Af60414F456C403fa8d689A063E0800",
+      "constructorCode": "60806040526122a6806100136000396000f3fe",
+      "bodyBytecodeHash": "895e4609c227bfe9a04b062fa9c67c45b37b765104f3a40cf51adac28e3edd18",
+      "localBytecodeHash": "fcbde5b5d52ecf2e8ab0dfff7c9a6670539c4fc8a953794e08e39c81218dbeb5",
+      "deployedBytecodeHash": "fcbde5b5d52ecf2e8ab0dfff7c9a6670539c4fc8a953794e08e39c81218dbeb5",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_uint8": {
+          "id": "t_uint8",
+          "kind": "elementary",
+          "label": "uint8"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 4608,
+          "type": "t_bool",
+          "src": "757:24:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 4610,
+          "type": "t_bool",
+          "src": "876:25:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 4672,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:15"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 3942,
+          "type": "t_address",
+          "src": "526:22:11"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 4055,
+          "type": "t_array:50<t_uint256>",
+          "src": "2471:29:11"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "_balances",
+          "astId": 4075,
+          "type": "t_mapping<t_uint256>",
+          "src": "1418:46:12"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "_allowances",
+          "astId": 4081,
+          "type": "t_mapping<t_uint256>",
+          "src": "1471:69:12"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "_totalSupply",
+          "astId": 4083,
+          "type": "t_uint256",
+          "src": "1547:28:12"
+        },
+        {
+          "contract": "ERC20",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol",
+          "label": "______gap",
+          "astId": 4467,
+          "type": "t_array:50<t_uint256>",
+          "src": "8173:29:12"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "_name",
+          "astId": 4478,
+          "type": "t_string",
+          "src": "224:20:13"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "_symbol",
+          "astId": 4480,
+          "type": "t_string",
+          "src": "250:22:13"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "_decimals",
+          "astId": 4482,
+          "type": "t_uint8",
+          "src": "278:23:13"
+        },
+        {
+          "contract": "ERC20Detailed",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20Detailed.sol",
+          "label": "______gap",
+          "astId": 4534,
+          "type": "t_array:50<t_uint256>",
+          "src": "1654:29:13"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "DecentraCorp": {
+      "address": "0xC9F46C51d5Fd4dD4C41fff2DDA645205Fcb9323C",
+      "constructorCode": "608060405261359d806100136000396000f3fe",
+      "bodyBytecodeHash": "eea61193b7ad72c17c732512822c8f25289142da8a3b14a6f22843d1cae608cf",
+      "localBytecodeHash": "6bf084f97875fddd0983213f465833cffa6380c8006950c06d3c611fa5939602",
+      "deployedBytecodeHash": "6bf084f97875fddd0983213f465833cffa6380c8006950c06d3c611fa5939602",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_mapping<t_address>": {
+          "id": "t_mapping<t_address>",
+          "valueType": "t_address",
+          "label": "mapping(key => address)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_bool>": {
+          "id": "t_mapping<t_bool>",
+          "valueType": "t_bool",
+          "label": "mapping(key => bool)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_struct<DecentraCorp.Proposal>": {
+          "id": "t_struct<DecentraCorp.Proposal>",
+          "kind": "struct",
+          "label": "DecentraCorp.Proposal",
+          "members": [
+            {
+              "label": "Address",
+              "astId": 665,
+              "type": "t_address",
+              "src": "708:15:3"
+            },
+            {
+              "label": "PropCode",
+              "astId": 667,
+              "type": "t_uint256",
+              "src": "733:13:3"
+            },
+            {
+              "label": "Amount",
+              "astId": 669,
+              "type": "t_uint256",
+              "src": "756:11:3"
+            },
+            {
+              "label": "proposedInterest",
+              "astId": 671,
+              "type": "t_uint256",
+              "src": "777:21:3"
+            },
+            {
+              "label": "voteHash",
+              "astId": 673,
+              "type": "t_string",
+              "src": "808:15:3"
+            },
+            {
+              "label": "executed",
+              "astId": 675,
+              "type": "t_bool",
+              "src": "833:13:3"
+            },
+            {
+              "label": "proposalPassed",
+              "astId": 677,
+              "type": "t_bool",
+              "src": "856:19:3"
+            },
+            {
+              "label": "votes",
+              "astId": 680,
+              "type": "t_array:dyn<t_struct<DecentraCorp.Vote>>",
+              "src": "885:12:3"
+            },
+            {
+              "label": "voted",
+              "astId": 684,
+              "type": "t_mapping<t_bool>",
+              "src": "907:31:3"
+            }
+          ]
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_struct<DecentraCorp.Vote>": {
+          "id": "t_struct<DecentraCorp.Vote>",
+          "kind": "struct",
+          "label": "DecentraCorp.Vote",
+          "members": [
+            {
+              "label": "inSupport",
+              "astId": 687,
+              "type": "t_bool",
+              "src": "978:14:3"
+            },
+            {
+              "label": "voter",
+              "astId": 689,
+              "type": "t_address",
+              "src": "1006:13:3"
+            }
+          ]
+        },
+        "t_array:dyn<t_struct<DecentraCorp.Vote>>": {
+          "id": "t_array:dyn<t_struct<DecentraCorp.Vote>>",
+          "valueType": "t_struct<DecentraCorp.Vote>",
+          "length": "dyn",
+          "kind": "array",
+          "label": "DecentraCorp.Vote[]"
+        },
+        "t_array:dyn<t_struct<DecentraCorp.Proposal>>": {
+          "id": "t_array:dyn<t_struct<DecentraCorp.Proposal>>",
+          "valueType": "t_struct<DecentraCorp.Proposal>",
+          "length": "dyn",
+          "kind": "array",
+          "label": "DecentraCorp.Proposal[]"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 4643,
+          "type": "t_bool",
+          "src": "757:24:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 4645,
+          "type": "t_bool",
+          "src": "876:25:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 4707,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:16"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "_owner",
+          "astId": 3977,
+          "type": "t_address",
+          "src": "526:22:12"
+        },
+        {
+          "contract": "Ownable",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol",
+          "label": "______gap",
+          "astId": 4090,
+          "type": "t_array:50<t_uint256>",
+          "src": "2471:29:12"
+        },
+        {
+          "contract": "DCBase",
+          "path": "contracts/DCBase.sol",
+          "label": "frozen",
+          "astId": 321,
+          "type": "t_bool",
+          "src": "1514:18:1"
+        },
+        {
+          "contract": "DCBase",
+          "path": "contracts/DCBase.sol",
+          "label": "approvedContracts",
+          "astId": 323,
+          "type": "t_uint256",
+          "src": "1537:32:1"
+        },
+        {
+          "contract": "DCBase",
+          "path": "contracts/DCBase.sol",
+          "label": "contractNumber",
+          "astId": 327,
+          "type": "t_mapping<t_address>",
+          "src": "1575:42:1"
+        },
+        {
+          "contract": "DCBase",
+          "path": "contracts/DCBase.sol",
+          "label": "DD",
+          "astId": 329,
+          "type": "t_address",
+          "src": "1846:24:1"
+        },
+        {
+          "contract": "DCBase",
+          "path": "contracts/DCBase.sol",
+          "label": "DS",
+          "astId": 331,
+          "type": "t_address",
+          "src": "1875:23:1"
+        },
+        {
+          "contract": "DCBase",
+          "path": "contracts/DCBase.sol",
+          "label": "bancor",
+          "astId": 333,
+          "type": "t_address",
+          "src": "1903:28:1"
+        },
+        {
+          "contract": "DCBank",
+          "path": "contracts/DCBank.sol",
+          "label": "collateralPoolBalance",
+          "astId": 6,
+          "type": "t_uint256",
+          "src": "394:33:0"
+        },
+        {
+          "contract": "DCBank",
+          "path": "contracts/DCBank.sol",
+          "label": "DecentraEarnings",
+          "astId": 8,
+          "type": "t_uint256",
+          "src": "431:28:0"
+        },
+        {
+          "contract": "DCBank",
+          "path": "contracts/DCBank.sol",
+          "label": "percentFee",
+          "astId": 10,
+          "type": "t_uint256",
+          "src": "463:25:0"
+        },
+        {
+          "contract": "DCBank",
+          "path": "contracts/DCBank.sol",
+          "label": "divisor",
+          "astId": 12,
+          "type": "t_uint256",
+          "src": "519:22:0"
+        },
+        {
+          "contract": "DCMember",
+          "path": "contracts/DCMember.sol",
+          "label": "minimumPrice",
+          "astId": 518,
+          "type": "t_uint256",
+          "src": "479:24:2"
+        },
+        {
+          "contract": "DCMember",
+          "path": "contracts/DCMember.sol",
+          "label": "memberCount",
+          "astId": 520,
+          "type": "t_uint256",
+          "src": "505:23:2"
+        },
+        {
+          "contract": "DCMember",
+          "path": "contracts/DCMember.sol",
+          "label": "isMember",
+          "astId": 524,
+          "type": "t_mapping<t_bool>",
+          "src": "531:33:2"
+        },
+        {
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp.sol",
+          "label": "getHash",
+          "astId": 638,
+          "type": "t_mapping<t_uint256>",
+          "src": "404:31:3"
+        },
+        {
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp.sol",
+          "label": "propCode",
+          "astId": 642,
+          "type": "t_mapping<t_uint256>",
+          "src": "440:32:3"
+        },
+        {
+          "contract": "DecentraCorp",
+          "path": "contracts/DecentraCorp.sol",
+          "label": "proposals",
+          "astId": 645,
+          "type": "t_array:dyn<t_struct<DecentraCorp.Proposal>>",
+          "src": "479:27:3"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "DecentraCorp",
+            "path": "contracts/DecentraCorp.sol",
+            "label": "proposals",
+            "astId": 645,
+            "type": "t_array:dyn<t_struct<DecentraCorp.Proposal>>",
+            "src": "479:27:3"
+          }
+        ],
+        "storageDiff": []
+      }
+    }
+  },
+  "solidityLibs": {},
+  "proxies": {
+    "DecentraCorp/DecentraDollar": [
+      {
+        "address": "0x86a28BC493db6d4F36965A544b48bD28525eb02B",
+        "version": "1.0.0",
+        "implementation": "0xedd52dAbd146073740e81B3f812f5F1227969EA9",
+        "admin": "0x17f07C69CEeD23e8574336BefAEFe03874E3BDe7",
+        "kind": "Upgradeable"
+      }
+    ],
+    "DecentraCorp/DecentraStock": [
+      {
+        "address": "0xE217d2d8267d7fa56a0ffc5b0065d37a74F7c2DB",
+        "version": "1.0.0",
+        "implementation": "0xcD347a158Af60414F456C403fa8d689A063E0800",
+        "admin": "0x17f07C69CEeD23e8574336BefAEFe03874E3BDe7",
+        "kind": "Upgradeable"
+      }
+    ],
+    "DecentraCorp/DecentraCorp": [
+      {
+        "address": "0xfa744B797eD64107BD5D68d85Ca98c82b8aE4dBa",
+        "version": "1.0.0",
+        "implementation": "0xC9F46C51d5Fd4dD4C41fff2DDA645205Fcb9323C",
+        "admin": "0x17f07C69CEeD23e8574336BefAEFe03874E3BDe7",
+        "kind": "Upgradeable"
+      }
+    ]
+  },
+  "manifestVersion": "2.2",
+  "version": "1.0.0",
+  "proxyAdmin": {
+    "address": "0x17f07C69CEeD23e8574336BefAEFe03874E3BDe7"
+  }
+}

@@ -1,0 +1,841 @@
+{
+  "contractName": "BancorFormulaI",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_supply",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_connectorBalance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_connectorWeight",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_depositAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "calculatePurchaseReturn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_supply",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_connectorBalance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_connectorWeight",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_sellAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "calculateSaleReturn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_supply\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_connectorBalance\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"_connectorWeight\",\"type\":\"uint32\"},{\"internalType\":\"uint256\",\"name\":\"_depositAmount\",\"type\":\"uint256\"}],\"name\":\"calculatePurchaseReturn\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_supply\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_connectorBalance\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"_connectorWeight\",\"type\":\"uint32\"},{\"internalType\":\"uint256\",\"name\":\"_sellAmount\",\"type\":\"uint256\"}],\"name\":\"calculateSaleReturn\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"calculatePurchaseReturn(uint256,uint256,uint32,uint256)\":{\"details\":\"this function is apart of the Bancor Formula Contract inherited by the MeTokenFactorythis arrangement of having calculation done by the MeTokenFactory will allow for easier upgrades of the logic used in bonding curves which will be useful when MeToken is upgraded to use bonding surfaces\",\"params\":{\"_connectorBalance\":\"is the (ether) pool balance the MeTokenInstance holds\",\"_connectorWeight\":\"is the reserve ratio of the MeTokenInstance\",\"_depositAmount\":\"is the amount of ether being exchanged for MeToken\",\"_supply\":\"is the total Supply of the MeTokenInstance calling the function\"}},\"calculateSaleReturn(uint256,uint256,uint32,uint256)\":{\"details\":\"this function is apart of the Bancor Formula Contract inherited by the MeTokenFactorythis function is called with a different reserve ratio depending on if the msg.sender is an owner or a funder\",\"params\":{\"_connectorBalance\":\"is the (ether) pool balance the MeTokenInstance holds\",\"_connectorWeight\":\"is the reserve ratio of the MeTokenInstance\",\"_sellAmount\":\"is the amount of meToken being exchanged for ether\",\"_supply\":\"is the total Supply of the MeTokenInstance calling the function\"}}}},\"userdoc\":{\"methods\":{\"calculatePurchaseReturn(uint256,uint256,uint32,uint256)\":{\"notice\":\"calculatePurchaseReturn is used to calculate the exchange rate from ether to an instances MeToken given the input parametersthis function returns a uint256 that represents the amount of MeToken the exchanged ether is worth*\"},\"calculateSaleReturn(uint256,uint256,uint32,uint256)\":{\"notice\":\"calculateSaleReturn is used to calculate the current exchange rate for meTokens to ether for a given MeTokenInstancethis function returns a uint256 that represents the amount of ether to be exchanged*\"}}}},\"settings\":{\"compilationTarget\":{\"/home/stan36/repos/DecentraCorpContracts/contracts/utils/BancorFormulaI.sol\":\"BancorFormulaI\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/stan36/repos/DecentraCorpContracts/contracts/utils/BancorFormulaI.sol\":{\"keccak256\":\"0x5c5a0ba9327b85f7a271e7a212589f82e500ac5a34c0df2940d63e70b3c4ba97\",\"urls\":[\"bzz-raw://1d5e3e00c650a39eca4325b4f47a853d2f307b96f045dceb65f36e5feb90d456\",\"dweb:/ipfs/Qma5zvp5ego22eiPLeBY5MQdbLbQB2u6HvuWVYTYEebS8e\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.0;\n\ncontract BancorFormulaI {\n/**\n@notice calculatePurchaseReturn is used to calculate the exchange rate from ether to an instances MeToken given the input parameters\n@dev this function is apart of the Bancor Formula Contract inherited by the MeTokenFactory\n@dev this arrangement of having calculation done by the MeTokenFactory will allow for easier upgrades of the logic used in bonding curves\n      which will be useful when MeToken is upgraded to use bonding surfaces\n@param _supply is the total Supply of the MeTokenInstance calling the function\n@param _connectorBalance is the (ether) pool balance the MeTokenInstance holds\n@param _connectorWeight is the reserve ratio of the MeTokenInstance\n@param _depositAmount is the amount of ether being exchanged for MeToken\n@notice this function returns a uint256 that represents the amount of MeToken the exchanged ether is worth\n**/\n  function calculatePurchaseReturn(\n    uint256 _supply,\n    uint256 _connectorBalance,\n    uint32 _connectorWeight,\n    uint256 _depositAmount\n  )\n     public\n     view\n     returns (uint256);\n\n/**\n@notice calculateSaleReturn is used to calculate the current exchange rate for meTokens to ether for a given MeTokenInstance\n@dev this function is apart of the Bancor Formula Contract inherited by the MeTokenFactory\n@dev this function is called with a different reserve ratio depending on if the msg.sender is an owner or a funder\n@param _supply is the total Supply of the MeTokenInstance calling the function\n@param _connectorBalance is the (ether) pool balance the MeTokenInstance holds\n@param _connectorWeight is the reserve ratio of the MeTokenInstance\n@param _sellAmount is the amount of meToken being exchanged for ether\n@notice this function returns a uint256 that represents the amount of ether to be exchanged\n**/\n     function calculateSaleReturn(\n       uint256 _supply,\n       uint256 _connectorBalance,\n       uint32 _connectorWeight,\n       uint256 _sellAmount\n     )\n       public\n       view\n       returns (uint256);\n\n}\n",
+  "sourcePath": "/home/stan36/repos/DecentraCorpContracts/contracts/utils/BancorFormulaI.sol",
+  "ast": {
+    "absolutePath": "/home/stan36/repos/DecentraCorpContracts/contracts/utils/BancorFormulaI.sol",
+    "exportedSymbols": {
+      "BancorFormulaI": [
+        1532
+      ]
+    },
+    "id": 1533,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1505,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:7"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 1532,
+        "linearizedBaseContracts": [
+          1532
+        ],
+        "name": "BancorFormulaI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice calculatePurchaseReturn is used to calculate the exchange rate from ether to an instances MeToken given the input parameters\n@dev this function is apart of the Bancor Formula Contract inherited by the MeTokenFactory\n@dev this arrangement of having calculation done by the MeTokenFactory will allow for easier upgrades of the logic used in bonding curves\nwhich will be useful when MeToken is upgraded to use bonding surfaces\n@param _supply is the total Supply of the MeTokenInstance calling the function\n@param _connectorBalance is the (ether) pool balance the MeTokenInstance holds\n@param _connectorWeight is the reserve ratio of the MeTokenInstance\n@param _depositAmount is the amount of ether being exchanged for MeToken\n@notice this function returns a uint256 that represents the amount of MeToken the exchanged ether is worth*",
+            "id": 1518,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "calculatePurchaseReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1514,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1507,
+                  "name": "_supply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "943:15:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1506,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "943:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1509,
+                  "name": "_connectorBalance",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "964:25:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1508,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "964:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1511,
+                  "name": "_connectorWeight",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "995:23:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1510,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "995:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1513,
+                  "name": "_depositAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "1024:22:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1512,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1024:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "937:113:7"
+            },
+            "returnParameters": {
+              "id": 1517,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1516,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "1087:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1515,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1087:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1086:9:7"
+            },
+            "scope": 1532,
+            "src": "905:191:7",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@notice calculateSaleReturn is used to calculate the current exchange rate for meTokens to ether for a given MeTokenInstance\n@dev this function is apart of the Bancor Formula Contract inherited by the MeTokenFactory\n@dev this function is called with a different reserve ratio depending on if the msg.sender is an owner or a funder\n@param _supply is the total Supply of the MeTokenInstance calling the function\n@param _connectorBalance is the (ether) pool balance the MeTokenInstance holds\n@param _connectorWeight is the reserve ratio of the MeTokenInstance\n@param _sellAmount is the amount of meToken being exchanged for ether\n@notice this function returns a uint256 that represents the amount of ether to be exchanged*",
+            "id": 1531,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "calculateSaleReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1527,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1520,
+                  "name": "_supply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1867:15:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1519,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1867:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1522,
+                  "name": "_connectorBalance",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1891:25:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1521,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1891:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1524,
+                  "name": "_connectorWeight",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1925:23:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1523,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1925:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1526,
+                  "name": "_sellAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1957:19:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1525,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1957:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1858:125:7"
+            },
+            "returnParameters": {
+              "id": 1530,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1529,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "2026:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1528,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2026:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2025:9:7"
+            },
+            "scope": 1532,
+            "src": "1830:205:7",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1533,
+        "src": "25:2013:7"
+      }
+    ],
+    "src": "0:2039:7"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/stan36/repos/DecentraCorpContracts/contracts/utils/BancorFormulaI.sol",
+    "exportedSymbols": {
+      "BancorFormulaI": [
+        1532
+      ]
+    },
+    "id": 1533,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1505,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:7"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 1532,
+        "linearizedBaseContracts": [
+          1532
+        ],
+        "name": "BancorFormulaI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice calculatePurchaseReturn is used to calculate the exchange rate from ether to an instances MeToken given the input parameters\n@dev this function is apart of the Bancor Formula Contract inherited by the MeTokenFactory\n@dev this arrangement of having calculation done by the MeTokenFactory will allow for easier upgrades of the logic used in bonding curves\nwhich will be useful when MeToken is upgraded to use bonding surfaces\n@param _supply is the total Supply of the MeTokenInstance calling the function\n@param _connectorBalance is the (ether) pool balance the MeTokenInstance holds\n@param _connectorWeight is the reserve ratio of the MeTokenInstance\n@param _depositAmount is the amount of ether being exchanged for MeToken\n@notice this function returns a uint256 that represents the amount of MeToken the exchanged ether is worth*",
+            "id": 1518,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "calculatePurchaseReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1514,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1507,
+                  "name": "_supply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "943:15:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1506,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "943:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1509,
+                  "name": "_connectorBalance",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "964:25:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1508,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "964:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1511,
+                  "name": "_connectorWeight",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "995:23:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1510,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "995:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1513,
+                  "name": "_depositAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "1024:22:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1512,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1024:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "937:113:7"
+            },
+            "returnParameters": {
+              "id": 1517,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1516,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1518,
+                  "src": "1087:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1515,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1087:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1086:9:7"
+            },
+            "scope": 1532,
+            "src": "905:191:7",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@notice calculateSaleReturn is used to calculate the current exchange rate for meTokens to ether for a given MeTokenInstance\n@dev this function is apart of the Bancor Formula Contract inherited by the MeTokenFactory\n@dev this function is called with a different reserve ratio depending on if the msg.sender is an owner or a funder\n@param _supply is the total Supply of the MeTokenInstance calling the function\n@param _connectorBalance is the (ether) pool balance the MeTokenInstance holds\n@param _connectorWeight is the reserve ratio of the MeTokenInstance\n@param _sellAmount is the amount of meToken being exchanged for ether\n@notice this function returns a uint256 that represents the amount of ether to be exchanged*",
+            "id": 1531,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "calculateSaleReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1527,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1520,
+                  "name": "_supply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1867:15:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1519,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1867:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1522,
+                  "name": "_connectorBalance",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1891:25:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1521,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1891:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1524,
+                  "name": "_connectorWeight",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1925:23:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1523,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1925:6:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1526,
+                  "name": "_sellAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "1957:19:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1525,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1957:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1858:125:7"
+            },
+            "returnParameters": {
+              "id": 1530,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1529,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1531,
+                  "src": "2026:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1528,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2026:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2025:9:7"
+            },
+            "scope": 1532,
+            "src": "1830:205:7",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1533,
+        "src": "25:2013:7"
+      }
+    ],
+    "src": "0:2039:7"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-29T22:27:53.962Z",
+  "devdoc": {
+    "methods": {
+      "calculatePurchaseReturn(uint256,uint256,uint32,uint256)": {
+        "details": "this function is apart of the Bancor Formula Contract inherited by the MeTokenFactorythis arrangement of having calculation done by the MeTokenFactory will allow for easier upgrades of the logic used in bonding curves which will be useful when MeToken is upgraded to use bonding surfaces",
+        "params": {
+          "_connectorBalance": "is the (ether) pool balance the MeTokenInstance holds",
+          "_connectorWeight": "is the reserve ratio of the MeTokenInstance",
+          "_depositAmount": "is the amount of ether being exchanged for MeToken",
+          "_supply": "is the total Supply of the MeTokenInstance calling the function"
+        }
+      },
+      "calculateSaleReturn(uint256,uint256,uint32,uint256)": {
+        "details": "this function is apart of the Bancor Formula Contract inherited by the MeTokenFactorythis function is called with a different reserve ratio depending on if the msg.sender is an owner or a funder",
+        "params": {
+          "_connectorBalance": "is the (ether) pool balance the MeTokenInstance holds",
+          "_connectorWeight": "is the reserve ratio of the MeTokenInstance",
+          "_sellAmount": "is the amount of meToken being exchanged for ether",
+          "_supply": "is the total Supply of the MeTokenInstance calling the function"
+        }
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {
+      "calculatePurchaseReturn(uint256,uint256,uint32,uint256)": {
+        "notice": "calculatePurchaseReturn is used to calculate the exchange rate from ether to an instances MeToken given the input parametersthis function returns a uint256 that represents the amount of MeToken the exchanged ether is worth*"
+      },
+      "calculateSaleReturn(uint256,uint256,uint32,uint256)": {
+        "notice": "calculateSaleReturn is used to calculate the current exchange rate for meTokens to ether for a given MeTokenInstancethis function returns a uint256 that represents the amount of ether to be exchanged*"
+      }
+    }
+  }
+}
